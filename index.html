@@ -241,9 +241,9 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
 .qa button{display:flex;align-items:center;gap:6px;border:1px solid var(--teal);background:var(--bg);color:var(--text);border-radius:14px;padding:7px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .qa button[hidden]{display:none}
 .qa .ic{width:16px;height:16px;color:var(--teal)}
-.att{align-self:flex-start;display:flex;flex-wrap:wrap;gap:6px;max-width:84%;margin-bottom:-4px}
-.att .thumb{width:76px;height:76px;margin:0;border-radius:14px;border:1px solid var(--line)}
-.att .chip{margin:0;background:var(--panel);border:1px solid var(--line);align-self:center}
+.atch{align-self:flex-start;display:flex;flex-wrap:wrap;gap:6px;max-width:84%;margin-bottom:-4px}
+.atch .thumb{width:76px;height:76px;margin:0;border-radius:14px;border:1px solid var(--line)}
+.atch .chip{margin:0;background:var(--panel);border:1px solid var(--line);align-self:center}
 #drawer{padding-bottom:0}
 #dMain:not([hidden]){display:flex;flex-direction:column;min-height:100%}
 .acc{margin:12px -14px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0;background:linear-gradient(135deg,color-mix(in srgb,var(--violet) 22%,var(--panel)),var(--panel));box-shadow:0 -8px 20px rgba(0,0,0,.3);position:sticky;bottom:0;gap:10px}
@@ -258,6 +258,26 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
 #remB{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));inset-inline:12px;z-index:60;background:var(--panel);border:1px solid var(--teal);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.6);animation:shk .5s infinite}
 #remB b{display:block;margin-bottom:8px}#remB button{width:100%;padding:10px;border-radius:12px;border:0;font:inherit;font-weight:800;background:linear-gradient(135deg,var(--violet),var(--teal));color:#0d0b1a}
 @keyframes shk{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+
+/* v4 */
+#plusBtn{position:relative;font-size:0!important;color:transparent}
+#plusBtn::before,#plusBtn::after{content:'';position:absolute;left:50%;top:50%;width:16px;height:2.6px;margin:-1.3px 0 0 -8px;border-radius:2px;background:var(--teal);transition:transform .35s cubic-bezier(.3,1.5,.5,1)}
+#plusBtn::after{transform:rotate(90deg)}
+#plusBtn.open::before{transform:rotate(225deg)}
+#plusBtn.open::after{transform:rotate(135deg)}
+#menu{transform-origin:bottom center}
+#menu.show{animation:mIn .28s cubic-bezier(.2,.9,.3,1.15) both}
+#menu.out{animation:mOut .18s ease-in both}
+#menu.show button{animation:mItem .32s both}
+#menu.show button:nth-child(2){animation-delay:.03s}#menu.show button:nth-child(3){animation-delay:.06s}#menu.show button:nth-child(4){animation-delay:.09s}#menu.show button:nth-child(5){animation-delay:.12s}
+@keyframes mIn{from{opacity:0;transform:translateY(18px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes mOut{to{opacity:0;transform:translateY(18px) scale(.9)}}
+@keyframes mItem{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#moreBox{overflow:hidden;max-height:0;opacity:0;visibility:hidden;transition:max-height .4s cubic-bezier(.4,0,.2,1),opacity .3s,visibility 0s .4s}
+#moreBox.open{max-height:720px;opacity:1;visibility:visible;transition:max-height .45s cubic-bezier(.4,0,.2,1),opacity .35s .05s,visibility 0s}
+#diMore .ic{transition:transform .35s}#diMore.open .ic{transform:rotate(180deg)}
+.ncard{display:block;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;text-decoration:none;color:var(--text)}
+.ncard b{display:block;font-size:14px;line-height:1.5;margin-bottom:4px}.ncard p{font-size:12.5px;color:var(--mute);line-height:1.6;margin:0 0 4px}.ncard small{color:var(--teal);font-size:11px;direction:ltr;display:block;text-align:start}
 </style>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -278,7 +298,7 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
   <div id="stk" hidden><div class="grab" id="stkGrab"><span></span><button id="stkX" aria-label="إغلاق">✕</button></div><div class="tabs"><button id="tGif" class="on">GIF</button><button id="tStk">ستيكرز</button></div><div id="srow"><input id="sq" type="text" placeholder="ابحث: ضحك، hug، أو اسم أنمي" dir="rtl"><button id="sgo" aria-label="بحث"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></button></div><div id="cats"></div><div id="grid"></div></div>
   <div id="stg" hidden></div>
   <div class="cbar">
-    <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false">+</button>
+    <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false"></button>
     <textarea id="inp" rows="1" placeholder="اكتب لـ Limo ai…" dir="auto"></textarea>
     <button class="ib micb" id="mic" aria-label="رسالة صوتية"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button>
     <button class="gifbtn" id="stkBtn" aria-label="ستيكرز وGIF">GIF</button>
@@ -295,9 +315,11 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
     <div class="dh"><img class="logo" alt=""><b>Limo ai</b></div>
     <button class="di" id="diSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>الإعدادات</button>
     <button class="di" id="diImgs"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>الصور</button>
-    <button class="di" id="diTools"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>أدوات ليمو</button>
+    <button class="di" id="diNews"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h13v14H6a2 2 0 01-2-2zM17 9h3v8a2 2 0 01-2 2M7 9h7M7 13h7"/></svg>آخر الأخبار</button>
+    
     <button class="di" id="diMore"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>عرض المزيد</button>
-    <div id="moreBox" hidden>
+    <div id="moreBox">
+      <button class="di" id="diTools"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>أدوات ليمو</button>
       <button class="di" id="diFeel"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>المشاعر</button>
       <button class="di" id="diFav"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>معرض GIF</button>
       <button class="di" id="diArc"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>أرشيف المواقف</button>
@@ -340,6 +362,7 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
   <div id="dFont" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>حجم الخط</b></div><div class="fz"><div id="fsPrev" class="m bot">هذا نص تجريبي لمعاينة حجم الخط.</div><input type="range" id="fsR" min="0.85" max="1.5" step="0.05" value="1" aria-label="حجم الخط"><button class="pk" id="fsReset">الحجم الافتراضي</button></div></div>
   <div id="dVoice" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصوت والقراءة</b></div><div id="voiceBody"></div></div>
   <div id="dNotif" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإشعارات</b></div><div id="notifBody"></div></div>
+  <div id="dNews" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>آخر الأخبار</b></div><div id="newsTabs"></div><div id="newsList"></div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
 </aside>
 <input type="file" id="stkIn" accept="image/*" hidden>
@@ -536,7 +559,7 @@ function bubble(role, text, imgs, names){
   if (role !== 'err') longPress(d, () => saveMoment(role, d.textContent));
   d.dir = 'auto';
   if (role === 'me' && ((imgs && imgs.length) || (names && names.length))){
-    const at = document.createElement('div'); at.className = 'att';
+    const at = document.createElement('div'); at.className = 'atch';
     (imgs || []).forEach(u => { const im = document.createElement('img'); im.src = u; im.className = 'thumb'; at.appendChild(im); });
     (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = nm; at.appendChild(c); });
     chat.appendChild(at); d._att = at; const rm = d.remove.bind(d); d.remove = () => { at.remove(); rm(); };
@@ -974,7 +997,7 @@ function renderGal(){
   gal.forEach(u => { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.src = u; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -1431,7 +1454,10 @@ async function stkRender(){
   if (my !== stkReq) return;
   g.textContent = '';
   if (!L.length){ const d = document.createElement('div'); d.className = 'none'; d.textContent = 'ما لقيت نتائج. تأكد من الإنترنت أو جرّب كلمة ثانية.'; g.appendChild(d); return; }
-  L.forEach(r => { const im = document.createElement('img'); im.loading = 'lazy'; im.src = r.url; im.alt = GIFCATS[gifCat] || gifCat; longPress(im, () => favGif({url:r.url, label:r.label})); im.onclick = () => sendReaction({url:r.url, label:r.label}); g.appendChild(im); });
+  const seenG = new Set(); const addG = arr => arr.forEach(r => { if (seenG.has(r.url)) return; seenG.add(r.url); const im = document.createElement('img'); im.onerror = () => im.remove(); im.src = r.url; im.alt = GIFCATS[gifCat] || gifCat; longPress(im, () => favGif({url:r.url, label:r.label})); im.onclick = () => sendReaction({url:r.url, label:r.label}); g.appendChild(im); });
+  addG(L); let ld = false;
+  g.onscroll = async () => { if (ld || my !== stkReq || g.scrollTop + g.clientHeight < g.scrollHeight - 350) return; ld = true; try { const M = await gifList(gifCat, animeQ, 30); if (my === stkReq) addG(M); } catch(e){} ld = false; };
+  setTimeout(() => { if (my === stkReq && g.scrollHeight <= g.clientHeight + 40) g.onscroll(); }, 600);
 }
 $('stkBtn').onclick = () => { const open = $('stk').hidden; $('stk').hidden = !open; if (open){ toggleMenu(false); stkRender(); } };
 $('tGif').onclick = () => { stkTab = 'gif'; stkRender(); };
@@ -1546,8 +1572,12 @@ async function addDocs(files){
   renderPrev();
 }
 const menu = $('menu'), plus = $('plusBtn');
-function toggleMenu(open){ menu.hidden = !open; plus.textContent = open ? '×' : '+'; plus.setAttribute('aria-expanded', String(open)); }
-plus.onclick = () => toggleMenu(menu.hidden);
+function toggleMenu(open){
+  clearTimeout(toggleMenu.t); plus.classList.toggle('open', !!open); plus.setAttribute('aria-expanded', String(!!open));
+  if (open){ menu.hidden = false; menu.classList.remove('out', 'show'); void menu.offsetWidth; menu.classList.add('show'); }
+  else if (!menu.hidden){ menu.classList.remove('show'); menu.classList.add('out'); toggleMenu.t = setTimeout(() => { menu.hidden = true; menu.classList.remove('out'); }, 190); }
+}
+plus.onclick = () => toggleMenu(menu.hidden || menu.classList.contains('out'));
 document.addEventListener('click', e => { if (!menu.hidden && !e.target.closest('#menu') && e.target !== plus) toggleMenu(false); });
 $('mCam').onclick = () => { toggleMenu(false); $('camIn').click(); };
 $('mGal').onclick = () => { toggleMenu(false); $('galIn').click(); };
@@ -1642,31 +1672,43 @@ sendBtn.onclick = () => busy ? stopGen() : send();
 /* read aloud */
 let speakingEl = null;
 const plainText = t => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/[*_`#>\[\]]/g, '').replace(/\p{Extended_Pictographic}/gu, '').replace(/\s+/g, ' ').trim();
-let spkId = 0;
-function stopSpeak(){ spkId++; try { speechSynthesis.cancel(); } catch(e){} if (speakingEl){ speakingEl.classList.remove('on'); speakingEl = null; } }
+let spkId = 0, curAudio = null;
+function stopSpeak(){ spkId++; try { speechSynthesis.cancel(); } catch(e){} if (curAudio){ try { curAudio.pause(); } catch(e){} curAudio = null; } if (speakingEl){ speakingEl.classList.remove('on'); speakingEl = null; } }
+function detectLang(t){
+  if (/[\u3040-\u30ff]/.test(t)) return 'ja-JP'; if (/[\u4e00-\u9fff]/.test(t)) return 'zh-CN'; if (/[\u0400-\u04FF]/.test(t)) return 'ru-RU';
+  const ar = (t.match(/[\u0600-\u06FF]/g) || []).length, la = (t.match(/[A-Za-z]/g) || []).length;
+  if (ar && ar >= la / 2) return 'ar-SA'; return /[éèàçêâîôûùœ]/i.test(t) ? 'fr-FR' : 'en-US';
+}
 function speak(text, btn){
-  if (!('speechSynthesis' in window)){ note('القراءة الصوتية غير مدعومة في هذا المتصفح'); return; }
   if (btn && speakingEl === btn){ stopSpeak(); return; }
   stopSpeak(); const t = plainText(text); if (!t) return;
-  const id = spkId, lang = /[\u0600-\u06FF]/.test(t) ? voiceLang : 'en-US';
-  const parts = t.match(/[^.!?؟۔\n]+[.!?؟۔]?/g) || [t], chunks = []; let cur = '';
+  const mode = store.get('limoai_readlang', 'auto'), lang = mode === 'ar' ? 'ar-SA' : detectLang(t), arabic = lang.indexOf('ar') === 0;
+  const id = spkId, parts = t.match(/[^.!?؟۔\n]+[.!?؟۔]?/g) || [t], chunks = []; let cur = '';
   parts.forEach(p => { if ((cur + p).length > 170){ if (cur) chunks.push(cur); cur = p; } else cur += p; }); if (cur) chunks.push(cur);
   if (btn){ speakingEl = btn; btn.classList.add('on'); }
+  const fin = () => { if (id === spkId && btn && speakingEl === btn) stopSpeak(); };
+  const playA = from => {
+    let i = from; const bad = () => { if (id !== spkId) return; note('تعذّر تشغيل الصوت، تأكد من الإنترنت'); stopSpeak(); };
+    const nx = () => { if (id !== spkId) return; if (i >= chunks.length){ fin(); return; }
+      const a = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang.slice(0, 2) + '&q=' + encodeURIComponent(chunks[i++]));
+      curAudio = a; a.onended = nx; a.onerror = bad; const p = a.play(); if (p && p.catch) p.catch(bad); };
+    nx();
+  };
   setTimeout(() => {
     if (id !== spkId) return;
-    const vs = speechSynthesis.getVoices(), v = vs.find(x => x.lang.replace('_', '-') === lang) || vs.find(x => x.lang.slice(0, 2) === lang.slice(0, 2));
+    const hasTTS = 'speechSynthesis' in window, vs = hasTTS ? speechSynthesis.getVoices() : [];
+    const v = vs.find(x => x.lang.replace('_', '-') === lang) || vs.find(x => x.lang.slice(0, 2) === lang.slice(0, 2));
+    if (!hasTTS || (arabic && !v)){ if (arabic) playA(0); else note('القراءة الصوتية غير مدعومة في هذا المتصفح'); return; }
     let i = 0;
     const next = () => {
-      if (id !== spkId) return;
-      if (i >= chunks.length){ if (btn && speakingEl === btn) stopSpeak(); return; }
-      const u = new SpeechSynthesisUtterance(chunks[i++]); u.lang = lang; if (v) u.voice = v;
-      u.onend = next;
-      u.onerror = ev => { if (id !== spkId) return; if (ev.error === 'not-allowed' || ev.error === 'synthesis-failed' || ev.error === 'language-unavailable'){ note('تعذّر تشغيل الصوت، جرّب لهجة ثانية من الصوت والقراءة'); stopSpeak(); } else next(); };
+      if (id !== spkId) return; if (i >= chunks.length){ fin(); return; }
+      const u = new SpeechSynthesisUtterance(chunks[i++]); u.lang = v ? v.lang : lang; if (v) u.voice = v; u.onend = next;
+      u.onerror = ev => { if (id !== spkId) return; if (ev.error === 'canceled' || ev.error === 'interrupted') return; if (arabic){ speechSynthesis.cancel(); playA(i - 1); } else if (ev.error === 'not-allowed' || ev.error === 'synthesis-failed' || ev.error === 'language-unavailable'){ note('تعذّر تشغيل الصوت'); stopSpeak(); } else next(); };
       speechSynthesis.speak(u);
     };
     try { speechSynthesis.resume(); } catch(e){}
     next();
-  }, 130);
+  }, 120);
 }
 try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; } catch(e){}
 
@@ -1702,7 +1744,7 @@ async function gifList(cat, q, n){
   if (!q && WAIFU.has(cat)) jobs.push(jget('https://api.waifu.pics/many/sfw/' + cat, {method:'POST', headers:{'Content-Type':'application/json'}, body:'{"exclude":[]}'}).then(d => T((d.files || []).sort(() => Math.random() - .5).slice(0, 8), u => /\.gif$/i.test(u) ? u : null)));
   if (!q && OTAKU.has(cat)) for (let i = 0; i < 3; i++) jobs.push(jget('https://api.otakugifs.xyz/gif?reaction=' + cat).then(d => d.url ? [d.url] : []));
   const gp = (t, lim) => jget('https://api.giphy.com/v1/gifs/search?api_key=' + gk + '&q=' + encodeURIComponent(t) + '&limit=' + lim + '&rating=pg-13&offset=' + Math.floor(Math.random() * 25)).then(d => T(d.data || [], g => g.images && (g.images.fixed_height || g.images.downsized || {}).url));
-  jobs.push(gp(term, 16)); jobs.push(gp('anime ' + term, 8));
+  jobs.push(gp(term, 30)); jobs.push(gp('anime ' + term, 15));
   const res = (await Promise.allSettled(jobs)).map(r => r.status === 'fulfilled' ? r.value : []);
   const out = [], seen = new Set(); let more = true;
   for (let i = 0; more; i++){ more = false; res.forEach(l => { if (i < l.length){ more = true; const u = l[i]; if (u && !seen.has(u)){ seen.add(u); out.push({url:u, label}); } } }); }
@@ -1735,6 +1777,7 @@ function renderVoice(){
   const el = $('voiceBody'); el.innerHTML = '';
   chips(el, 'لهجة الميكروفون (فهم كلامك)', [['ar-SA','عربي - خليجي (السعودية)'],['ar-AE','عربي - الإمارات'],['ar-JO','عربي - شامي (الأردن)'],['ar-EG','عربي - مصر'],['ar-MA','عربي - المغرب'],['ar-DZ','عربي - الجزائر'],['en-US','English']], voiceLang, k => { voiceLang = k; store.set('limoai_vlang', k); renderVoice(); });
   chips(el, 'قراءة الردود بصوت', [[true,'يقرأ ردوده تلقائياً'],[false,'يدوي (زر السماعة تحت الرد)']], autoRead, k => { autoRead = k; store.set('limoai_autoread', k); if (!k) stopSpeak(); renderVoice(); });
+  chips(el, 'لغة القراءة', [['ar','عربي فصحى'],['auto','تلقائي (حسب لغة النص)']], store.get('limoai_readlang', 'auto'), k => { store.set('limoai_readlang', k); renderVoice(); });
   const t = document.createElement('button'); t.className = 'pk'; t.textContent = 'جرّب الصوت'; t.onclick = () => speak('هلا، أنا ليمو. هذا صوتي، تمام؟', null); el.appendChild(t);
 }
 function renderPref(){
@@ -1762,7 +1805,7 @@ $('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بيا�
 });
 if (typeof TR !== 'undefined' && Array.isArray(TR['هلا! أنا Limo ai'])) TR['هلا! أنا Limo'] = TR['هلا! أنا Limo ai'].map(x => String(x).replace(/Limo ai/g, 'Limo'));
 
-$('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('diMore').innerHTML = ic(b.hidden ? 'down' : 'chev') + (b.hidden ? 'عرض المزيد' : 'عرض أقل'); };
+$('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains('open'); b.classList.toggle('open', o); $('diMore').classList.toggle('open', o); $('diMore').lastChild.textContent = o ? 'عرض أقل' : 'عرض المزيد'; };
 (function(){
   const raw = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
   const g = document.createElement('div'); g.id = 'gate'; g.dir = 'rtl'; document.body.appendChild(g);
@@ -1895,6 +1938,7 @@ $('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('d
     }
     S('limoai_intseen', seen.slice(-200)); if (force && !found) note('ما في جديد حالياً');
   }
+  window.limoInterests = interests;
   setTimeout(() => checkInt(false), 6000); setInterval(() => checkInt(false), 20 * 6e4);
 
   function render(){
@@ -1916,6 +1960,23 @@ $('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('d
     if (lg.length){ const c = document.createElement('button'); c.className = 'pk'; c.textContent = 'مسح السجل'; c.onclick = () => { S('limoai_nlog', []); render(); }; el.appendChild(c); }
   }
   $('diNotif').onclick = () => { render(); showDV('dNotif'); };
+})();
+
+/* ---- latest news ---- */
+(function(){
+  let mode = store.get('limoai_newsmode', 'gen');
+  const nf = async q => { const k = store.get('limoai_tav', '') || DEFAULT_TAV; if (!k) return null; try { const r = await fetch('https://api.tavily.com/search', {method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer ' + k}, body: JSON.stringify({query:q, topic:'news', max_results:8, days:3})}); if (!r.ok) return []; return (await r.json()).results || []; } catch(e){ return []; } };
+  async function load(){
+    const tabs = $('newsTabs'), box = $('newsList'); tabs.innerHTML = '';
+    [['gen','أخبار عامة'],['int','اهتماماتي']].forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk' + (mode === k ? ' sel' : ''); b.style.display = 'inline-block'; b.style.width = 'calc(50% - 4px)'; b.style.marginInlineEnd = k === 'gen' ? '8px' : '0'; b.textContent = t; b.onclick = () => { mode = k; store.set('limoai_newsmode', k); load(); }; tabs.appendChild(b); });
+    box.innerHTML = '<div class="nitem">جاري تحميل الأخبار…</div>';
+    let qs = ['آخر الأخبار اليوم']; if (mode === 'int'){ qs = (window.limoInterests ? window.limoInterests() : []).slice(-3).map(x => x.slice(0, 80) + ' آخر الأخبار'); if (!qs.length){ box.innerHTML = '<div class="nitem">ليمو ما عرف اهتماماتك لسا، احكي له عنها بالدردشة.</div>'; return; } }
+    const res = await Promise.all(qs.map(nf)); const seen = new Set(), out = [];
+    for (let i = 0; i < 8; i++) res.forEach(l => { const r = l && l[i]; if (r && !seen.has(r.url)){ seen.add(r.url); out.push(r); } });
+    box.innerHTML = ''; if (!out.length){ box.innerHTML = '<div class="nitem">ما قدرت أجيب أخبار الحين. تأكد من الإنترنت ومفتاح البحث.</div>'; return; }
+    out.slice(0, 14).forEach(r => { const a = document.createElement('a'); a.className = 'ncard'; a.href = r.url; a.target = '_blank'; a.rel = 'noopener'; a.dir = 'auto'; const b = document.createElement('b'); b.textContent = r.title || 'خبر'; const p = document.createElement('p'); p.textContent = String(r.content || '').slice(0, 150); let h = ''; try { h = new URL(r.url).hostname.replace(/^www\./, ''); } catch(e){} const sm = document.createElement('small'); sm.textContent = h; a.append(b, p, sm); box.appendChild(a); });
+  }
+  $('diNews').onclick = () => { showDV('dNews'); load(); };
 })();
 </script>
 </body>
