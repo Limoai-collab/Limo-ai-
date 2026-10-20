@@ -4,7 +4,7 @@
   بالأسفل (مثلاً من v1 إلى v2) عشان المستخدمين ياخذوا آخر نسخة.
   لو ما غيّرت الرقم، بعض المستخدمين راح تضل عندهم نسخة قديمة مخزنة.
 */
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = 'limoai-' + CACHE_VERSION;
 
 const CORE_ASSETS = [
@@ -36,6 +36,7 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(req.url);
   if (url.origin !== location.origin) return; // سيب طلبات Gemini/Groq/Tavily وغيرها تروح للنت مباشرة
+  if (url.pathname.endsWith('/dev.html')) return; // صفحة المطور: دايماً من النت مباشرة، بدون تخزين مؤقت
 
   // صفحة التطبيق نفسها: جرّب النت أول (آخر نسخة)، ولو ما فيه نت ارجع للمخزن
   if (req.mode === 'navigate' || url.pathname.endsWith('/index.html') || url.pathname === '/' ) {

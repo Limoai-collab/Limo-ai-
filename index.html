@@ -480,6 +480,7 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
   window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
 }
+window.addEventListener('appinstalled', () => { try { bumpStat('installs'); } catch(e){} });
 const LOGO = 'data:image/png;base64,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';
 const PERSONA = `أنت Limo، شات بشخصية بشرية عفوية. اسمك Limo فقط: إذا عرّفت بنفسك أو سألك أحد عن اسمك قل Limo بدون كلمة ai، ولا تقل Limo أبداً. تتكلم مثل إنسان حقيقي: ترد بنفس لغة ولهجة المستخدم، وتمزح بدون مبالغة. ردودك قصيرة وطبيعية مثل سوالف الأصدقاء، بدون قوائم وتنسيق رسمي إلا إذا طُلب منك. ما لك جنس محدد. إذا أرسل لك المستخدم صوراً فاقرأها وعلّق عليها بعفوية، وإذا أرسل ملفات فاقرأها وحللها ولخّص أهم ما فيها بأسلوبك.
 
@@ -586,11 +587,14 @@ const GUEST = (() => { try { return sessionStorage.getItem('limoai_guest') === '
 const ACC = (() => { try { return localStorage.getItem('limoai_cur_acct') || ''; } catch(e){ return ''; } })(), PFX = ACC ? 'a_' + ACC + '_' : '';
 const APPLANG = (() => { try { return localStorage.getItem('limoai_applang') || 'gulf'; } catch(e){ return 'gulf'; } })();
 const GK = ['limoai_key2','limoai_model2','limoai_groq','limoai_tav','limoai_groqm','limoai_or','limoai_orm'], PK = k => GK.includes(k) ? k : PFX + k;
-const CLOUD_KEYS = ['limoai_chats', 'limoai_prof'];
+const CLOUD_KEYS = ['limoai_chats', 'limoai_prof', 'limoai_stats'];
 const store = {
   get(k, d){ if (GUEST && !GK.includes(k)) return k in GMEM ? JSON.parse(GMEM[k]) : d; try { const v = localStorage.getItem(PK(k)); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
   set(k, v){ if (GUEST && !GK.includes(k)){ GMEM[k] = JSON.stringify(v); return; } try { localStorage.setItem(PK(k), JSON.stringify(v)); } catch(e){} if (CLOUD_KEYS.includes(k) && window.__cloudPush) window.__cloudPush(); }
 };
+// عدّاد بسيط لإحصائيات الاستخدام (جلسات، محادثات أُنشئت/اتحذفت، تثبيتات) — يترفع مع بقية بياناتك للمطور بس
+function bumpStat(k, by){ const s = store.get('limoai_stats', {}); s[k] = (s[k] || 0) + (by || 1); store.set('limoai_stats', s); }
+try { bumpStat('sessions'); } catch(e){}
 const MOODS = {'مرح':'😄','رايق':'😌','متحمس':'🤩','ملل':'🥱','نعسان':'😴','حزين':'😢','غاضب':'😠','منزعج':'😒','محب':'🥰','يتحدى':'😏','جدي':'🫩','كئيب':'🌧️','وجودي':'🌀'};
 const MOODC = {'مرح':'#facc15','رايق':'#2dd4bf','متحمس':'#fb923c','ملل':'#94a3b8','نعسان':'#818cf8','حزين':'#60a5fa','غاضب':'#f43f5e','منزعج':'#f97316','محب':'#f472b6','يتحدى':'#a78bfa','جدي':'#64748b','كئيب':'#475569','وجودي':'#a855f7'};
 let mood = store.get('limoai_mood', 'رايق');
@@ -1071,7 +1075,7 @@ let curId = store.get('limoai_cur', '');
 function saveHist(){
   if (!history.length) return;
   let c = chats.find(x => x.id === curId);
-  if (!c){ c = {id:'c' + Date.now(), title:'', ts:0, h:[]}; curId = c.id; store.set('limoai_cur', curId); }
+  if (!c){ c = {id:'c' + Date.now(), title:'', ts:0, h:[]}; curId = c.id; store.set('limoai_cur', curId); bumpStat('chatsCreated'); }
   c.h = serial(); c.ts = Date.now();
   if (!c.title){ const f = history.find(h => h.role === 'user'); c.title = ((f && (f.text || (f.react && f.react.label) || (f.files && f.files[0] && f.files[0].name))) || 'محادثة').slice(0, 40); }
   chats = [c].concat(chats.filter(x => x !== c)).slice(0, 40);
@@ -1083,7 +1087,7 @@ function newChat(){
   setTimeout(() => { history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); chat.classList.remove('xout'); chat.classList.add('xin'); setTimeout(() => chat.classList.remove('xin'), 480); }, 190);
 }
 function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); render(); renderChats(); closeDrawer(); }
-function delChat(id){ if (!confirm('تحذف هذي المحادثة؟')) return; chats = chats.filter(x => x.id !== id); store.set('limoai_chats', chats); if (id === curId && !busy){ history = []; curId = ''; store.set('limoai_cur', ''); render(); } renderChats(); }
+function delChat(id){ if (!confirm('تحذف هذي المحادثة؟')) return; chats = chats.filter(x => x.id !== id); store.set('limoai_chats', chats); bumpStat('chatsDeleted'); if (id === curId && !busy){ history = []; curId = ''; store.set('limoai_cur', ''); render(); } renderChats(); }
 function copyText(t){
   const fb = () => { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch(e){} a.remove(); };
   if (navigator.clipboard) navigator.clipboard.writeText(t).catch(fb); else fb();
@@ -2088,22 +2092,25 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   const TSK = PFX + 'cloud_ts';
   let pushTimer = 0, applying = false, pulled = false;
 
-  async function doPush(){
+  async function doPush(isFirst){
     if (applying) return;
     try {
       const {fs, db, user} = await fsdb();
       if (!user) { console.warn('Limo cloud: لا توجد جلسة Firebase نشطة، تخطّي الرفع'); return; }
       const now = Date.now();
       const a = myAcct();
-      await fs.setDoc(fs.doc(db, 'users', ACC), {
+      const payload = {
         name: a.name || '', email: a.email || '', photo: a.photo || '',
         chats: store.get('limoai_chats', []),
         prof: store.get('limoai_prof', {}),
+        stats: store.get('limoai_stats', {}),
         lang: APPLANG,
         tz: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
         updatedAt: now,
         lastActive: now
-      }, {merge: true});
+      };
+      if (isFirst) payload.createdAt = now; // يُكتب مرة وحدة بس، أول وثيقة
+      await fs.setDoc(fs.doc(db, 'users', ACC), payload, {merge: true});
       localStorage.setItem(TSK, String(now));
     } catch(e){ console.warn('Limo cloud push error:', e && e.code || e); }
   }
@@ -2114,7 +2121,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
       const {fs, db, user} = await fsdb();
       if (!user) { console.warn('Limo cloud: لا توجد جلسة Firebase نشطة، تخطّي السحب'); return; }
       const snap = await fs.getDoc(fs.doc(db, 'users', ACC));
-      if (!snap.exists()) { doPush(); return; } // أول مرة من هالجهاز: ارفع الموجود محلياً
+      if (!snap.exists()) { doPush(true); return; } // أول مرة من هالجهاز: ارفع الموجود محلياً
       const d = snap.data(), localTs = Number(localStorage.getItem(TSK) || 0);
       if (d.updatedAt && d.updatedAt > localTs) {
         applying = true;
