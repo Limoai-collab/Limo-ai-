@@ -278,6 +278,51 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
 #diMore .ic{transition:transform .35s}#diMore.open .ic{transform:rotate(180deg)}
 .ncard{display:block;background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-bottom:8px;text-decoration:none;color:var(--text)}
 .ncard b{display:block;font-size:14px;line-height:1.5;margin-bottom:4px}.ncard p{font-size:12.5px;color:var(--mute);line-height:1.6;margin:0 0 4px}.ncard small{color:var(--teal);font-size:11px;direction:ltr;display:block;text-align:start}
+
+/* v5 */
+@keyframes sendIn{from{opacity:0;transform:translateY(20px) scale(.82)}60%{transform:translateY(-2px) scale(1.03)}to{opacity:1;transform:none}}
+@keyframes botIn{from{opacity:0;transform:translateX(-14px) scale(.9)}to{opacity:1;transform:none}}
+.m.me.pop,.atch.pop{animation:sendIn .38s cubic-bezier(.2,.9,.3,1.1);transform-origin:bottom right}
+.m.bot.pop{animation:botIn .35s cubic-bezier(.2,.9,.3,1.1)}
+#send.fly{animation:fly .45s cubic-bezier(.3,1.4,.5,1)}
+@keyframes fly{40%{transform:translateY(-8px) scale(.9)}to{transform:none}}
+#chat.xout{opacity:0;transform:translateY(16px) scale(.97);transition:opacity .18s,transform .18s}
+#chat.xin{animation:cIn .45s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes cIn{from{opacity:0;transform:translateY(-14px) scale(.97)}to{opacity:1;transform:none}}
+.empty{max-width:none;transform:translateY(-4vh)}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px auto 0;width:min(92vw,350px);transition:opacity .25s,transform .25s,max-height .3s;max-height:600px}
+.qg.gone{opacity:0;transform:translateY(12px) scale(.96);max-height:0;pointer-events:none;overflow:hidden}
+.qc{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:10px 12px;color:var(--text);font:inherit;font-size:14px;font-weight:700;text-align:start;cursor:pointer;animation:mItem .5s both;transition:transform .15s,border-color .2s}
+.qc:active{transform:scale(.95);border-color:var(--teal)}
+.qc i{font-style:normal;font-size:21px;width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:12px;background:var(--bg)}
+.qc small{display:block;color:var(--mute);font-size:11px;font-weight:400;margin-top:1px}
+dialog[open]{animation:dIn .27s cubic-bezier(.2,.9,.3,1.1)}
+dialog.out{animation:dOut .17s ease-in forwards}
+dialog[open]::backdrop{animation:fIn .25s}dialog.out::backdrop{animation:fOut .17s forwards}
+@keyframes dIn{from{opacity:0;transform:translateY(22px) scale(.92)}to{opacity:1;transform:none}}
+@keyframes dOut{to{opacity:0;transform:translateY(22px) scale(.92)}}
+@keyframes fIn{from{opacity:0}}@keyframes fOut{to{opacity:0}}
+@keyframes vIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+#drawer>div:not(#dMain):not([hidden]){animation:vIn .3s cubic-bezier(.2,.9,.3,1)}
+#drawer.open #dMain>*{animation:mItem .38s both}
+#drawer.open #dMain>*:nth-child(1){animation-delay:0.03s}#drawer.open #dMain>*:nth-child(2){animation-delay:0.06s}#drawer.open #dMain>*:nth-child(3){animation-delay:0.09s}#drawer.open #dMain>*:nth-child(4){animation-delay:0.12s}#drawer.open #dMain>*:nth-child(5){animation-delay:0.15s}#drawer.open #dMain>*:nth-child(6){animation-delay:0.18s}#drawer.open #dMain>*:nth-child(7){animation-delay:0.21s}#drawer.open #dMain>*:nth-child(8){animation-delay:0.24s}#drawer.open #dMain>*:nth-child(9){animation-delay:0.27s}#drawer.open #dMain>*:nth-child(10){animation-delay:0.30s}#drawer.open #dMain>*:nth-child(11){animation-delay:0.33s}#drawer.open #dMain>*:nth-child(12){animation-delay:0.36s}
+.pk,.di,.cat,.acts button,.tabs button{transition:transform .15s,background .2s,border-color .2s}
+.pk:active,.di:active,.cat:active,.acts button:active{transform:scale(.96)}
+.pk.sel{animation:selPop .35s cubic-bezier(.2,1.5,.4,1)}
+@keyframes selPop{0%{transform:scale(.95)}60%{transform:scale(1.03)}to{transform:none}}
+.qa:not([hidden]){animation:mIn .26s cubic-bezier(.2,.9,.3,1.15)}
+#stk:not([hidden]){animation:sheetUp .32s cubic-bezier(.2,.9,.3,1)}
+@keyframes sheetUp{from{transform:translateY(40%);opacity:.4}to{transform:none;opacity:1}}
+.ncard,.nitem{animation:mItem .4s both}
+.rxw{position:relative}
+.rxw img{-webkit-touch-callout:none;user-select:none;-webkit-user-select:none}
+.rxb{position:absolute;left:-4px;bottom:-9px;font-size:15px;line-height:1;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:3px 6px;box-shadow:0 2px 8px rgba(0,0,0,.45)}
+.rxb.pop{animation:rxPop .4s cubic-bezier(.2,1.6,.4,1)}
+@keyframes rxPop{from{transform:scale(0)}to{transform:none}}
+#rxBar{position:fixed;z-index:80;display:flex;gap:2px;background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:5px 8px;box-shadow:0 10px 30px rgba(0,0,0,.6);animation:rxIn .24s cubic-bezier(.2,1.4,.4,1)}
+#rxBar button{background:none;border:0;font-size:25px;padding:4px 5px;cursor:pointer;transition:transform .12s}#rxBar button:active{transform:scale(1.35)}
+@keyframes rxIn{from{opacity:0;transform:translateY(12px) scale(.7)}to{opacity:1;transform:none}}
+.terms{font-size:13.5px;line-height:1.9;padding:2px 4px}.terms h4{color:var(--teal);margin:14px 0 4px;font-size:14px}.terms p{margin:0 0 4px;color:var(--text)}
 </style>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -347,7 +392,8 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
     <button class="di" id="diTheme"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/></svg>المظهر</button>
     <button class="di" id="diBackup"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>نسخ احتياطي</button>
     <button class="di" id="diClear"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>مسح كل المحادثات</button>
-    <button class="di" id="diNotif"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات</button></div>
+    <button class="di" id="diNotif"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات</button>
+    <button class="di" id="diTerms"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>البنود والقواعد</button></div>
   <div id="dFeel" hidden><div class="dh"><button class="di back" id="bk3"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>المشاعر</b></div><div id="feelList"></div></div>
   <div id="dRel" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>العلاقة</b></div><div id="relList"></div></div>
   <div id="dData" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>البيانات</b></div><div id="dataBody"></div></div>
@@ -363,6 +409,16 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
   <div id="dVoice" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصوت والقراءة</b></div><div id="voiceBody"></div></div>
   <div id="dNotif" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإشعارات</b></div><div id="notifBody"></div></div>
   <div id="dNews" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>آخر الأخبار</b></div><div id="newsTabs"></div><div id="newsList"></div></div>
+  <div id="dTerms" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>البنود والقواعد</b></div><div class="terms"><h4>1) ما هو Limo ai</h4><p>مساعد دردشة بشخصية ومزاج، يعتمد على الذكاء الاصطناعي. ردوده للترفيه والمساعدة العامة وقد تحتوي على أخطاء، فلا تعتمد عليها وحدها في أمور مهمة.</p>
+<h4>2) الطب والقانون والمال</h4><p>لا يُعدّ ليمو طبيباً ولا محامياً ولا مستشاراً مالياً. في هذه المواضيع راجع مختصاً.</p>
+<h4>3) بياناتك وخصوصيتك</h4><p>المحادثات والذاكرة والإعدادات تُحفظ على جهازك في المتصفح. عند الإرسال تُرسل رسالتك وما ترفقه من صور وملفات إلى خدمات خارجية (الذكاء الاصطناعي والبحث والـGIF) لتوليد الرد. لا ترسل كلمات مرور أو بيانات حساسة.</p>
+<h4>4) الحساب والضيف</h4><p>تسجيل الدخول بحساب Google يحفظ ذاكرتك ومحادثاتك. وضع الضيف لا يحفظ شيئاً بعد الإغلاق. مسح بيانات المتصفح يحذف محادثاتك، فاستخدم النسخ الاحتياطي.</p>
+<h4>5) قواعد الاستخدام</h4><p>- احترم الآخرين ولا تستخدم الخدمة للإساءة أو التحرش أو التهديد.<br>- ممنوع أي استخدام غير قانوني أو يضر بالآخرين أو يستغل القاصرين.<br>- لا تحاول تجاوز حدود الأمان أو خداع النظام.<br>- أنت مسؤول عما تكتبه وترسله.</p>
+<h4>6) شخصية ليمو</h4><p>المزاح والعناد والزعل جزء من الشخصية التفاعلية وليست مشاعر حقيقية. تقدر تضبط الاستفزاز من الإعدادات أو تضغط تصالح.</p>
+<h4>7) التذكيرات والإشعارات</h4><p>التنبيه والاهتزاز يعملان والتطبيق مفتوح. عند إغلاقه تظهر التذكيرات الفائتة في سجل الإشعارات عند فتحه.</p>
+<h4>8) الخدمة</h4><p>الخدمة مقدمة كما هي بدون ضمان، وقد تتغير أو تتوقف أو تتأثر بحدود الخدمات الخارجية.</p>
+<h4>9) التواصل</h4><p>المطوّر: imad eddine cheboukti</p>
+</div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
 </aside>
 <input type="file" id="stkIn" accept="image/*" hidden>
@@ -576,10 +632,26 @@ function bubble(role, text, imgs, names){
 function render(){
   chat.innerHTML = '';
   if (!history.length){
-    chat.innerHTML = '<div class="empty"><img class="logo big" alt="" src="' + LOGO + '"><h2>هلا! أنا Limo</h2><p>' + (tagline || (pickTag(), tagline)) + '</p></div>';
+    chat.innerHTML = '<div class="empty"><img class="logo big" alt="" src="' + LOGO + '"><h2>هلا! أنا Limo</h2><p>' + (tagline || (pickTag(), tagline)) + '</p><div class="qg" id="qg"></div></div>'; buildQuick();
     return;
   }
   history.forEach(h => { const b = bubble(h.role === 'user' ? 'me' : 'bot', (h.text || '') + (h.n && !h.imgs ? '\n📷 ×' + h.n : ''), h.imgs, h.files ? h.files.map(f => f.name) : h.fn); if (h.art) addArt(b, h.art); if (h.react) addSticker(b, h.react); if (h.gif) addSticker(b, {url:h.gif, label:'gif'}); if (h.stk) addSticker(b, {emoji:h.stk, label:''}); if (h.role === 'model' && h.text) addActs(b, h); });
+}
+function qFill(t){ inp.value = t; inp.dispatchEvent(new Event('input')); inp.focus(); try { inp.setSelectionRange(t.length, t.length); } catch(e){} }
+function buildQuick(){
+  const g = document.getElementById('qg'); if (!g) return;
+  const hide = () => g.classList.add('gone');
+  const Q = [
+    ['🎨','ارسم لي','أي فكرة تخطر ببالك',() => { hide(); qFill('ارسم لي '); }],
+    ['🖌️','صمم لي','شعار، بوستر، شكل',() => { hide(); qFill('صمم لي '); }],
+    ['✍️','اكتب لي','رسالة، قصة، شعر',() => { hide(); qFill('اكتب لي '); }],
+    ['🧠','اشرح لي','أي درس أو فكرة',() => { hide(); qFill('اشرح لي بشكل بسيط: '); }],
+    ['🎲','فاجئني','موقف عشوائي',() => $('mSurp').click()],
+    ['⚡','تحدّي','مزاح أو ذكاء',() => $('mChal').click()],
+    ['🎭','ردّ فعل','اكتب موقف وشوف',() => $('mReact').click()],
+    ['📰','آخر الأخبار','شو صار اليوم',() => { qFill('شو آخر الأخبار اليوم؟'); send(); }]
+  ];
+  Q.forEach(([e, t, sub, fn], i) => { const b = document.createElement('button'); b.className = 'qc'; b.style.animationDelay = (0.05 * i) + 's'; b.innerHTML = '<i>' + e + '</i><span>' + t + '<small>' + sub + '</small></span>'; b.onclick = fn; g.appendChild(b); });
 }
 function fail(msg){ if (stopped) return; bubble('err', msg); }
 
@@ -793,6 +865,7 @@ async function send(react){
   const text = act ? act.label : ((react && !keepText) ? '' : inp.value.trim());
   if ((!text && !pending.length && !react) || busy) return;
   if (!act && !react && text && window.limoRemHook) window.limoRemHook(text);
+  { const sb = $('send'); sb.classList.remove('fly'); void sb.offsetWidth; sb.classList.add('fly'); }
   const key = store.get('limoai_key2', '') || DEFAULT_KEY;
   if (!key){ fail('أضف مفتاح Gemini من الإعدادات ثم مفاتيح الاتصال أول.'); dlg.showModal(); return; }
   let model = String(store.get('limoai_model2', '') || '').trim().replace(/^models\//, '');
@@ -805,13 +878,13 @@ async function send(react){
   if ((!react && !act) || keepText){ pending = []; renderPrev(); }
   if (!regen){
     history.push({role:'user', text, imgs, files, react, act: act ? act.hint : undefined});
-    const ub = bubble('me', text, imgs, files.map(f => f.name));
+    const ub = bubble('me', text, imgs, files.map(f => f.name)); ub.classList.add('pop'); if (ub._att) ub._att.classList.add('pop');
     if (react) addSticker(ub, react);
     logMsg();
   }
   if ((!react && !act) || keepText){ inp.value = ''; inp.style.height = 'auto'; }
   $('status').textContent = 'يكتب…';
-  const typing = bubble('bot', ''); typing.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+  const typing = bubble('bot', ''); typing.classList.add('pop'); typing.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
 
   const gifReq = GIFREQ_RE.test(text);
   const pm = history[history.length - 2], lastG = !!(pm && pm.role === 'model' && (pm.gif || pm.stk));
@@ -948,7 +1021,10 @@ function saveHist(){
   store.set('limoai_chats', chats);
 }
 function addGal(u){ const g = store.get('limoai_gal', []).filter(x => x !== u); g.unshift(u); store.set('limoai_gal', g.slice(0, 100)); }
-function newChat(){ if (busy) return; history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); closeDrawer(); }
+function newChat(){
+  if (busy) return; closeDrawer(); chat.classList.add('xout');
+  setTimeout(() => { history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); chat.classList.remove('xout'); chat.classList.add('xin'); setTimeout(() => chat.classList.remove('xin'), 480); }, 190);
+}
 function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); render(); renderChats(); closeDrawer(); }
 function delChat(id){ if (!confirm('تحذف هذي المحادثة؟')) return; chats = chats.filter(x => x.id !== id); store.set('limoai_chats', chats); if (id === curId && !busy){ history = []; curId = ''; store.set('limoai_cur', ''); render(); } renderChats(); }
 function copyText(t){
@@ -997,7 +1073,7 @@ function renderGal(){
   gal.forEach(u => { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.src = u; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews','dTerms'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -1416,10 +1492,28 @@ function addSticker(d, r){
   if (r.emoji || r.url){
     const w = document.createElement('div'); w.className = 'sx ' + (d.classList.contains('me') ? 'me' : 'bot');
     if (r.emoji){ const e = document.createElement('div'); e.className = 'bigemo'; e.textContent = r.emoji; w.appendChild(e); }
-    else { const im = document.createElement('img'); im.className = 'stk'; im.alt = r.label; im.src = r.url; w.appendChild(im); }
+    else { const im = document.createElement('img'); im.className = 'stk'; im.alt = r.label; im.src = r.url; w.appendChild(im); rxInit(w, im, r.url); }
     let a = d; while (a.nextElementSibling && a.nextElementSibling.classList.contains('sx')) a = a.nextElementSibling;
     a.after(w); chat.scrollTop = chat.scrollHeight;
   } else { const c = document.createElement('div'); c.className = 'chip'; c.textContent = r.label; d.appendChild(c); }
+}
+function rxMap(){ return store.get('limoai_rx', {}) || {}; }
+function rxApply(w, url){
+  let b = w.querySelector('.rxb'); const e = rxMap()[url];
+  if (!e){ if (b) b.remove(); return; }
+  if (!b){ b = document.createElement('span'); b.className = 'rxb'; w.appendChild(b); }
+  b.textContent = e; b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop');
+}
+function rxClose(){ const o = document.getElementById('rxBar'); if (o) o.remove(); }
+function rxInit(w, im, url){ w.classList.add('rxw'); const e = rxMap()[url]; if (e) rxApply(w, url); im.addEventListener('contextmenu', ev => ev.preventDefault()); longPress(im, () => rxOpen(w, im, url)); }
+function rxOpen(w, im, url){
+  rxClose(); const bar = document.createElement('div'); bar.id = 'rxBar';
+  const set = e => { const m = rxMap(); if (e) m[url] = e; else delete m[url]; const k = Object.keys(m); if (k.length > 300) delete m[k[0]]; store.set('limoai_rx', m); rxApply(w, url); rxClose(); try { navigator.vibrate && navigator.vibrate(12); } catch(_){} };
+  ['❤️','😂','😮','😢','😡','👍','🔥','💀'].forEach(e => { const b = document.createElement('button'); b.textContent = e; b.onclick = ev => { ev.stopPropagation(); set(e); }; bar.appendChild(b); });
+  if (rxMap()[url]){ const x = document.createElement('button'); x.textContent = '✕'; x.style.fontSize = '17px'; x.onclick = ev => { ev.stopPropagation(); set(''); }; bar.appendChild(x); }
+  document.body.appendChild(bar); const r = im.getBoundingClientRect();
+  bar.style.top = Math.max(76, r.top - 60) + 'px'; bar.style.left = Math.min(Math.max(8, r.left + r.width / 2 - bar.offsetWidth / 2), innerWidth - bar.offsetWidth - 8) + 'px';
+  setTimeout(() => document.addEventListener('click', rxClose, {once:true}), 60);
 }
 const GIFCATS = {hug:'حضن',pat:'تربيت',slap:'صفعة',laugh:'ضحك',cry:'بكاء',dance:'رقص',wave:'تلويح',wink:'غمزة',smile:'ابتسامة',blush:'خجل',angry:'غضب',bored:'ملل',facepalm:'يا ساتر',happy:'سعيد',nope:'لا',pout:'تذمر',shrug:'مدري',sleep:'نوم',think:'تفكير',thumbsup:'تمام',clap:'تصفيق',poke:'نكزة',punch:'لكمة',smug:'غرور',stare:'تحديق',baka:'غبي',nod:'موافق',highfive:'كف',salute:'احترام',yawn:'تثاؤب',run:'جري',kick:'ركلة'};
 const EMOS = [['😂','ضحك'],['🤣','ضحك شديد'],['😭','بكاء'],['😡','غضب'],['🥰','حب صحاب'],['😎','ثقة'],['🙄','ملل واستخفاف'],['😴','نعاس'],['🤯','صدمة'],['😱','خوف'],['🤔','تفكير'],['👍','تمام'],['👎','ما يعجبني'],['👏','تصفيق'],['🔥','نار'],['💀','مت من الضحك'],['🥺','استعطاف'],['😏','غرور'],['🤝','مصالحة'],['🙏','رجاء'],['😅','إحراج'],['🤮','قرف'],['🤡','مهرج'],['💔','زعل'],['🎉','احتفال'],['🫡','احترام'],['😤','غيظ'],['🙃','سخرية'],['😬','توتر'],['🤌','إيش تقصد']];
@@ -1978,6 +2072,21 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   }
   $('diNews').onclick = () => { showDV('dNews'); load(); };
 })();
+
+/* animated dialog close */
+(function(){
+  const c = HTMLDialogElement.prototype.close, sm = HTMLDialogElement.prototype.showModal;
+  HTMLDialogElement.prototype.close = function(v){
+    if (!this.open || this.classList.contains('out')) return c.call(this, v);
+    this.classList.add('out'); clearTimeout(this._ct); this._ct = setTimeout(() => { this.classList.remove('out'); this._ct = 0; c.call(this, v); }, 170);
+  };
+  HTMLDialogElement.prototype.showModal = function(){
+    if (this._ct){ clearTimeout(this._ct); this._ct = 0; this.classList.remove('out'); c.call(this); }
+    return sm.call(this);
+  };
+})();
+
+$('diTerms').onclick = () => showDV('dTerms');
 </script>
 </body>
 </html>
