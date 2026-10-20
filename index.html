@@ -819,7 +819,19 @@ function addArt(d, url){
   d.appendChild(im);
 }
 const BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
+let goodModel = '';
 async function ask(model, key, contents, onChunk, useSearch){
+  const norm = String(model || '').trim().toLowerCase().replace(/^models\//, '');
+  const list = [goodModel, norm, DEFAULT_MODEL, 'gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.5-flash-lite'].filter((x, i, a) => x && /^[a-z][a-z0-9.\-]*$/.test(x) && a.indexOf(x) === i);
+  let r;
+  for (const m of list){
+    r = await ask0(m, key, contents, onChunk, useSearch);
+    const bad = r && r.status && (r.status === 404 || (r.status === 400 && /model/i.test(JSON.stringify(r.data || {}))));
+    if (!bad){ if (!(r && r.status)) goodModel = m; return r; }
+  }
+  return r;
+}
+async function ask0(model, key, contents, onChunk, useSearch){
   const res = await fetch(BASE + encodeURIComponent(model) + ':streamGenerateContent?alt=sse', {
     method:'POST',
     headers:{'Content-Type':'application/json','x-goog-api-key':key},
