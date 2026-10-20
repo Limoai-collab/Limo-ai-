@@ -2064,10 +2064,16 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   async function fsdb(){
     if (fsc) return fsc;
     const V = 'https://www.gstatic.com/firebasejs/10.12.2/';
-    const m = await Promise.all([import(V + 'firebase-app.js'), import(V + 'firebase-firestore.js')]);
+    const m = await Promise.all([import(V + 'firebase-app.js'), import(V + 'firebase-auth.js'), import(V + 'firebase-firestore.js')]);
     const apps = m[0].getApps ? m[0].getApps() : [];
     const app = apps.length ? apps[0] : m[0].initializeApp(FBC2);
-    fsc = {fs:m[1], db:m[1].getFirestore(app)};
+    const auth = m[1].getAuth(app);
+    // Firebase يحتاج لحظة يسترجع جلسة الدخول من التخزين بعد فتح الصفحة؛
+    // لازم ننتظره قبل أي قراءة/كتابة وإلا الطلب يروح بدون هوية وقواعد الأمان ترفضه بصمت
+    const user = await new Promise((resolve) => {
+      const unsub = m[1].onAuthStateChanged(auth, (u) => { unsub(); resolve(u); });
+    });
+    fsc = {fs:m[2], db:m[2].getFirestore(app), user};
     return fsc;
   }
   function myAcct(){ try { return (JSON.parse(localStorage.getItem('limoai_accts') || '[]')).find(a => a.id === ACC) || {}; } catch(e){ return {}; } }
@@ -2077,7 +2083,8 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   async function doPush(){
     if (applying) return;
     try {
-      const {fs, db} = await fsdb();
+      const {fs, db, user} = await fsdb();
+      if (!user) { console.warn('Limo cloud: لا توجد جلسة Firebase نشطة، تخطّي الرفع'); return; }
       const now = Date.now();
       const a = myAcct();
       await fs.setDoc(fs.doc(db, 'users', ACC), {
@@ -2090,13 +2097,14 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
         lastActive: now
       }, {merge: true});
       localStorage.setItem(TSK, String(now));
-    } catch(e){ /* بدون نت أو خطأ مؤقت: نحاول بالمرة الجاية */ }
+    } catch(e){ console.warn('Limo cloud push error:', e && e.code || e); }
   }
   window.__cloudPush = function(){ clearTimeout(pushTimer); pushTimer = setTimeout(doPush, 2500); };
 
   async function doPull(){
     try {
-      const {fs, db} = await fsdb();
+      const {fs, db, user} = await fsdb();
+      if (!user) { console.warn('Limo cloud: لا توجد جلسة Firebase نشطة، تخطّي السحب'); return; }
       const snap = await fs.getDoc(fs.doc(db, 'users', ACC));
       if (!snap.exists()) { doPush(); return; } // أول مرة من هالجهاز: ارفع الموجود محلياً
       const d = snap.data(), localTs = Number(localStorage.getItem(TSK) || 0);
@@ -2110,7 +2118,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
         if (typeof chats !== 'undefined') { chats = store.get('limoai_chats', []); }
         if (typeof renderChats === 'function') renderChats();
       }
-    } catch(e){ /* بدون نت: نكمل بالبيانات المحلية */ }
+    } catch(e){ console.warn('Limo cloud pull error:', e && e.code || e); }
   }
   doPull();
   window.addEventListener('beforeunload', () => { if (pushTimer) doPush(); });
