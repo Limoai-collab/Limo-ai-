@@ -20,7 +20,7 @@ header{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var
 .ib:focus-visible,textarea:focus-visible,input:focus-visible,#send:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
 #chat{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
 .m{max-width:84%;padding:10px 14px;border-radius:18px;line-height:1.7;font-size:16px;white-space:pre-wrap;word-wrap:break-word}
-.me{align-self:flex-start;background:var(--me);border-end-start-radius:6px}
+.me{align-self:flex-start;color:var(--metext,var(--text));background:var(--me);border-end-start-radius:6px}
 .bot{align-self:flex-end;background:var(--bot);border:1px solid var(--line);border-end-end-radius:6px}
 .err{align-self:center;background:#3a1420;border:1px solid #7a2a40;color:#ffb4c4;font-size:14px;text-align:center}
 .empty{margin:auto;text-align:center;color:var(--mute);max-width:300px;transform:translateY(-10vh)}
@@ -148,7 +148,7 @@ html[dir=ltr] .me{align-self:flex-end}html[dir=ltr] .bot{align-self:flex-start}h
 .agree.on{color:var(--teal);text-shadow:0 0 12px rgba(45,212,191,.7);font-weight:800}.agree.on .bx{background:var(--teal);border-color:var(--teal)}
 .grow{display:flex;gap:10px}.grow .gb{margin-top:10px}
 
-header{background:linear-gradient(180deg,#1d1838,#171329);border-bottom:2px solid transparent;border-image:linear-gradient(90deg,transparent,var(--violet),var(--teal),transparent) 1;padding:10px 14px}
+header{background:linear-gradient(180deg,var(--hd1,#1d1838),var(--hd2,#171329));border-bottom:2px solid transparent;border-image:linear-gradient(90deg,transparent,var(--violet),var(--teal),transparent) 1;padding:10px 14px}
 .title{text-align:center}.title b{display:inline-block;white-space:nowrap;font-size:21px;background:linear-gradient(90deg,var(--violet),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent}
 .title small{display:inline-block;margin-top:4px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:1px 12px;font-size:12px}
 header .ib{width:42px;height:42px;padding:0;border-radius:50%;font-size:18px;flex:none}
@@ -159,6 +159,30 @@ header .ib{width:42px;height:42px;padding:0;border-radius:50%;font-size:18px;fle
 .tbox{background:none;border:0;padding:0}
 .rl{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-bottom:10px;display:flex;gap:12px}.rl .ic{font-size:26px;flex:none}.rl b{display:block;color:var(--teal);font-size:14px;margin-bottom:2px}.rl div div{font-size:13.5px;line-height:1.8;color:var(--text)}
 .acrow{display:flex;align-items:center;gap:12px;width:100%;background:none;border:1px solid var(--line);border-radius:18px;padding:10px 14px;color:var(--text);font:inherit;margin-top:10px;cursor:pointer;text-align:start}
+
+header{position:relative}
+#status{cursor:pointer}#status::after{content:' ▾';opacity:.6}
+.ntop{display:flex;align-items:center;gap:6px;height:42px;padding:0 14px 0 12px;border-radius:21px;border:0;font:inherit;font-size:14px;font-weight:800;color:#0d0b1a;background:linear-gradient(135deg,var(--violet),var(--teal));box-shadow:0 4px 14px rgba(45,212,191,.25);cursor:pointer;flex:none}
+.ntop:active{transform:scale(.96)}.ntop i{font-style:normal;font-size:20px;line-height:1}
+.rpop{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);z-index:8;border:1px solid var(--teal);background:var(--panel);color:var(--text);border-radius:16px;padding:8px 18px;font:inherit;font-size:14px;font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.4);cursor:pointer}.rpop[hidden]{display:none}
+footer{display:block;position:relative;background:linear-gradient(180deg,transparent,var(--bg) 30%);border-top:0;padding:6px 12px calc(10px + env(safe-area-inset-bottom,0px))}
+.cbar{display:flex;align-items:flex-end;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:28px;padding:6px;box-shadow:0 6px 24px rgba(0,0,0,.35);transition:border-color .2s}
+.cbar:focus-within{border-color:var(--violet)}
+.cbar textarea{flex:1;border:0;background:transparent;padding:10px 6px;border-radius:0;outline:0}
+.cbar .att{width:40px;height:40px;padding:0;border-radius:50%;border:0;background:var(--bg);font-size:22px;color:var(--teal);flex:none}
+.cbar .gifbtn{height:40px;border-radius:20px}
+.cbar #send{width:42px;height:42px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 12px rgba(139,92,246,.45);transition:transform .15s}
+.cbar #send:active{transform:scale(.9)}
+#stk{border-radius:20px 20px 0 0}
+.grab{display:flex;align-items:center;justify-content:center;position:sticky;top:-10px;margin:-10px -12px 6px;padding:8px 12px 4px;background:var(--panel);z-index:2}
+.grab span{width:44px;height:5px;border-radius:3px;background:var(--line)}.grab button{position:absolute;inset-inline-end:10px;top:4px;border:0;background:none;color:var(--mute);font-size:18px;padding:4px 8px;cursor:pointer}
+#stg{display:flex;align-items:center;gap:10px;margin:0 4px 6px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:16px}#stg[hidden]{display:none}
+#stg img{height:48px;width:48px;border-radius:10px;object-fit:cover}.stgem{font-size:34px;line-height:1}.stgt{flex:1;font-size:12px;color:var(--mute)}#stg button{border:0;background:none;color:var(--mute);font-size:18px;padding:6px;cursor:pointer}
+.sx{display:flex;max-width:70%;background:none}.sx.me{align-self:flex-start}.sx.bot{align-self:flex-end}
+html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-start}
+.m:empty{display:none}
+.mdw{overflow-x:auto;white-space:normal;margin:6px 0}.mdt{border-collapse:collapse;font-size:14px}.mdt th,.mdt td{border:1px solid var(--line);padding:5px 9px;text-align:start}.mdt th{background:var(--panel)}
+#note{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(6px);background:var(--panel);border:1px solid var(--line);color:var(--mute);font-size:12px;padding:5px 12px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:20;max-width:86vw;text-align:center}#note.on{opacity:1;transform:translateX(-50%)}
 </style>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -167,22 +191,27 @@ header .ib{width:42px;height:42px;padding:0;border-radius:50%;font-size:18px;fle
 <header>
   <img class="logo" id="menuOrb" role="button" tabindex="0" aria-label="القائمة" alt="Limo ai">
   <div class="title"><b>Limo ai</b><br><small id="status">جاهز للسوالف</small></div>
-  <button class="ib" id="relBtn" aria-label="صالحه">🤝</button>
+  <button class="ntop" id="newTop" aria-label="دردشة جديدة"><i>＋</i> جديدة</button>
+  <button class="rpop" id="relBtn" hidden>🤝 تصالح</button>
   <button id="newBtn" hidden></button><button id="memBtn" hidden></button><button id="setBtn" hidden></button>
 </header>
 <main id="chat"></main>
 <div id="prev"></div>
 <footer>
-  <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false">+</button>
   <div id="menu" hidden><button id="mCam">📷 الكاميرا</button><button id="mGal">🖼️ الصورة</button><button id="mFile">📎 ملف</button><button id="mVid">🎬 فيديو</button><button id="mSearch">🧠 التفكير العميق</button><button id="mSurp" hidden>🎲 فاجئني</button><button id="mChal" hidden>⚡ تحدٍّ</button><button id="mReact" hidden>🎭 ردّ فعل</button></div>
-  <div id="stk" hidden><div class="tabs"><button id="tGif" class="on">GIF</button><button id="tStk">ستيكرز</button></div><div id="srow"><input id="sq" type="text" placeholder="ابحث: ضحك، hug، أو اسم أنمي" dir="rtl"><button id="sgo" aria-label="بحث">🔍</button></div><div id="cats"></div><div id="grid"></div></div>
-  <textarea id="inp" rows="1" placeholder="اكتب لـ Limo ai…" dir="auto"></textarea>
-  <button class="gifbtn" id="stkBtn" aria-label="ستيكرز وGIF">GIF</button>
-  <button id="send" aria-label="إرسال">➤</button>
+  <div id="stk" hidden><div class="grab" id="stkGrab"><span></span><button id="stkX" aria-label="إغلاق">✕</button></div><div class="tabs"><button id="tGif" class="on">GIF</button><button id="tStk">ستيكرز</button></div><div id="srow"><input id="sq" type="text" placeholder="ابحث: ضحك، hug، أو اسم أنمي" dir="rtl"><button id="sgo" aria-label="بحث">🔍</button></div><div id="cats"></div><div id="grid"></div></div>
+  <div id="stg" hidden></div>
+  <div class="cbar">
+    <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false">+</button>
+    <textarea id="inp" rows="1" placeholder="اكتب لـ Limo ai…" dir="auto"></textarea>
+    <button class="gifbtn" id="stkBtn" aria-label="ستيكرز وGIF">GIF</button>
+    <button id="send" aria-label="إرسال"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+  </div>
 </footer>
 <input type="file" id="camIn" accept="image/*" capture="environment" hidden>
 <input type="file" id="galIn" accept="image/*" multiple hidden>
 <dialog id="pickDlg"><h3 id="pickT"></h3><div id="pickL"></div><div class="row"><button class="ib" id="pickX">إغلاق</button></div></dialog>
+<div id="note"></div>
 <div id="ov" hidden></div>
 <aside id="drawer" aria-label="القائمة">
   <div id="dMain">
@@ -211,12 +240,12 @@ header .ib{width:42px;height:42px;padding:0;border-radius:50%;font-size:18px;fle
     <button class="di" id="diStyle">🗣️ أسلوب الكلام</button>
     <button class="di" id="diProv">😈 الاستفزاز</button>
     <button class="di" id="diLang">🌐 اللغة</button>
-    <button class="di" id="diKeys">🔑 مفاتيح الخدمات</button>
-    <button class="di soon" disabled>🎨 المظهر (قريباً)</button>
+    <button class="di" id="diTheme">🎨 المظهر</button>
     <button class="di soon" disabled>🔔 الإشعارات (قريباً)</button></div>
   <div id="dFeel" hidden><div class="dh"><button class="di back" id="bk3">→ رجوع</button><b>المشاعر</b></div><div id="feelList"></div></div>
   <div id="dRel" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>العلاقة</b></div><div id="relList"></div></div>
   <div id="dData" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>البيانات</b></div><div id="dataBody"></div></div>
+  <div id="dTheme" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>المظهر</b></div><div id="themeList"></div></div>
   <div id="dStyle" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>أسلوب الكلام</b></div><div id="styleList"></div></div>
   <div id="dProv" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>الاستفزاز</b></div><div id="provList"></div></div>
   <div id="dLang" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>اللغة</b></div><div id="langList"></div></div>
@@ -256,7 +285,7 @@ header .ib{width:42px;height:42px;padding:0;border-radius:50%;font-size:18px;fle
 <dialog id="memDlg">
   <h3>ذاكرتي</h3>
   <div id="memBody"></div>
-  <div class="row"><button class="ib" id="moodReset">صالحه 🤝</button><button class="ib" id="memClear">مسح الكل</button><button class="ib pri" id="memClose">إغلاق</button></div>
+  <div class="row"><button class="ib" id="memClear">مسح الكل</button><button class="ib pri" id="memClose">إغلاق</button></div>
 </dialog>
 
 <script>
@@ -344,7 +373,7 @@ const REL = ['ثقة','صداقة','زعل'];
 REL.forEach(k => { if (typeof feel[k] !== 'number') feel[k] = k === 'زعل' ? 5 : 40; });
 let feelLog = store.get('limoai_flog', []); if (!Array.isArray(feelLog)) feelLog = [];
 function logFeel(){ const f = {}; FEELS.forEach(k => { f[k] = Math.round(feel[k]); }); feelLog.push({t:Date.now(), f}); if (feelLog.length > 900) feelLog = feelLog.slice(-900); store.set('limoai_flog', feelLog); }
-const STYLES = {default:'', sarcastic:'ساخر: سخرية دايمة وتعليقات لاذعة بخفة دم.', calm:'هادئ: كلام هادئ ومتزن وبطيء بدون انفعال.', angry:'عصبي: نبرة حادة وسريعة الانفعال بخفة دم، بدون إساءة حقيقية.', fun:'مرح: حماس وهزار وطاقة عالية.'};
+const STYLES = {default:'', sarcastic:'ساخر: كل رد لازم فيه سخرية ذكية أو تعليق لاذع واضح، حتى لو الموضوع جاد.', calm:'هادئ: ردود قصيرة وهادئة ومتزنة، بدون تعجب ولا مبالغة ولا سخرية ولا إيموجي كثير.', angry:'عصبي: نبرة حادة وسريعة الانفعال، جمل قصيرة وتعجب كثير وتذمر، بخفة دم وبدون إساءة حقيقية.', fun:'مرح: حماس عالي وهزار وضحك وإيموجي وطاقة إيجابية في كل رد.'};
 const PROV = ['', 'استفزاز خفيف: غمزات وتعليقات ساخرة بسيطة.', 'استفزاز متوسط: تستفزه بذكاء وتغيظه بمزح وتذكّره بمواقفه.', 'استفزاز شديد: تستفزه بقوة وتتحداه وتغيظه بإصرار وخفة دم، بدون جرح فعلي ولا ملامسة العائلة أو الدين أو الشكل.'];
 let prov = Number(store.get('limoai_prov', 2)); if (![0, 1, 2, 3].includes(prov)) prov = 2;
 let style = store.get('limoai_style', 'default'); if (!(style in STYLES)) style = 'default';
@@ -368,7 +397,7 @@ function bubble(role, text, imgs, names){
     d.appendChild(w);
   }
   (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = '📎 ' + nm; d.appendChild(c); });
-  if (text) d.appendChild(document.createTextNode(text));
+  if (text) d.appendChild(role === 'bot' ? mdNode(text) : document.createTextNode(text));
   chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
   return d;
@@ -400,8 +429,6 @@ function buildPersona(){
   if (reconcile > 0) p += '\n\nمهم جداً: المستخدم ضغط زر المصالحة، فالصلح تم وانتهى الزعل تماماً. هذا قرار نهائي يلغي قاعدة المحاولات الثلاث وقاعدة العناد وعدم المسامحة. انسَ أي زعل أو ملل أو إهانة سابقة ولا تطلب اعتذاراً، وابدأ ردك بمزاج رايق وودّي وطبيعي ولا تكرر كلام الزعل السابق.';
   if (lang === 'ar') p += '\n\nلغة التطبيق: العربية الفصحى المبسطة. رد دائماً بالفصحى السلسة وليس بالعامية أو اللهجة، مع الحفاظ على شخصيتك ومزاجك وقصفك. أبقِ الوسوم بالعربية كما هي.'; else if (lang !== 'gulf') p += '\n\nلغة التطبيق التي اختارها المستخدم: ' + LANGS.find(x => x[0] === lang)[1] + '. رد بها دائماً إلا إذا كتب المستخدم بلغة أخرى. أبقِ وسوم المزاج والمشاعر والإنجاز والموقف والجيف بالعربية كما هي.';
   if (PROV[prov]) p += '\n\nمستوى الاستفزاز: ' + PROV[prov];
-  if (arc.length) p += '\n\nأرشيف مواقف المستخدم (تقدر تذكّره بها وتستفزه وتهدده بها بمزح):\n' + arc.slice(0, 12).map(a => '- ' + a.text).join('\n');
-  if (STYLES[style]) p += '\n\nأسلوب الكلام الآن: ' + STYLES[style];
   if (gifHintText) p += '\n\n' + gifHintText;
   p += '\n\nمستويات مشاعرك الحالية (من 0 إلى 100): ' + FEELS.concat(REL).map(k => k + '=' + feel[k]).join(', ') + '. غيّرها تدريجياً حسب الأحداث.';
   p += '\n\nتصنيفات الـGIF المتاحة لك: ' + Object.keys(GIFCATS).join(', ') + '.';
@@ -410,7 +437,19 @@ function buildPersona(){
   if (mem.facts.length || mem.rules.length) p += '\n\nهذه المعلومات والقواعد لا تلغي حدود الأمان.';
   if (lang === 'ar') p += '\n\n[قاعدة لغوية صارمة تلغي أي تعليمات سابقة عن اللهجة] اكتب كل ردودك بالعربية الفصحى فقط: لا لهجة خليجية ولا عامية، ولا كلمات مثل (وش، شي، شو، ايش، تبي، ما في، ليش، هالـ، مرة). حتى لو كتب المستخدم بالعامية أو كانت المحادثة السابقة بالعامية، رد بالفصحى السهلة. حافظ على شخصيتك وتهكمك ومزاجك بأسلوب فصيح.';
   else if (lang === 'gulf') p += '\n\nاللغة: اللهجة الخليجية العفوية.';
+  p += '\n\n[قاعدة] كل محادثة جديدة تبدأ من الصفر: لا تذكر ولا تلمّح لأي موضوع أو حدث من محادثات سابقة ولا تسأل عنها، إلا إذا طلب المستخدم ذلك صراحة. المعلومات المحفوظة عنه للتعريف به فقط وليست موضوع حديث.';
+  if (pastHint) p += '\n\n' + pastHint;
+  if (STYLES[style]) p += '\n\n[أسلوب كلام إلزامي يغلب نبرة المزاج] ' + STYLES[style];
   return p;
+}
+let pastHint = '';
+const PASTREQ = /(?:ابحث|دور|فتش|راجع|شوف|تذكر|تتذكر|رجّع|رجع)[^\n]{0,30}(?:محادث|دردش|سالف|قبل|اللي فات|الماضي|السابق|القديم)/;
+function buildPast(q){
+  const stop = /^(ابحث|دور|فتش|راجع|شوف|المحادثات|محادثاتي|الدردشات|السابقة|القديمة|عن|في|لي|هل|اللي|قبل)$/;
+  const words = q.replace(/[^\p{L}\p{N}\s]/gu, ' ').split(/\s+/).filter(w => w.length > 2 && !stop.test(w)), out = [];
+  chats.filter(c => c.id !== curId).forEach(c => (c.h || []).filter(m => m.text).forEach(m => { if (words.some(w => m.text.includes(w) || (c.title || '').includes(w))) out.push('[' + (c.title || 'محادثة') + '] ' + (m.role === 'user' ? 'المستخدم: ' : 'أنت: ') + m.text.slice(0, 160)); }));
+  const list = out.length ? out.slice(0, 8) : chats.filter(c => c.id !== curId).slice(0, 6).map(c => '[' + (c.title || 'محادثة') + ']');
+  return 'المستخدم طلب منك صراحة تبحث في محادثاته السابقة. هذي نتائج البحث (استخدمها للإجابة فقط):\n' + (list.join('\n') || 'ما في محادثات سابقة.');
 }
 let learning = false;
 async function learn(){
@@ -421,8 +460,8 @@ async function learn(){
     if (!/^[A-Za-z0-9._-]+$/.test(m)) m = DEFAULT_MODEL;
     const recent = history.slice(-8).map(h => (h.role === 'user' ? 'المستخدم: ' : 'Limo ai: ') + h.text).join('\n');
     const prompt = 'أنت وحدة ذاكرة لشات اسمه Limo ai. اقرأ آخر جزء من المحادثة وارجع JSON فقط بهذا الشكل: {"facts":[],"rules":[]}\n'
-      + '- facts: معلومات أساسية عن المستخدم تساعد Limo ai يعرفه (اسمه، اهتماماته، مشاريعه، تفضيلاته).\n'
-      + '- rules: قواعد سلوك قصيرة لـ Limo ai تناسب شخصية المستخدم (مثال: "المستخدم مرح، رد عليه بالمزح").\n'
+      + '- facts: معلومات شخصية ثابتة فقط يقولها المستخدم عن نفسه (اسمه، اهتماماته، مشاريعه، تفضيلاته الدائمة). ممنوع تحفظ أي شي حصل أو انقال داخل المحادثة نفسها: مواضيع النقاش، النكت، الردود، سلوكه أثناء الحديث، تغيير اللغة.\n'
+      + '- rules: فقط تعليمات صريحة طلبها المستخدم بنفسه عن طريقة ردك (مثال: "قل لي برو"). ممنوع تستنتج قواعد من سلوكه.\n'
       + '- لا تحفظ أي معلومة حساسة: صحة، مال، أرقام هوية أو بطاقات، كلمات سر أو مفاتيح، علاقات حميمة، دين، سياسة، أو عنوان السكن.\n'
       + '- أرجع فقط معلومات جديدة غير موجودة في الذاكرة الحالية، بحد أقصى 3 في كل قائمة، وكل عنصر جملة عربية قصيرة. إذا ما في جديد أرجع قوائم فاضية.\n\n'
       + 'الذاكرة الحالية:\n' + JSON.stringify(mem) + '\n\nالمحادثة:\n' + recent;
@@ -572,33 +611,34 @@ async function ask(model, key, contents, onChunk, useSearch){
 
 async function send(react){
   if (!react || !react.label) react = null;
+  let keepText = false; if (!react && staged){ react = staged; keepText = true; }
   let act = null; if (react && react.hint){ act = react; react = null; }
   const regen = !!(act && act.regen);
-  const text = act ? act.label : (react ? '' : inp.value.trim());
+  const text = act ? act.label : ((react && !keepText) ? '' : inp.value.trim());
   if ((!text && !pending.length && !react) || busy) return;
   const key = store.get('limoai_key2', '') || DEFAULT_KEY;
   if (!key){ fail('أضف مفتاح Gemini من الإعدادات ⚙️ أول.'); dlg.showModal(); return; }
   let model = String(store.get('limoai_model2', '') || '').trim().replace(/^models\//, '');
   if (!/^[A-Za-z0-9._-]+$/.test(model)) model = DEFAULT_MODEL;
 
-  busy = true; sendBtn.disabled = true;
+  busy = true; sendBtn.disabled = true; if (keepText){ staged = null; renderStaged(); }
   if (!history.length) chat.innerHTML = '';
-  const sentPending = (react || act) ? [] : pending.slice(), imgs = sentPending.filter(x => x.url).map(x => x.url), files = sentPending.filter(x => x.name);
+  const sentPending = ((react && !keepText) || act) ? [] : pending.slice(), imgs = sentPending.filter(x => x.url).map(x => x.url), files = sentPending.filter(x => x.name);
   const hasPdf = files.some(f => f.kind === 'pdf' || f.kind === 'video');
-  if (!react && !act){ pending = []; renderPrev(); }
+  if ((!react && !act) || keepText){ pending = []; renderPrev(); }
   if (!regen){
     history.push({role:'user', text, imgs, files, react, act: act ? act.hint : undefined});
     const ub = bubble('me', text, imgs, files.map(f => f.name));
     if (react) addSticker(ub, react);
     logMsg();
   }
-  if (!react && !act){ inp.value = ''; inp.style.height = 'auto'; }
+  if ((!react && !act) || keepText){ inp.value = ''; inp.style.height = 'auto'; }
   $('status').textContent = 'يكتب…';
   const typing = bubble('bot', ''); typing.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
 
   const gifReq = GIFREQ_RE.test(text);
   const pm = history[history.length - 2], lastG = !!(pm && pm.role === 'model' && (pm.gif || pm.stk));
-  gifHintText = '';
+  gifHintText = ''; pastHint = PASTREQ.test(text) ? buildPast(text) : '';
   if (!react){
     if (gifReq) gifHintText = 'المستخدم طلب منك الآن ترسل GIF أو ستيكر، فأرسل واحداً في هذا الرد بوسم [جيف: تصنيف] (مع كلام أو بدونه).';
     else if (!lastG){
@@ -669,9 +709,9 @@ async function send(react){
       else if (code === 404) msg = 'اسم النموذج غير موجود. غيره من الإعدادات.';
       else if (code === 429) msg = 'وصلت حد الاستخدام المجاني. انتظر دقيقة وجرب مرة ثانية.';
       else if (code === 503) msg = 'الخدمة مشغولة حالياً. جرب بعد شوي.';
-      fail(msg + '\n\n[' + code + (reason ? ' ' + reason : '') + '] ' + tech); if (!react && !act){ inp.value = text; pending = sentPending; renderPrev(); }
+      fail(msg + '\n\n[' + code + (reason ? ' ' + reason : '') + '] ' + tech); if ((!react || keepText) && !act){ inp.value = text; pending = sentPending; renderPrev(); if (keepText){ staged = react; renderStaged(); } }
     } else if (!splitMood(out.text).text.trim()){
-      typing.remove(); if (!regen) history.pop(); fail('ما وصل رد. جرب تعيد صياغة رسالتك.'); if (!react && !act){ inp.value = text; pending = sentPending; renderPrev(); }
+      typing.remove(); if (!regen) history.pop(); fail('ما وصل رد. جرب تعيد صياغة رسالتك.'); if ((!react || keepText) && !act){ inp.value = text; pending = sentPending; renderPrev(); if (keepText){ staged = react; renderStaged(); } }
     } else {
       const r = splitMood(out.text); let reply = r.text.trim();
       const dm = reply.match(/\[\s*رسم\s*:\s*([^\]]{3,400})\]/);
@@ -690,7 +730,7 @@ async function send(react){
       }
       if (mg && lastG && !gifReq) mg = null;
       if (!mg && gifReq) mg = {gif: MOOD2GIF[r.mood || mood] || 'laugh'};
-      typing.textContent = (reply || (mg && mg.gif ? '⏳' : '')) + (searchFailed ? '\n\n⚠️ ما قدرت أبحث بالنت الحين، فجاوبتك من معلوماتي.' + (searchErr ? '\n[' + searchErr + ']' : '') : '');
+      mdSet(typing, (reply || (mg && mg.gif ? '⏳' : '')) + (searchFailed ? '\n\n⚠️ ما قدرت أبحث بالنت الحين، فجاوبتك من معلوماتي.' + (searchErr ? '\n[' + searchErr + ']' : '') : ''));
       if (tvSrc && !(out.src && out.src.length)) out.src = tvSrc;
       if (out.src && out.src.length) addSrc(typing, out.src);
       if (art){ addArt(typing, art); addGal(art); ach('art'); }
@@ -706,10 +746,10 @@ async function send(react){
       if (n >= 2 || String((history[0] && history[0].text) || '').length > 30) titleChat();
     }
   } catch(e){
-    typing.remove(); if (!regen) history.pop(); if (!react && !act){ inp.value = text; pending = sentPending; renderPrev(); }
+    typing.remove(); if (!regen) history.pop(); if ((!react || keepText) && !act){ inp.value = text; pending = sentPending; renderPrev(); if (keepText){ staged = react; renderStaged(); } }
     fail('تعذر الاتصال. تأكد من الإنترنت وجرب مرة ثانية.');
   }
-  gifHintText = '';
+  gifHintText = ''; pastHint = '';
   showMood();
   busy = false; sendBtn.disabled = false;
 }
@@ -779,7 +819,7 @@ function renderGal(){
   gal.forEach(u => { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.src = u; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dFav','dArc','dAch','dProv','dLang'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -821,12 +861,12 @@ const ACH = {first:['🌱','أول كلمة','أرسلت أول رسالة'], ch
 let achd = store.get('limoai_ach', {}); if (!achd || typeof achd !== 'object') achd = {};
 function ach(){}
 let achv = store.get('limoai_ach2', []); if (!Array.isArray(achv)) achv = [];
-function addAch(title, desc){ if (!title || achv.some(a => a.title === title)) return; achv.unshift({t:Date.now(), title, desc}); achv = achv.slice(0, 100); store.set('limoai_ach2', achv); bubble('err', '🏆 إنجاز جديد: ' + title); }
-function addMoment(text){ if (!text) return; arc.unshift({t:Date.now(), who:'ai', text:text.slice(0, 200)}); arc = arc.slice(0, 100); store.set('limoai_arc', arc); bubble('err', '📚 سجّلها عليك في الأرشيف 😏'); }
+function addAch(title, desc){ if (!title || achv.some(a => a.title === title)) return; achv.unshift({t:Date.now(), title, desc}); achv = achv.slice(0, 100); store.set('limoai_ach2', achv); note('🏆 انحفظ إنجاز جديد: ' + title); }
+function addMoment(text){ if (!text) return; arc.unshift({t:Date.now(), who:'ai', text:text.slice(0, 200)}); arc = arc.slice(0, 100); store.set('limoai_arc', arc); note('📚 انحفظ موقف جديد في الأرشيف'); }
 function logMsg(){ msgLog.push(Date.now()); if (msgLog.length > 3000) msgLog = msgLog.slice(-3000); store.set('limoai_msgs', msgLog); ach('first'); if (msgLog.length >= 50) ach('chat50'); const h = new Date().getHours(); if (h >= 2 && h < 5) ach('night'); }
 function beat(){ if (document.hidden) return; const now = Date.now(), last = sess[sess.length - 1]; if (last && now - last.e < 90000) last.e = now; else sess.push({s:now, e:now + 1000}); if (sess.length > 400) sess = sess.slice(-400); store.set('limoai_use', sess); }
 setInterval(beat, 15000); beat(); document.addEventListener('visibilitychange', () => { if (!document.hidden) beat(); });
-function saveMoment(role, txt){ txt = (txt || '').trim(); if (!txt || !confirm('تحفظ هذي الرسالة في أرشيف المواقف؟')) return; arc.unshift({t:Date.now(), who:role, text:txt.slice(0, 400)}); arc = arc.slice(0, 100); store.set('limoai_arc', arc); bubble('err', '📚 انحفظت في أرشيف المواقف'); }
+function saveMoment(role, txt){ txt = (txt || '').trim(); if (!txt || !confirm('تحفظ هذي الرسالة في أرشيف المواقف؟')) return; arc.unshift({t:Date.now(), who:role, text:txt.slice(0, 400)}); arc = arc.slice(0, 100); store.set('limoai_arc', arc); note('📚 انحفظ في أرشيف المواقف'); }
 function favGif(r){ if (favs.some(x => x.url === r.url)) return; favs.unshift(r); favs = favs.slice(0, 60); store.set('limoai_favg', favs); if (favs.length >= 3) ach('fav3'); alert('⭐ انحفظ في معرض GIF'); }
 function pick(title, items, cb){ $('pickT').textContent = title; const l = $('pickL'); l.innerHTML = ''; items.forEach(it => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = it; b.onclick = () => { $('pickDlg').close(); cb(it); }; l.appendChild(b); }); $('pickDlg').showModal(); }
 $('pickX').onclick = () => $('pickDlg').close();
@@ -841,6 +881,7 @@ $('mReact').onclick = () => { toggleMenu(false); pick('🎭 اختر سينار�
 const LANGS = [['gulf','العربية (اللهجة الخليجية)'],['ar','العربية الفصحى'],['en','English'],['es','Español'],['zh','中文'],['ja','日本語']], LI = {en:0, es:1, zh:2, ja:3};
 let lang = store.get('limoai_lang', null); if (!store.get('limoai_lv2', false)){ store.set('limoai_lv2', true); if (lang === 'ar'){ lang = 'gulf'; store.set('limoai_lang', 'gulf'); } } if (!lang) lang = APPLANG; if (!LANGS.some(x => x[0] === lang)) lang = 'gulf';
 const TR = {
+'جديدة':['New','Nueva','新建','新規'],'المظهر':['Appearance','Apariencia','外观','外観'],
 'تسجيل دخول':['Log in','Iniciar sesión','登录','ログイン'],'ضيف':['Guest','Invitado','访客','ゲスト'],'مفاتيح الخدمات':['Service keys','Claves de servicio','服务密钥','サービスキー'],'عرض المزيد':['Show more','Ver más','显示更多','もっと見る'],'عرض أقل':['Show less','Ver menos','收起','少なく表示'],'تسجيل الخروج':['Log out','Cerrar sesión','退出登录','ログアウト'],
 'الكاميرا':['Camera','Cámara','相机','カメラ'],'الصورة':['Photo','Foto','图片','写真'],'ملف':['File','Archivo','文件','ファイル'],'ابحث':['Search','Buscar','搜索','検索'],
 'فاجئني':['Surprise me','Sorpréndeme','给我惊喜','驚かせて'],'تحدٍّ':['Challenge','Desafío','挑战','チャレンジ'],'ردّ فعل':['Reaction','Reacción','反应','リアクション'],
@@ -891,6 +932,43 @@ async function titleChat(){
   } catch(e){}
   titling = false;
 }
+function inl(p, s){
+  const re = /\*\*([^*]+)\*\*|`([^`]+)`/g; let last = 0, m;
+  while ((m = re.exec(s))){ if (m.index > last) p.appendChild(document.createTextNode(s.slice(last, m.index))); const e = document.createElement(m[1] ? 'b' : 'code'); e.textContent = m[1] || m[2]; p.appendChild(e); last = re.lastIndex; }
+  if (last < s.length) p.appendChild(document.createTextNode(s.slice(last)));
+}
+function mdNode(text){
+  const f = document.createDocumentFragment(), lines = String(text).split('\n'), isT = l => /^\s*\|.*\|\s*$/.test(l); let buf = [];
+  const flush = () => { if (buf.length){ const s = document.createElement('span'); inl(s, buf.join('\n')); f.appendChild(s); buf = []; } };
+  for (let i = 0; i < lines.length; i++){
+    if (isT(lines[i])){
+      let j = i; const rows = []; while (j < lines.length && isT(lines[j])){ rows.push(lines[j]); j++; }
+      if (rows.length >= 2 && /^\s*\|[\s:|-]+\|\s*$/.test(rows[1])){
+        flush(); const tb = document.createElement('table'); tb.className = 'mdt';
+        rows.forEach((r, ri) => { if (ri === 1) return; const tr = document.createElement('tr'); r.trim().replace(/^\||\|$/g, '').split('|').forEach(c => { const td = document.createElement(ri === 0 ? 'th' : 'td'); inl(td, c.trim()); tr.appendChild(td); }); tb.appendChild(tr); });
+        const w = document.createElement('div'); w.className = 'mdw'; w.appendChild(tb); f.appendChild(w); i = j - 1; continue;
+      }
+    }
+    buf.push(lines[i]);
+  }
+  flush(); return f;
+}
+function mdSet(el, text){ el.textContent = ''; el.appendChild(mdNode(text)); }
+function note(txt){ const n = $('note'); n.textContent = txt; n.classList.add('on'); clearTimeout(note.t); note.t = setTimeout(() => n.classList.remove('on'), 2600); }
+const THV = ['--bg','--panel','--line','--text','--mute','--violet','--teal','--me','--bot','--hd1','--hd2','--metext'];
+const THEMES = {
+  night:{n:'🌌 ليلي بنفسجي', v:{}},
+  ocean:{n:'🌊 محيط', v:{'--bg':'#07131f','--panel':'#0d2033','--line':'#1b3a57','--text':'#e6f3ff','--mute':'#7fa3c2','--violet':'#3b82f6','--teal':'#22d3ee','--me':'#1d5fd1','--bot':'#102a44','--hd1':'#0f2a45','--hd2':'#0d2033'}},
+  forest:{n:'🌿 غابة', v:{'--bg':'#08140e','--panel':'#10231a','--line':'#1f3d2d','--text':'#e7fbef','--mute':'#86b399','--violet':'#22c55e','--teal':'#a3e635','--me':'#178a49','--bot':'#12301f','--hd1':'#143324','--hd2':'#10231a'}},
+  sunset:{n:'🌇 غروب', v:{'--bg':'#160c14','--panel':'#261521','--line':'#4a2a3d','--text':'#ffeef2','--mute':'#c49aab','--violet':'#f43f5e','--teal':'#fb923c','--me':'#c2255c','--bot':'#321a2b','--hd1':'#3a1b30','--hd2':'#261521'}},
+  gold:{n:'👑 ذهبي', v:{'--bg':'#12100a','--panel':'#211c0f','--line':'#43391c','--text':'#fff7e0','--mute':'#b9a878','--violet':'#f59e0b','--teal':'#fde047','--me':'#b7791f','--bot':'#2a2312','--hd1':'#33290f','--hd2':'#211c0f'}},
+  amoled:{n:'⚫ أسود كامل', v:{'--bg':'#000000','--panel':'#0b0b0f','--line':'#1c1c26','--text':'#f2f2f7','--mute':'#8a8a9a','--violet':'#8b5cf6','--teal':'#2dd4bf','--me':'#5b34c9','--bot':'#111118','--hd1':'#0b0b0f','--hd2':'#000000'}},
+  light:{n:'☀️ فاتح (تجريبي)', v:{'--bg':'#f4f2fb','--panel':'#ffffff','--line':'#ddd8ef','--text':'#1a1630','--mute':'#6b6590','--violet':'#7c4dff','--teal':'#0d9488','--me':'#7c4dff','--bot':'#ebe8f7','--hd1':'#ffffff','--hd2':'#f4f2fb','--metext':'#ffffff'}}
+};
+let theme = store.get('limoai_theme', 'night'); if (!THEMES[theme]) theme = 'night';
+function applyTheme(k){ const r = document.documentElement.style; THV.forEach(v => r.removeProperty(v)); Object.entries(THEMES[k].v).forEach(([a, b]) => r.setProperty(a, b)); theme = k; }
+applyTheme(theme);
+function renderTheme(){ const l = $('themeList'); l.innerHTML = ''; Object.keys(THEMES).forEach(k => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (theme === k ? '✅ ' : '') + THEMES[k].n; b.onclick = () => { applyTheme(k); store.set('limoai_theme', k); renderTheme(); }; l.appendChild(b); }); }
 function tr(s){
   const k = String(s).trim(); if (!k) return s;
   if (lang === 'ar') return TRF[k] ? s.replace(k, TRF[k]) : s;
@@ -1139,15 +1217,27 @@ async function addFiles(files){
   renderPrev();
 }
 function addSticker(d, r){
-  if (r.emoji){ const e = document.createElement('div'); e.className = 'bigemo'; e.textContent = r.emoji; d.appendChild(e); }
-  else if (r.url){ const im = document.createElement('img'); im.className = 'stk'; im.alt = r.label; im.src = r.url; d.appendChild(im); }
-  else { const c = document.createElement('div'); c.className = 'chip'; c.textContent = '🖼️ ' + r.label; d.appendChild(c); }
+  if (r.emoji || r.url){
+    const w = document.createElement('div'); w.className = 'sx ' + (d.classList.contains('me') ? 'me' : 'bot');
+    if (r.emoji){ const e = document.createElement('div'); e.className = 'bigemo'; e.textContent = r.emoji; w.appendChild(e); }
+    else { const im = document.createElement('img'); im.className = 'stk'; im.alt = r.label; im.src = r.url; w.appendChild(im); }
+    let a = d; while (a.nextElementSibling && a.nextElementSibling.classList.contains('sx')) a = a.nextElementSibling;
+    a.after(w); chat.scrollTop = chat.scrollHeight;
+  } else { const c = document.createElement('div'); c.className = 'chip'; c.textContent = '🖼️ ' + r.label; d.appendChild(c); }
 }
 const GIFCATS = {hug:'حضن',pat:'تربيت',slap:'صفعة',laugh:'ضحك',cry:'بكاء',dance:'رقص',wave:'تلويح',wink:'غمزة',smile:'ابتسامة',blush:'خجل',angry:'غضب',bored:'ملل',facepalm:'يا ساتر',happy:'سعيد',nope:'لا',pout:'تذمر',shrug:'مدري',sleep:'نوم',think:'تفكير',thumbsup:'تمام',clap:'تصفيق',poke:'نكزة',punch:'لكمة',smug:'غرور',stare:'تحديق',baka:'غبي',nod:'موافق',highfive:'كف',salute:'احترام',yawn:'تثاؤب',run:'جري',kick:'ركلة'};
 const EMOS = [['😂','ضحك'],['🤣','ضحك شديد'],['😭','بكاء'],['😡','غضب'],['🥰','حب صحاب'],['😎','ثقة'],['🙄','ملل واستخفاف'],['😴','نعاس'],['🤯','صدمة'],['😱','خوف'],['🤔','تفكير'],['👍','تمام'],['👎','ما يعجبني'],['👏','تصفيق'],['🔥','نار'],['💀','مت من الضحك'],['🥺','استعطاف'],['😏','غرور'],['🤝','مصالحة'],['🙏','رجاء'],['😅','إحراج'],['🤮','قرف'],['🤡','مهرج'],['💔','زعل'],['🎉','احتفال'],['🫡','احترام'],['😤','غيظ'],['🙃','سخرية'],['😬','توتر'],['🤌','إيش تقصد']];
 let stkTab = 'gif', gifCat = 'laugh', cats = null, catFilter = '', animeQ = '', mine = store.get('limoai_stk', []);
 if (!Array.isArray(mine)) mine = [];
-function sendReaction(r){ $('stk').hidden = true; gc = (store.get('limoai_gifc', 0) || 0) + 1; store.set('limoai_gifc', gc); if (gc >= 5) ach('gifs5'); send(r); }
+let staged = null;
+function renderStaged(){
+  const s = $('stg'); s.innerHTML = ''; if (!staged){ s.hidden = true; return; } s.hidden = false;
+  let el; if (staged.emoji){ el = document.createElement('span'); el.className = 'stgem'; el.textContent = staged.emoji; } else { el = document.createElement('img'); el.src = staged.url; el.alt = staged.label; }
+  const tx = document.createElement('span'); tx.className = 'stgt'; tx.textContent = 'اكتب شي وأرسله معها، أو أرسلها لحالها';
+  const x = document.createElement('button'); x.textContent = '✕'; x.setAttribute('aria-label', 'إزالة'); x.onclick = () => { staged = null; renderStaged(); };
+  s.append(el, tx, x);
+}
+function sendReaction(r){ $('stk').hidden = true; gc = (store.get('limoai_gifc', 0) || 0) + 1; store.set('limoai_gifc', gc); if (gc >= 5) ach('gifs5'); staged = r; renderStaged(); inp.focus(); }
 let gc = 0;
 async function stkRender(){
   const g = $('grid'), c = $('cats'); g.innerHTML = ''; c.innerHTML = '';
@@ -1322,16 +1412,16 @@ function renderMem(){
     mem[k].forEach((txt, i) => {
       const r = document.createElement('div'); r.className = 'mi';
       const sp = document.createElement('span'); sp.dir = 'auto'; sp.textContent = txt; sp.title = 'اضغط للتعديل';
-      sp.onclick = () => { const v = prompt('عدّل:', txt); if (v !== null){ const t = v.trim(); if (t) mem[k][i] = t; else mem[k].splice(i, 1); saveMem(); renderMem(); } };
+      sp.onclick = () => { const v = prompt('عدّل:', txt); if (v !== null){ const t = v.trim(); if (t) mem[k][i] = t; else if (confirm('تحذف هالمعلومة؟')) mem[k].splice(i, 1); saveMem(); renderMem(); } };
       const b = document.createElement('button'); b.textContent = '✕'; b.setAttribute('aria-label', 'حذف');
-      b.onclick = () => { mem[k].splice(i, 1); saveMem(); renderMem(); };
+      b.onclick = () => { if (!confirm('متأكد تبي تحذف هالمعلومة؟')) return; mem[k].splice(i, 1); saveMem(); renderMem(); };
       r.append(sp, b); body.appendChild(r);
     });
   });
 }
 $('memBtn').onclick = () => { renderMem(); $('memDlg').showModal(); };
-function doReconcile(){ if (reconcile > 0) return; setMood('رايق'); history.forEach(h => { if (h.role === 'model'){ h.mood = 'رايق'; h.feel = ''; } }); reconcile = 6; FEELS.forEach(k => { feel[k] = k === 'رايق' ? 80 : Math.min(feel[k], 15); }); feel['زعل'] = 0; store.set('limoai_feel', feel); if ($('memDlg').open) $('memDlg').close(); bubble('err', '🤝 تم الصلح. مزاجه رجع رايق.'); }
-$('moodReset').onclick = doReconcile; $('relBtn').onclick = doReconcile;
+function doReconcile(){ if (reconcile > 0) return; setMood('رايق'); history.forEach(h => { if (h.role === 'model'){ h.mood = 'رايق'; h.feel = ''; } }); reconcile = 6; FEELS.forEach(k => { feel[k] = k === 'رايق' ? 80 : Math.min(feel[k], 15); }); feel['زعل'] = 0; store.set('limoai_feel', feel); if ($('memDlg').open) $('memDlg').close(); note('🤝 انحفظ الصلح، مزاجه رجع رايق'); }
+$('relBtn').onclick = () => { $('relBtn').hidden = true; doReconcile(); };
 $('memClose').onclick = () => $('memDlg').close();
 $('memClear').onclick = () => { if (confirm('تمسح كل الذاكرة؟')){ mem = {facts:[], rules:[]}; saveMem(); renderMem(); } };
 
@@ -1342,7 +1432,6 @@ document.querySelectorAll('img.logo').forEach(i => { if (!i.getAttribute('src'))
 showMood();
 render();
 if (lang !== 'gulf') setLang(lang);
-if (!store.get('limoai_key2', '') && !DEFAULT_KEY) setTimeout(() => $('setBtn').click(), 400);
 
 if (window.visualViewport){
   const vv = window.visualViewport;
@@ -1350,8 +1439,18 @@ if (window.visualViewport){
   vv.addEventListener('resize', fit); vv.addEventListener('scroll', fit); fit();
 }
 /* ---- more menu + terms + login ---- */
+$('newTop').onclick = () => $('newBtn').click();
+$('diTheme').onclick = () => { renderTheme(); showDV('dTheme'); };
+$('status').onclick = () => { const b = $('relBtn'); b.hidden = !b.hidden; };
+document.addEventListener('click', e => { if (!e.target.closest('#status, #relBtn')) $('relBtn').hidden = true; });
+(function(){ const s = $('stk'); let y0 = null;
+  s.addEventListener('touchstart', e => { y0 = s.scrollTop <= 0 ? e.touches[0].clientY : null; }, {passive:true});
+  s.addEventListener('touchmove', e => { if (y0 !== null && e.touches[0].clientY - y0 > 60){ s.hidden = true; y0 = null; } }, {passive:true});
+  s.addEventListener('touchend', () => { y0 = null; });
+  $('stkX').onclick = () => { s.hidden = true; };
+  chat.addEventListener('click', () => { s.hidden = true; });
+})();
 $('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('diMore').textContent = b.hidden ? '⌄ عرض المزيد' : '⌃ عرض أقل'; };
-$('diKeys').onclick = () => $('setBtn').click();
 (function(){
   const raw = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
   const g = document.createElement('div'); g.id = 'gate'; g.dir = 'rtl'; document.body.appendChild(g);
