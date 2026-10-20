@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<title>Limo ai — لوحة المطور</title>
+<title>Limo وضع المطور</title>
+<link rel="manifest" href="./manifest-dev.json">
+<meta name="theme-color" content="#000000">
+<link rel="apple-touch-icon" href="./icon-dev-192.png">
+<link rel="icon" href="./icon-dev-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Limo Dev">
+<script>window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); window.__dip = e; });</script>
 <style>
   :root{
     --bg:#0d0b1a; --panel:#17142b; --panel2:#1f1b3a; --panel3:#241f45; --border:#2d2850;
@@ -136,8 +144,8 @@
 <body>
 
 <div id="gate" class="gate">
-  <img src="./icon-512.png" alt="Limo">
-  <h1>لوحة مطور Limo ai</h1>
+  <img src="./icon-dev-512.png" alt="Limo Dev">
+  <h1>Limo وضع المطور</h1>
   <p id="gateMsg">هالصفحة مخصصة لصاحب التطبيق بس. سجّل دخول بحساب Google المصرّح له للمتابعة.</p>
   <button class="btn" id="loginBtn">تسجيل الدخول بـ Google</button>
 </div>
@@ -669,6 +677,8 @@ function renderSdr(){
   <select class="sf" id="qT"><option value="">أي وقت نشاط</option><option value="a1">نشط آخر 24 ساعة</option><option value="a7">نشط آخر أسبوع</option><option value="a30">نشط آخر شهر</option><option value="i7">خامل أكثر من أسبوع</option><option value="i30">خامل أكثر من شهر</option></select>
   <input class="sf" id="qW" placeholder="كلمة داخل المحادثات">
   <div class="sfr"><button class="sbtn" id="qGo" style="justify-content:center">تطبيق البحث</button><button class="sbtn" id="qRst" style="justify-content:center">مسح</button></div>
+  <h3>التطبيق</h3>
+  <button class="sbtn" id="tInst"><span>تثبيت وضع المطور كتطبيق</span></button>
   <h3>أدوات</h3>
   <button class="sbtn" id="tCopy"><span>نسخ إيميلات القائمة الحالية</span><b>${curList().filter(u => u.email).length}</b></button>
   <button class="sbtn" id="tMail"><span>مراسلة القائمة الحالية (BCC)</span></button>
@@ -692,6 +702,11 @@ function renderSdr(){
       if (w && !chatsText(u).includes(w)) return false; return true; });
   };
   $('qRst').onclick = () => { curPred = null; $('predBar').classList.remove('on'); renderList(); closeSdr(); };
+  $('tInst').onclick = async () => {
+    if (matchMedia('(display-mode: standalone)').matches || navigator.standalone){ toast('التطبيق مثبّت ومفتوح كتطبيق'); return; }
+    if (window.__dip){ window.__dip.prompt(); try { await window.__dip.userChoice; } catch(e){} window.__dip = null; return; }
+    toast(/iphone|ipad|ipod/i.test(navigator.userAgent) ? 'من زر المشاركة اختر: إضافة إلى الشاشة الرئيسية' : 'من قائمة المتصفح ⋮ اختر: تثبيت التطبيق أو إضافة إلى الشاشة الرئيسية');
+  };
   $('tCopy').onclick = () => navigator.clipboard.writeText(curList().map(u => u.email).filter(Boolean).join(', ')).then(() => toast('اننسخت الإيميلات')).catch(() => toast('ما قدرت أنسخ'));
   $('tMail').onclick = () => { const em = curList().map(u => u.email).filter(Boolean); if (!em.length){ toast('ما فيه إيميلات'); return; } location.href = 'mailto:?bcc=' + encodeURIComponent(em.join(',')) + '&subject=' + encodeURIComponent('رسالة من Limo ai'); };
   $('tCsv').onclick = () => exportCsv();
@@ -699,6 +714,9 @@ function renderSdr(){
   $('tRef').onclick = () => { closeSdr(); loadAll(); };
   $('tOv').onclick = () => { closeSdr(); goTab('overview'); };
 }
+</script>
+<script>
+if ('serviceWorker' in navigator) window.addEventListener('load', function(){ navigator.serviceWorker.register('./sw-dev.js', {scope: './dev.html'}).catch(function(){}); });
 </script>
 </body>
 </html>
