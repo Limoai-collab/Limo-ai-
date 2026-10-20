@@ -229,6 +229,35 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
 #grid .none{grid-column:1/-1;text-align:center;color:var(--mute);padding:24px 0}
 .sk{aspect-ratio:1;border-radius:16px;background:linear-gradient(100deg,var(--line) 30%,var(--panel) 50%,var(--line) 70%);background-size:200% 100%;animation:shm 1.1s linear infinite}
 @keyframes shm{to{background-position:-200% 0}}
+
+/* v3 */
+#grid{overscroll-behavior:contain}
+#pickDlg{width:min(76vw,240px);padding:10px;border-radius:16px}
+#pickDlg h3{font-size:14px;margin:2px 4px 8px}
+#pickDlg .pk{padding:8px 10px;font-size:13px;margin-bottom:5px;border-radius:10px}
+#pickDlg .row .ib{padding:6px 10px;font-size:12px;width:100%}
+.qa{position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);z-index:8;display:flex;flex-wrap:wrap;gap:6px;justify-content:center;width:max-content;max-width:94vw;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.qa[hidden]{display:none}
+.qa button{display:flex;align-items:center;gap:6px;border:1px solid var(--teal);background:var(--bg);color:var(--text);border-radius:14px;padding:7px 12px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.qa button[hidden]{display:none}
+.qa .ic{width:16px;height:16px;color:var(--teal)}
+.att{align-self:flex-start;display:flex;flex-wrap:wrap;gap:6px;max-width:84%;margin-bottom:-4px}
+.att .thumb{width:76px;height:76px;margin:0;border-radius:14px;border:1px solid var(--line)}
+.att .chip{margin:0;background:var(--panel);border:1px solid var(--line);align-self:center}
+#drawer{padding-bottom:0}
+#dMain:not([hidden]){display:flex;flex-direction:column;min-height:100%}
+.acc{margin:12px -14px 0;padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);border-radius:20px 20px 0 0;background:linear-gradient(135deg,color-mix(in srgb,var(--violet) 22%,var(--panel)),var(--panel));box-shadow:0 -8px 20px rgba(0,0,0,.3);position:sticky;bottom:0;gap:10px}
+.acc .ib{border-radius:12px;padding:7px 11px;font-size:12px;color:#fb7185;border:1px solid #fb718555;background:#fb71850f;white-space:nowrap}
+.nsec{font-size:13px;color:var(--mute);margin:14px 2px 6px}
+.nrow{display:flex;gap:6px;margin-bottom:8px}
+.nrow input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px;font:inherit;font-size:14px}
+.nrow button,.nsm{background:linear-gradient(135deg,var(--violet),var(--teal));color:#0d0b1a;border:0;border-radius:12px;padding:0 14px;font:inherit;font-weight:800;cursor:pointer}
+.nitem{display:flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:9px 10px;margin-bottom:6px;font-size:13px}
+.nitem div{flex:1;min-width:0;word-break:break-word}.nitem small{display:block;color:var(--mute);font-size:11px;margin-top:2px}
+.nitem button{background:none;border:0;color:#fb7185;font-size:16px;cursor:pointer}
+#remB{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));inset-inline:12px;z-index:60;background:var(--panel);border:1px solid var(--teal);border-radius:18px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.6);animation:shk .5s infinite}
+#remB b{display:block;margin-bottom:8px}#remB button{width:100%;padding:10px;border-radius:12px;border:0;font:inherit;font-weight:800;background:linear-gradient(135deg,var(--violet),var(--teal));color:#0d0b1a}
+@keyframes shk{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
 </style>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -238,13 +267,14 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
   <img class="logo" id="menuOrb" role="button" tabindex="0" aria-label="القائمة" alt="Limo ai">
   <div class="title"><b>Limo ai</b><br><small id="status">جاهز للسوالف</small></div>
   <button class="ntop" id="newTop" aria-label="دردشة جديدة"><i>＋</i> جديدة</button>
-  <button class="rpop" id="relBtn" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>تصالح</button>
+  
+  <div class="qa" id="qa" hidden><button id="relBtn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>تصالح</button><button id="mSurp"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/></svg>فاجئني</button><button id="mChal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>تحدٍّ</button><button id="mReact"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9v7a4.5 4.5 0 01-9 0zM11 12h9v3a4.5 4.5 0 01-9 0M7 9h0M10 9h0"/></svg>ردّ فعل</button></div>
   <button id="newBtn" hidden></button><button id="memBtn" hidden></button><button id="setBtn" hidden></button>
 </header>
 <main id="chat"></main>
 <div id="prev"></div>
 <footer>
-  <div id="menu" hidden><button id="mCam"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>الكاميرا</button><button id="mGal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>الصورة</button><button id="mFile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11l-8 8a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/></svg>ملف</button><button id="mVid"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10l5-3v10l-5-3z"/></svg>فيديو</button><button id="mSearch"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>التفكير العميق</button><button id="mSurp" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/></svg>فاجئني</button><button id="mChal" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>تحدٍّ</button><button id="mReact" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9v7a4.5 4.5 0 01-9 0zM11 12h9v3a4.5 4.5 0 01-9 0M7 9h0M10 9h0"/></svg>ردّ فعل</button></div>
+  <div id="menu" hidden><button id="mCam"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>الكاميرا</button><button id="mGal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>الصورة</button><button id="mFile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11l-8 8a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/></svg>ملف</button><button id="mVid"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10l5-3v10l-5-3z"/></svg>فيديو</button><button id="mSearch"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>التفكير العميق</button></div>
   <div id="stk" hidden><div class="grab" id="stkGrab"><span></span><button id="stkX" aria-label="إغلاق">✕</button></div><div class="tabs"><button id="tGif" class="on">GIF</button><button id="tStk">ستيكرز</button></div><div id="srow"><input id="sq" type="text" placeholder="ابحث: ضحك، hug، أو اسم أنمي" dir="rtl"><button id="sgo" aria-label="بحث"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></button></div><div id="cats"></div><div id="grid"></div></div>
   <div id="stg" hidden></div>
   <div class="cbar">
@@ -295,7 +325,7 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
     <button class="di" id="diTheme"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/></svg>المظهر</button>
     <button class="di" id="diBackup"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>نسخ احتياطي</button>
     <button class="di" id="diClear"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>مسح كل المحادثات</button>
-    <button class="di soon" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات (قريباً)</button></div>
+    <button class="di" id="diNotif"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات</button></div>
   <div id="dFeel" hidden><div class="dh"><button class="di back" id="bk3"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>المشاعر</b></div><div id="feelList"></div></div>
   <div id="dRel" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>العلاقة</b></div><div id="relList"></div></div>
   <div id="dData" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>البيانات</b></div><div id="dataBody"></div></div>
@@ -309,6 +339,7 @@ html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
   <div id="dTools" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>أدوات ليمو</b></div><div id="toolList"></div></div>
   <div id="dFont" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>حجم الخط</b></div><div class="fz"><div id="fsPrev" class="m bot">هذا نص تجريبي لمعاينة حجم الخط.</div><input type="range" id="fsR" min="0.85" max="1.5" step="0.05" value="1" aria-label="حجم الخط"><button class="pk" id="fsReset">الحجم الافتراضي</button></div></div>
   <div id="dVoice" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصوت والقراءة</b></div><div id="voiceBody"></div></div>
+  <div id="dNotif" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإشعارات</b></div><div id="notifBody"></div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
 </aside>
 <input type="file" id="stkIn" accept="image/*" hidden>
@@ -504,12 +535,16 @@ function bubble(role, text, imgs, names){
   d.className = 'm ' + role;
   if (role !== 'err') longPress(d, () => saveMoment(role, d.textContent));
   d.dir = 'auto';
-  if (imgs && imgs.length){
-    const w = document.createElement('div');
-    imgs.forEach(u => { const im = document.createElement('img'); im.src = u; im.className = 'thumb'; w.appendChild(im); });
-    d.appendChild(w);
+  if (role === 'me' && ((imgs && imgs.length) || (names && names.length))){
+    const at = document.createElement('div'); at.className = 'att';
+    (imgs || []).forEach(u => { const im = document.createElement('img'); im.src = u; im.className = 'thumb'; at.appendChild(im); });
+    (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = nm; at.appendChild(c); });
+    chat.appendChild(at); d._att = at; const rm = d.remove.bind(d); d.remove = () => { at.remove(); rm(); };
+    if (!text) return d;
+  } else {
+    if (imgs && imgs.length){ const w = document.createElement('div'); imgs.forEach(u => { const im = document.createElement('img'); im.src = u; im.className = 'thumb'; w.appendChild(im); }); d.appendChild(w); }
+    (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = nm; d.appendChild(c); });
   }
-  (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = nm; d.appendChild(c); });
   if (text) d.appendChild(role === 'bot' ? mdNode(text) : document.createTextNode(text));
   chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
@@ -734,6 +769,7 @@ async function send(react){
   const regen = !!(act && act.regen);
   const text = act ? act.label : ((react && !keepText) ? '' : inp.value.trim());
   if ((!text && !pending.length && !react) || busy) return;
+  if (!act && !react && text && window.limoRemHook) window.limoRemHook(text);
   const key = store.get('limoai_key2', '') || DEFAULT_KEY;
   if (!key){ fail('أضف مفتاح Gemini من الإعدادات ثم مفاتيح الاتصال أول.'); dlg.showModal(); return; }
   let model = String(store.get('limoai_model2', '') || '').trim().replace(/^models\//, '');
@@ -938,7 +974,7 @@ function renderGal(){
   gal.forEach(u => { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.src = u; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -993,7 +1029,7 @@ function sendAct(label, hint, id){ toggleMenu(false); ach(id); send({label, hint
 const SCEN = ['كسرت جوالك','نسيت أرد عليك يومين','فزت عليك في لعبة','أكلت آخر قطعة بيتزا','نجحت بالامتحان','سمعت إشاعة عنك','غيّرت اسمك'];
 $('mSurp').onclick = () => sendAct('🎲 فاجئني', 'المستخدم ضغط زر "فاجئني": ابدأ أنت موقفاً عشوائياً طريفاً (سؤال غريب أو مقلب بريء أو قصة قصيرة) بمزاجك الحالي وشخصيتك، واجعله تفاعلياً وانتظر رد المستخدم.', 'surprise');
 $('mChal').onclick = () => { toggleMenu(false); pick('⚡ اختر نوع التحدي', ['تحدّي مزاح','تحدّي ذكاء'], c => c === 'تحدّي مزاح' ? sendAct('⚡ ' + c, 'المستخدم يتحداك في المزاح: ابدأ مباراة قصف ونكت مضحكة بينكما وعدّوا النقاط، وتحداه بجملة أولى.', 'challenge') : sendAct('⚡ ' + c, 'المستخدم يتحداك في الذكاء: اطرح لغزاً أو سؤال تفكير واحد وانتظر جوابه، وبعدها احكم عليه وأعطه نقاط.', 'challenge')); };
-$('mReact').onclick = () => { toggleMenu(false); pick('🎭 اختر سيناريو', SCEN, sc => sendAct('🎭 ' + sc, 'سيناريو ردّ الفعل: المستخدم يقول لك: «' + sc + '». تفاعل مع هذا الموقف بمزاجك وشخصيتك وكأنه حصل فعلاً.', 'react')); };
+$('mReact').onclick = () => { toggleMenu(false); pick('🎭 اختر سيناريو', ['✍️ اكتب موقفك'].concat(SCEN), sc => { if (sc.indexOf('اكتب') > -1){ sc = (prompt('اكتب الموقف اللي تبي ليمو يتفاعل معه:') || '').trim(); if (!sc) return; } sendAct('🎭 ' + sc, 'سيناريو ردّ الفعل: المستخدم يقول لك: «' + sc + '». تفاعل مع هذا الموقف بمزاجك وشخصيتك وكأنه حصل فعلاً.', 'react'); }); };
 
 
 /* ---- language ---- */
@@ -1084,6 +1120,24 @@ const THEMES = {
   amoled:{n:'أسود كامل', v:{'--bg':'#000000','--panel':'#0b0b0f','--line':'#1c1c26','--text':'#f2f2f7','--mute':'#8a8a9a','--violet':'#8b5cf6','--teal':'#2dd4bf','--me':'#5b34c9','--bot':'#111118','--hd1':'#0b0b0f','--hd2':'#000000'}},
   light:{n:'فاتح (تجريبي)', v:{'--bg':'#f4f2fb','--panel':'#ffffff','--line':'#ddd8ef','--text':'#1a1630','--mute':'#6b6590','--violet':'#7c4dff','--teal':'#0d9488','--me':'#7c4dff','--bot':'#ebe8f7','--hd1':'#ffffff','--hd2':'#f4f2fb','--metext':'#ffffff'}}
 };
+
+(function(){
+  const T = (n, bg, pn, ln, tx, mu, v, t, me, bt, lt) => ({n, v:Object.assign({'--bg':bg,'--panel':pn,'--line':ln,'--text':tx,'--mute':mu,'--violet':v,'--teal':t,'--me':me,'--bot':bt,'--hd1':pn,'--hd2':bg}, lt ? {'--metext':'#ffffff'} : {})});
+  Object.assign(THEMES, {
+    sakura:T('ساكورا وردي','#1a0f16','#2a1722','#4d2a3f','#ffeef6','#c79ab3','#f472b6','#fbcfe8','#be3b83','#331a29'),
+    cyber:T('سايبر نيون','#05060f','#0b0e24','#1b2160','#e8f0ff','#7f8ad6','#00f0ff','#ff2bd6','#6a1fd6','#0f1433'),
+    mint:T('نعناع','#07161a','#0d2429','#1a4249','#e6fffb','#7fb8b0','#2dd4bf','#86efac','#0f8f83','#0f2f33'),
+    coffee:T('قهوة','#140e0a','#231810','#45301f','#fbeee0','#b79a82','#d6a56b','#f5d0a0','#8d5a2b','#2d1e13'),
+    midnight:T('أزرق منتصف الليل','#050816','#0c1230','#1a2559','#e8ecff','#8a96d4','#6366f1','#38bdf8','#3f42c9','#101842'),
+    lava:T('حمم','#150805','#27100a','#4f2015','#fff0ea','#c99282','#ef4444','#f59e0b','#b91c1c','#331409'),
+    aurora:T('شفق قطبي','#06120f','#0c211c','#18453b','#e9fff6','#78b8a5','#34d399','#a78bfa','#0d8a64','#0f2d26'),
+    grape:T('عنب','#10081a','#1c1030','#3a2160','#f3eaff','#a98ad4','#a855f7','#f0abfc','#7e22ce','#25133f'),
+    slate:T('رمادي هادئ','#0f1115','#1a1d24','#2d323d','#eceff4','#8b93a3','#94a3b8','#cbd5e1','#475569','#1f232b'),
+    peach:T('خوخي فاتح','#fff4ee','#ffffff','#f6d9cb','#3b1f14','#a07463','#fb7a5c','#f59e0b','#f26b4b','#fdeae1',1),
+    sky:T('سماوي فاتح','#eef7ff','#ffffff','#cfe3f5','#10243a','#5f7f9c','#2f8cff','#06b6d4','#2f8cff','#e2effb',1),
+    lemon:T('ليموني فاتح','#fbfbe9','#ffffff','#e6e7b8','#26280a','#7f8446','#84cc16','#eab308','#65a30d','#f1f3cf',1)
+  });
+})();
 let theme = store.get('limoai_theme', 'night'); if (!THEMES[theme]) theme = 'night';
 function applyTheme(k){ const r = document.documentElement.style; THV.forEach(v => r.removeProperty(v)); Object.entries(THEMES[k].v).forEach(([a, b]) => r.setProperty(a, b)); theme = k; }
 applyTheme(theme);
@@ -1560,13 +1614,10 @@ if (window.visualViewport){
 /* ---- more menu + terms + login ---- */
 $('newTop').onclick = () => $('newBtn').click();
 $('diTheme').onclick = () => { renderTheme(); showDV('dTheme'); };
-$('status').onclick = () => { const b = $('relBtn'); b.hidden = !b.hidden; };
-document.addEventListener('click', e => { if (!e.target.closest('#status, #relBtn')) $('relBtn').hidden = true; });
+$('status').onclick = () => { const q = $('qa'); q.hidden = !q.hidden; $('relBtn').hidden = false; };
+document.addEventListener('click', e => { if (!e.target.closest('#status')) $('qa').hidden = true; });
 (function(){ const s = $('stk'); let y0 = null;
-  s.addEventListener('touchstart', e => { y0 = s.scrollTop <= 0 ? e.touches[0].clientY : null; }, {passive:true});
-  s.addEventListener('touchmove', e => { if (y0 !== null && e.touches[0].clientY - y0 > 60){ s.hidden = true; y0 = null; } }, {passive:true});
-  s.addEventListener('touchend', () => { y0 = null; });
-  $('stkX').onclick = () => { s.hidden = true; };
+  $('stkX').onclick = () => { s.hidden = true; s.style.height = ''; };
   chat.addEventListener('click', () => { s.hidden = true; });
 })();
 /* ---- v2: features ---- */
@@ -1591,17 +1642,33 @@ sendBtn.onclick = () => busy ? stopGen() : send();
 /* read aloud */
 let speakingEl = null;
 const plainText = t => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/[*_`#>\[\]]/g, '').replace(/\p{Extended_Pictographic}/gu, '').replace(/\s+/g, ' ').trim();
-function stopSpeak(){ try { speechSynthesis.cancel(); } catch(e){} if (speakingEl){ speakingEl.classList.remove('on'); speakingEl = null; } }
+let spkId = 0;
+function stopSpeak(){ spkId++; try { speechSynthesis.cancel(); } catch(e){} if (speakingEl){ speakingEl.classList.remove('on'); speakingEl = null; } }
 function speak(text, btn){
   if (!('speechSynthesis' in window)){ note('القراءة الصوتية غير مدعومة في هذا المتصفح'); return; }
   if (btn && speakingEl === btn){ stopSpeak(); return; }
   stopSpeak(); const t = plainText(text); if (!t) return;
-  const u = new SpeechSynthesisUtterance(t); u.lang = /[\u0600-\u06FF]/.test(t) ? voiceLang : 'en-US';
-  const vs = speechSynthesis.getVoices(); const v = vs.find(x => x.lang.replace('_', '-') === u.lang) || vs.find(x => x.lang.slice(0, 2) === u.lang.slice(0, 2)); if (v) u.voice = v;
-  u.onend = u.onerror = () => { if (btn && speakingEl === btn) stopSpeak(); };
+  const id = spkId, lang = /[\u0600-\u06FF]/.test(t) ? voiceLang : 'en-US';
+  const parts = t.match(/[^.!?؟۔\n]+[.!?؟۔]?/g) || [t], chunks = []; let cur = '';
+  parts.forEach(p => { if ((cur + p).length > 170){ if (cur) chunks.push(cur); cur = p; } else cur += p; }); if (cur) chunks.push(cur);
   if (btn){ speakingEl = btn; btn.classList.add('on'); }
-  speechSynthesis.speak(u);
+  setTimeout(() => {
+    if (id !== spkId) return;
+    const vs = speechSynthesis.getVoices(), v = vs.find(x => x.lang.replace('_', '-') === lang) || vs.find(x => x.lang.slice(0, 2) === lang.slice(0, 2));
+    let i = 0;
+    const next = () => {
+      if (id !== spkId) return;
+      if (i >= chunks.length){ if (btn && speakingEl === btn) stopSpeak(); return; }
+      const u = new SpeechSynthesisUtterance(chunks[i++]); u.lang = lang; if (v) u.voice = v;
+      u.onend = next;
+      u.onerror = ev => { if (id !== spkId) return; if (ev.error === 'not-allowed' || ev.error === 'synthesis-failed' || ev.error === 'language-unavailable'){ note('تعذّر تشغيل الصوت، جرّب لهجة ثانية من الصوت والقراءة'); stopSpeak(); } else next(); };
+      speechSynthesis.speak(u);
+    };
+    try { speechSynthesis.resume(); } catch(e){}
+    next();
+  }, 130);
 }
+try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; } catch(e){}
 
 /* voice message (speech -> text -> auto send) */
 let rec = null, recOn = false, recText = '';
@@ -1649,14 +1716,12 @@ const EMO2G = {'😂':'laugh','🤣':'laugh','😭':'cry','😡':'angry','🥰':
   const st = $('stk'), gr = $('stkGrab'); let y0 = 0, h0 = 0, t0 = 0, on = false;
   const vh = () => innerHeight;
   gr.addEventListener('pointerdown', e => { if (e.target.closest('#stkX')) return; on = true; y0 = e.clientY; h0 = st.offsetHeight; t0 = Date.now(); st.style.transition = 'none'; try { gr.setPointerCapture(e.pointerId); } catch(_){} });
-  gr.addEventListener('pointermove', e => { if (!on) return; st.style.height = Math.min(vh() * .8, Math.max(0, h0 + (y0 - e.clientY))) + 'px'; });
+  gr.addEventListener('pointermove', e => { if (!on) return; st.style.height = Math.min(vh() * .88, Math.max(0, h0 + (y0 - e.clientY))) + 'px'; });
   const end = e => {
     if (!on) return; on = false; st.style.transition = '';
-    const h = st.offsetHeight, v = (y0 - e.clientY) / Math.max(1, Date.now() - t0), snaps = [.42 * vh(), .78 * vh()];
-    if (h < vh() * .16 || (v < -1.4 && h < vh() * .3)){ st.hidden = true; st.style.height = snaps[0] + 'px'; return; }
-    let target = h > (snaps[0] + snaps[1]) / 2 ? snaps[1] : snaps[0];
-    if (v > .6) target = snaps[1]; else if (v < -.6) target = snaps[0];
-    st.style.height = target + 'px';
+    const h = st.offsetHeight;
+    if (h < 70){ st.hidden = true; st.style.height = ''; return; }
+    st.style.height = Math.max(150, h) + 'px';
   };
   gr.addEventListener('pointerup', end); gr.addEventListener('pointercancel', end);
 })();
@@ -1770,6 +1835,87 @@ $('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('d
   else if (me) box.innerHTML = av(me) + '<div class="an" dir="auto"><b>' + esc2(me.name) + '</b><small>' + esc2(me.email) + '</small></div><button class="ib" id="accBtn">تسجيل الخروج</button>';
   if ($('accBtn')) $('accBtn').onclick = () => { if (GUEST){ try { sessionStorage.removeItem('limoai_guest'); } catch(e){} location.reload(); } else if (confirm('متأكد إنك تبي تسجّل الخروج؟')){ raw.del('limoai_cur_acct'); const go = () => location.reload(); if (web()) fb().then(x => x.au.signOut(x.auth)).then(go, go); else go(); } };
   next();
+})();
+
+/* ---- notifications / reminders ---- */
+(function(){
+  const G = (k, d) => store.get(k, d), S = (k, v) => store.set(k, v), pad = n => String(n).padStart(2, '0');
+  const fmt = t => { const d = new Date(t); return d.toLocaleDateString('ar') + ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+  const rems = () => G('limoai_rem', []), logs = () => G('limoai_nlog', []);
+  let vibT = null;
+  const addLog = (title, body) => { const l = logs(); l.unshift({t:Date.now(), title, body}); S('limoai_nlog', l.slice(0, 50)); };
+  const buzz = () => { try { navigator.vibrate && navigator.vibrate([500, 200, 500, 200, 900]); } catch(e){} };
+  function banner(text){
+    const old = $('remB'); if (old) old.remove();
+    const b = document.createElement('div'); b.id = 'remB'; b.dir = 'auto';
+    b.innerHTML = '<b>⏰ تذكير من ليمو</b>'; const p = document.createElement('div'); p.textContent = text; p.style.marginBottom = '10px'; b.appendChild(p);
+    const x = document.createElement('button'); x.textContent = 'تمام، شفته'; x.onclick = () => { clearInterval(vibT); try { navigator.vibrate(0); } catch(e){} b.remove(); }; b.appendChild(x);
+    document.body.appendChild(b);
+    if (G('limoai_vib', true)){ clearInterval(vibT); buzz(); let n = 0; vibT = setInterval(() => { if (++n > 20 || !$('remB')) clearInterval(vibT); else buzz(); }, 2500); }
+  }
+  function sysNote(title, body){ try { if ('Notification' in window && Notification.permission === 'granted') new Notification(title, {body}); } catch(e){} }
+  function fire(title, body, isRem){ addLog(title, body); if (isRem) banner(body); else note(title + ': ' + body.split('\n')[0]); sysNote(title, body); }
+  function tick(){
+    const l = rems(), now = Date.now(); let ch = false;
+    l.forEach(r => { if (!r.done && r.t <= now){ r.done = true; ch = true; if (now - r.t > 90000) fire('🕘 تذكير فاتك', r.text + ' (' + fmt(r.t) + ')', false); else fire('⏰ تذكير', r.text, true); } });
+    if (ch) S('limoai_rem', l);
+  }
+  setInterval(tick, 8000); setTimeout(tick, 2500);
+  const D = {'٠':0,'١':1,'٢':2,'٣':3,'٤':4,'٥':5,'٦':6,'٧':7,'٨':8,'٩':9};
+  function parse(raw){
+    const x = raw.replace(/[٠-٩]/g, c => D[c]);
+    if (!/ذ[كك]ّ?رني|نبّ?هني|remind me/i.test(x)) return null;
+    let t = null, cut = '', now = new Date(), mm;
+    if ((mm = x.match(/بعد\s*(ساعتين|دقيقتين|يومين)/))){ t = Date.now() + ({ساعتين:7200e3, دقيقتين:120e3, يومين:172800e3})[mm[1]]; cut = mm[0]; }
+    else if ((mm = x.match(/بعد\s*(\d+)?\s*(ثانية|ثواني|ثانيه|دقيقة|دقائق|دقيقه|دقايق|ساعة|ساعات|ساعه|يوم|أيام|ايام)/))){
+      const n = Number(mm[1] || 1), u = mm[2], ms = /ثان/.test(u) ? 1e3 : /دق/.test(u) ? 6e4 : /ساع/.test(u) ? 36e5 : 864e5; t = Date.now() + n * ms; cut = mm[0];
+    } else if ((mm = x.match(/(?:الساعة|الساعه|الساعة)\s*(\d{1,2})(?::(\d{2}))?\s*(صباحا|صباحاً|الصبح|صباح|مساء|مساءً|العصر|الليل|بالليل|الظهر|بعد الظهر)?/))){
+      let h = Number(mm[1]), mi = Number(mm[2] || 0); const w = mm[3] || '', d = new Date(); d.setSeconds(0, 0);
+      const pm = /مساء|العصر|الليل|بالليل|بعد الظهر|الظهر/.test(w); if (pm && h < 12) h += 12; if (/صباح|الصبح/.test(w) && h === 12) h = 0;
+      d.setHours(h, mi); if (/بكر|غد/.test(x)) d.setDate(d.getDate() + 1); else if (d <= new Date()){ if (!w && h < 12){ d.setHours(h + 12); } if (d <= new Date()) d.setDate(d.getDate() + 1); }
+      t = d.getTime(); cut = mm[0];
+    } else if (/بكر[اهة]|غدا|غداً/.test(x)){ const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(9, 0, 0, 0); t = d.getTime(); }
+    if (!t) return null;
+    let what = x.replace(cut, ' ').replace(/ذ[كك]ّ?رني|نبّ?هني|remind me|بكر[اهة]|غدا|غداً/g, ' ').replace(/\s+/g, ' ').trim().replace(/^(?:ب|أن|ان|إن|اني|أني|إني|بأن|أنو|انو)\s+/, '').trim();
+    return {t, text: what || 'تذكير'};
+  }
+  window.limoRemHook = text => { const r = parse(text); if (!r) return; const l = rems(); l.push({id:Date.now(), t:r.t, text:r.text, done:false}); S('limoai_rem', l); note('⏰ ضبطت التذكير: ' + fmt(r.t)); };
+
+  const INT = /يحب|يهتم|مهتم|يتابع|مشجع|هواي|عاشق|لعبة|gta|فريق|أنمي|انمي/i;
+  const interests = () => { const f = ((typeof mem !== 'undefined' && mem.facts) || []).map(x => typeof x === 'string' ? x : (x.text || x.t || x.fact || '')).filter(Boolean); const a = f.filter(x => INT.test(x)); return (a.length ? a : f).slice(-6); };
+  async function checkInt(force){
+    if (!G('limoai_intnews', false)) return;
+    if (!force && Date.now() - G('limoai_intlast', 0) < 3 * 36e5) return;
+    S('limoai_intlast', Date.now()); const its = interests();
+    if (!its.length){ if (force) note('ليمو ما عرف اهتماماتك لسا، احكي له عنها بالدردشة'); return; }
+    const seen = G('limoai_intseen', []); let found = 0;
+    for (const it of its.slice(-3)){
+      const r = await tavilySearch(it.slice(0, 80) + ' آخر الأخبار'); if (!r || !r.src) continue;
+      const hit = r.src.find(z => !seen.includes(z.uri)); if (hit){ seen.push(hit.uri); found++; fire('📰 خبر يخصك', hit.title + '\n' + hit.uri, false); }
+    }
+    S('limoai_intseen', seen.slice(-200)); if (force && !found) note('ما في جديد حالياً');
+  }
+  setTimeout(() => checkInt(false), 6000); setInterval(() => checkInt(false), 20 * 6e4);
+
+  function render(){
+    const el = $('notifBody'); el.innerHTML = '';
+    const perm = 'Notification' in window ? Notification.permission : 'unsupported';
+    const pb = document.createElement('button'); pb.className = 'pk'; pb.textContent = perm === 'granted' ? '✓ إشعارات النظام مفعّلة' : 'تفعيل إشعارات النظام (' + (perm === 'denied' ? 'محظورة من المتصفح' : 'اطلب الإذن') + ')';
+    pb.onclick = () => { if ('Notification' in window) Notification.requestPermission().then(render); else note('المتصفح ما يدعم الإشعارات'); }; el.appendChild(pb);
+    chips(el, 'تنبيهات اهتماماتك (ليمو يخبرك بالجديد)', [[true,'مفعّلة'],[false,'متوقفة']], G('limoai_intnews', false), k => { S('limoai_intnews', k); render(); if (k) checkInt(true); });
+    chips(el, 'اهتزاز عند التذكير', [[true,'مفعّل'],[false,'متوقف']], G('limoai_vib', true), k => { S('limoai_vib', k); render(); });
+    const h = document.createElement('div'); h.className = 'nsec'; h.textContent = '⏰ تذكير جديد (أو قول لليمو في الدردشة: ذكرني بعد ساعة أسوي كذا)'; el.appendChild(h);
+    const row = document.createElement('div'); row.className = 'nrow'; row.style.flexDirection = 'column';
+    row.innerHTML = '<input id="rmT" placeholder="شو تبي أذكرك فيه؟" dir="auto"><input id="rmD" type="datetime-local"><button class="nsm" id="rmGo" style="padding:10px">إضافة التذكير</button>'; el.appendChild(row);
+    $('rmGo').onclick = () => { const tx = $('rmT').value.trim(), d = new Date($('rmD').value).getTime(); if (!tx || !d || d < Date.now()){ note('اكتب التذكير واختر وقت قادم'); return; } const l = rems(); l.push({id:Date.now(), t:d, text:tx, done:false}); S('limoai_rem', l); note('⏰ تمت الإضافة'); render(); };
+    const act = rems().filter(r => !r.done).sort((a, b) => a.t - b.t);
+    act.forEach(r => { const it = document.createElement('div'); it.className = 'nitem'; const d = document.createElement('div'); d.dir = 'auto'; d.textContent = r.text; const sm = document.createElement('small'); sm.textContent = fmt(r.t); d.appendChild(sm); const x = document.createElement('button'); x.textContent = '✕'; x.onclick = () => { S('limoai_rem', rems().filter(z => z.id !== r.id)); render(); }; it.append(d, x); el.appendChild(it); });
+    const h2 = document.createElement('div'); h2.className = 'nsec'; h2.textContent = 'سجل الإشعارات'; el.appendChild(h2);
+    const lg = logs(); if (!lg.length){ const e = document.createElement('div'); e.className = 'nitem'; e.textContent = 'ما في إشعارات بعد'; el.appendChild(e); }
+    lg.forEach(n => { const it = document.createElement('div'); it.className = 'nitem'; const d = document.createElement('div'); d.dir = 'auto'; d.textContent = n.title + ' — ' + n.body; const sm = document.createElement('small'); sm.textContent = fmt(n.t); d.appendChild(sm); it.appendChild(d); el.appendChild(it); });
+    if (lg.length){ const c = document.createElement('button'); c.className = 'pk'; c.textContent = 'مسح السجل'; c.onclick = () => { S('limoai_nlog', []); render(); }; el.appendChild(c); }
+  }
+  $('diNotif').onclick = () => { render(); showDV('dNotif'); };
 })();
 </script>
 </body>
