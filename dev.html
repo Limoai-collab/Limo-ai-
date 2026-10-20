@@ -7,57 +7,67 @@
 <title>Limo ai — لوحة المطور</title>
 <style>
   :root{
-    --bg:#0d0b1a; --panel:#17142b; --panel2:#1f1b3a; --border:#2d2850;
+    --bg:#0d0b1a; --panel:#17142b; --panel2:#1f1b3a; --panel3:#241f45; --border:#2d2850;
     --violet:#8b5cf6; --teal:#2dd4bf; --text:#ece9ff; --muted:#9892c4;
     --danger:#f87171; --warn:#fbbf24; --ok:#34d399;
   }
-  *{box-sizing:border-box}
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
   html,body{height:100%}
   body{
     margin:0; background:linear-gradient(180deg,#140f2e,var(--bg) 40%); color:var(--text);
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Tahoma,Arial,sans-serif;
-    padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+    padding-top:env(safe-area-inset-top,0px); padding-bottom:calc(70px + env(safe-area-inset-bottom,0px));
     min-height:100%;
   }
-  .wrap{max-width:1100px; margin:0 auto; padding:16px}
+  .wrap{max-width:1100px; margin:0 auto; padding:14px}
   .gate{min-height:90vh; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:16px; text-align:center; padding:24px}
   .gate img{width:84px; height:84px; border-radius:22px}
   .gate h1{font-size:20px; margin:0}
   .gate p{color:var(--muted); font-size:14px; max-width:320px; line-height:1.7}
-  button{font-family:inherit; cursor:pointer; border:none}
-  .btn{background:linear-gradient(135deg,var(--violet),#6d28d9); color:#fff; padding:12px 22px; border-radius:14px; font-size:15px; font-weight:600}
+  button{font-family:inherit; cursor:pointer; border:none; color:inherit}
+  svg.ic{width:18px; height:18px; stroke:currentColor; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:none}
+  .btn{background:linear-gradient(135deg,var(--violet),#6d28d9); color:#fff; padding:12px 22px; border-radius:14px; font-size:15px; font-weight:600; display:inline-flex; align-items:center; gap:8px}
   .btn:active{transform:scale(.97)}
   .btn.ghost{background:transparent; border:1px solid var(--border); color:var(--text)}
   .btn.danger{background:rgba(248,113,113,.15); color:var(--danger); border:1px solid rgba(248,113,113,.4)}
-  .btn.small{padding:7px 12px; font-size:12.5px; border-radius:10px}
+  .btn.ok2{background:rgba(52,211,153,.12); color:var(--ok); border:1px solid rgba(52,211,153,.35)}
+  .btn.small{padding:7px 14px; font-size:12.5px; border-radius:10px}
   header.top{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 4px; position:sticky; top:env(safe-area-inset-top,0px); background:var(--bg); z-index:5; border-bottom:1px solid var(--border)}
   header.top .who{display:flex; align-items:center; gap:10px; font-size:13px; color:var(--muted)}
   header.top .who img{width:30px; height:30px; border-radius:50%}
-  h2.sec{font-size:15px; color:var(--muted); margin:26px 2px 10px; font-weight:600}
-  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px}
-  .card{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:14px}
+  h2.sec{font-size:14px; color:var(--muted); margin:22px 2px 10px; font-weight:600; display:flex; align-items:center; gap:7px}
+  .grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(145px,1fr)); gap:10px}
+  .card{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:14px; text-align:right}
+  .card.clickable{cursor:pointer}
+  .card.clickable:active{background:var(--panel2)}
+  .card .top-ic{color:var(--teal); margin-bottom:8px}
   .card .num{font-size:22px; font-weight:700}
   .card .lbl{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.5}
   .card .note{font-size:10.5px; color:#716c99; margin-top:6px; line-height:1.5}
-  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
   input[type=text]{
     width:100%; background:var(--panel2); border:1px solid var(--border); color:var(--text);
     padding:11px 14px; border-radius:12px; font-size:14px; outline:none;
   }
+  select{background:var(--panel2); border:1px solid var(--border); color:var(--text); padding:9px 12px; border-radius:10px; font-size:13px; outline:none}
+  .chip{background:var(--panel2); border:1px solid var(--border); color:var(--muted); padding:7px 14px; border-radius:999px; font-size:12.5px; display:inline-flex; align-items:center; gap:6px}
+  .chip.on{background:rgba(139,92,246,.22); color:var(--text); border-color:var(--violet)}
   .list{display:flex; flex-direction:column; gap:8px; margin-top:10px}
   .urow{background:var(--panel); border:1px solid var(--border); border-radius:14px; padding:12px 14px; display:flex; align-items:center; gap:12px; cursor:pointer}
   .urow:active{background:var(--panel2)}
   .urow img{width:38px; height:38px; border-radius:50%; flex:none; background:#333}
   .urow .meta{flex:1; min-width:0}
   .urow .meta .n{font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .urow .meta .e{font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-  .badge{font-size:10.5px; padding:3px 8px; border-radius:999px; white-space:nowrap}
+  .urow .meta .e{font-size:11.5px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+  .badge{font-size:10.5px; padding:3px 9px; border-radius:999px; white-space:nowrap; display:inline-flex; align-items:center; gap:4px}
   .badge.flag{background:rgba(248,113,113,.18); color:var(--danger)}
   .badge.blocked{background:rgba(248,113,113,.28); color:var(--danger)}
-  .badge.ok{background:rgba(52,211,153,.15); color:var(--ok)}
+  .badge.ok{background:rgba(52,211,153,.14); color:var(--ok)}
   .topics{display:flex; flex-wrap:wrap; gap:8px}
   .topics span{background:var(--panel2); border:1px solid var(--border); padding:6px 12px; border-radius:999px; font-size:12.5px}
   .topics span b{color:var(--teal)}
+  .panel{background:var(--panel); border:1px solid var(--border); border-radius:16px; padding:14px}
+  .chartwrap{overflow-x:auto}
   .overlay{position:fixed; inset:0; background:var(--bg); z-index:40; overflow-y:auto; display:none}
   .overlay.on{display:block}
   .ov-head{display:flex; align-items:center; gap:12px; padding:14px 16px; border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--bg); z-index:2}
@@ -75,8 +85,22 @@
   .empty{text-align:center; color:var(--muted); font-size:13px; padding:40px 10px}
   .spin{width:30px; height:30px; border-radius:50%; border:3px solid var(--border); border-top-color:var(--teal); animation:sp 1s linear infinite; margin:0 auto}
   @keyframes sp{to{transform:rotate(360deg)}}
-  .flagwarn{background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.35); color:#fca5a5; font-size:12.5px; padding:10px 14px; border-radius:12px; margin-bottom:12px; line-height:1.8}
-  .toast{position:fixed; bottom:calc(20px + env(safe-area-inset-bottom,0px)); left:50%; transform:translateX(-50%); background:var(--panel2); border:1px solid var(--border); padding:10px 18px; border-radius:999px; font-size:13px; z-index:60; display:none}
+  .flagwarn{background:rgba(248,113,113,.1); border:1px solid rgba(248,113,113,.35); color:#fca5a5; font-size:12.5px; padding:10px 14px; border-radius:12px; margin-bottom:12px; line-height:1.8; display:flex; gap:8px}
+  .toast{position:fixed; bottom:calc(84px + env(safe-area-inset-bottom,0px)); left:50%; transform:translateX(-50%); background:var(--panel2); border:1px solid var(--border); padding:10px 18px; border-radius:999px; font-size:13px; z-index:60; display:none}
+  .tabbar{position:fixed; bottom:0; left:0; right:0; background:var(--bg); border-top:1px solid var(--border); display:flex; z-index:30; padding-bottom:env(safe-area-inset-bottom,0px)}
+  .tabbar button{flex:1; background:none; display:flex; flex-direction:column; align-items:center; gap:3px; padding:10px 4px 8px; color:var(--muted); font-size:10.5px}
+  .tabbar button.on{color:var(--teal)}
+  .tabbar button .n{position:relative}
+  .tabbar button .dot{position:absolute; top:-3px; left:-8px; width:7px; height:7px; border-radius:50%; background:var(--danger); display:none}
+  .tabbar button.hasdot .dot{display:block}
+  .pane{display:none}
+  .pane.on{display:block}
+  .countrow{display:flex; justify-content:space-between; font-size:13px; padding:8px 4px; border-bottom:1px solid var(--border)}
+  .countrow:last-child{border-bottom:none}
+  .sortrow{display:flex; gap:8px; align-items:center; margin:10px 0}
+  table.dbg{width:100%; border-collapse:collapse; font-size:12px}
+  table.dbg td{padding:7px 4px; border-bottom:1px solid var(--border); color:var(--muted)}
+  table.dbg td:last-child{color:var(--text); text-align:left; direction:ltr}
 </style>
 </head>
 <body>
@@ -95,19 +119,85 @@
         <img id="meImg" src="" alt="">
         <span id="meName">—</span>
       </div>
-      <button class="btn ghost small" id="logoutBtn">خروج</button>
+      <div class="row">
+        <button class="btn ghost small" id="refreshBtn">تحديث</button>
+        <button class="btn ghost small" id="logoutBtn">خروج</button>
+      </div>
     </header>
 
-    <h2 class="sec">نظرة عامة</h2>
-    <div id="stats" class="grid"><div class="card"><div class="spin"></div></div></div>
+    <!-- ===== نظرة عامة ===== -->
+    <section id="pane-overview" class="pane on">
+      <h2 class="sec">النظرة العامة</h2>
+      <div id="stats" class="grid"><div class="card"><div class="spin"></div></div></div>
 
-    <h2 class="sec">أكثر المواضيع</h2>
-    <div id="topics" class="topics"><span style="color:var(--muted)">...جاري التحليل</span></div>
+      <h2 class="sec">الاستخدام اليومي (آخر 14 يوم)</h2>
+      <div class="panel chartwrap"><svg id="chart" width="640" height="190"></svg></div>
 
-    <h2 class="sec">المستخدمون (<span id="uCount">0</span>)</h2>
-    <input type="text" id="search" placeholder="ابحث بالاسم أو الإيميل...">
-    <div id="list" class="list"><div class="empty"><div class="spin"></div></div></div>
+      <h2 class="sec">أكثر المواضيع تكراراً</h2>
+      <div id="topics" class="topics panel"><span style="color:var(--muted)">...جاري التحليل</span></div>
+
+      <h2 class="sec">المناطق الزمنية (تقدير الدولة/المدينة)</h2>
+      <div id="countries" class="panel"></div>
+    </section>
+
+    <!-- ===== المستخدمون ===== -->
+    <section id="pane-users" class="pane">
+      <h2 class="sec">المستخدمون (<span id="uCount">0</span>)</h2>
+      <input type="text" id="search" placeholder="ابحث بالاسم أو الإيميل...">
+      <div class="sortrow">
+        <div class="row" id="filters">
+          <button class="chip on" data-f="all">الكل</button>
+          <button class="chip" data-f="today">نشطين اليوم</button>
+          <button class="chip" data-f="flag">فيها تنبيه ⚠️</button>
+          <button class="chip" data-f="blocked">محظورين</button>
+        </div>
+      </div>
+      <div class="row" style="margin-bottom:4px">
+        <span style="font-size:12px; color:var(--muted)">الترتيب:</span>
+        <select id="sortSel">
+          <option value="active">آخر نشاط</option>
+          <option value="sessions">أكثر جلسات</option>
+          <option value="chats">أكثر محادثات</option>
+          <option value="name">الاسم</option>
+        </select>
+      </div>
+      <div id="list" class="list"><div class="empty"><div class="spin"></div></div></div>
+    </section>
+
+    <!-- ===== الإعدادات ===== -->
+    <section id="pane-settings" class="pane">
+      <h2 class="sec">معلومات تقنية</h2>
+      <div class="panel">
+        <table class="dbg">
+          <tr><td>مشروع Firebase</td><td>limo-ai-b546f</td></tr>
+          <tr><td>UID المصرّح له</td><td id="dbgUid" style="word-break:break-all"></td></tr>
+          <tr><td>عدد الوثائق المحمّلة</td><td id="dbgCount">0</td></tr>
+        </table>
+      </div>
+      <h2 class="sec">ملاحظات صدق مهمة</h2>
+      <div class="panel" style="font-size:13px; color:var(--muted); line-height:2">
+        • <b style="color:var(--text)">نسبة الخمول</b> تقريبية، مبنية على آخر نشاط مسجّل — التطبيق ما يقدر يعرف لحظة إغلاق التبويب فعلياً.<br>
+        • <b style="color:var(--text)">الجنس/العمر</b> مو متوفرين: تسجيل الدخول بجوجل ما يعطينا هالبيانات، وما نجمعها من المستخدم مباشرة احتراماً لخصوصيته إلا لو قررت تضيف سؤال اختياري بالتطبيق لاحقاً.<br>
+        • <b style="color:var(--text)">تنبيه المحتوى</b> مبني على كلمات دلالية بسيطة لضيق نفسي/خطر على النفس، مو نظام ذكاء اصطناعي — ممكن يفوت حالات أو ينبّه بالخطأ، استخدمه كمؤشر أولي بس.
+      </div>
+    </section>
+
   </div>
+</div>
+
+<div class="tabbar" id="tabbar" style="display:none">
+  <button class="on" data-tab="overview">
+    <svg class="ic" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="14" y="12" width="7" height="9" rx="1.5"></rect><rect x="3" y="16" width="7" height="5" rx="1.5"></rect></svg>
+    نظرة عامة
+  </button>
+  <button data-tab="users">
+    <span class="n"><svg class="ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"></circle><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"></path><circle cx="18" cy="9" r="2.6"></circle><path d="M16 14.2c2.6.3 4.5 2.5 4.5 5.1"></path></svg><span class="dot"></span></span>
+    المستخدمون
+  </button>
+  <button data-tab="settings">
+    <svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"></circle><path d="M19.4 13.5a7.6 7.6 0 0 0 0-3l2-1.6-2-3.4-2.4.6a7.5 7.5 0 0 0-2.6-1.5L14 2h-4l-.4 2.6a7.5 7.5 0 0 0-2.6 1.5l-2.4-.6-2 3.4 2 1.6a7.6 7.6 0 0 0 0 3l-2 1.6 2 3.4 2.4-.6a7.5 7.5 0 0 0 2.6 1.5L10 22h4l.4-2.6a7.5 7.5 0 0 0 2.6-1.5l2.4.6 2-3.4-2-1.6Z"></path></svg>
+    الإعدادات
+  </button>
 </div>
 
 <div id="overlay" class="overlay">
@@ -130,7 +220,7 @@ const ADMIN_UID = "FJItvYBKNFgotglwDrv4DRmDUyC3"; // حسابك بس يقدر ي
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, collection, getDocs, doc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 const app = initializeApp(FBC);
 const auth = getAuth(app);
@@ -138,6 +228,7 @@ const db = getFirestore(app);
 
 const $ = (id) => document.getElementById(id);
 function toast(t){ const el = $('toast'); el.textContent = t; el.style.display = 'block'; clearTimeout(window.__tt); window.__tt = setTimeout(() => el.style.display = 'none', 2200); }
+function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
 
 // ---- تسجيل الدخول ----
 $('loginBtn').onclick = async () => {
@@ -146,13 +237,14 @@ $('loginBtn').onclick = async () => {
   catch(e){ if (e.code === 'auth/popup-blocked' || e.code === 'auth/cancelled-popup-request'){ await signInWithRedirect(auth, pr); } else { toast('صار خطأ بتسجيل الدخول'); } }
 };
 $('logoutBtn').onclick = () => signOut(auth).then(() => location.reload());
-
+$('refreshBtn').onclick = () => loadAll();
 getRedirectResult(auth).catch(() => {});
 
 let ALL_USERS = [];
+let curFilter = 'all', curSort = 'active';
 
 onAuthStateChanged(auth, async (u) => {
-  if (!u){ $('gate').style.display = 'flex'; $('app').style.display = 'none'; return; }
+  if (!u){ $('gate').style.display = 'flex'; $('app').style.display = 'none'; $('tabbar').style.display = 'none'; return; }
   if (u.uid !== ADMIN_UID){
     $('gateMsg').textContent = 'هذا الحساب ما عنده صلاحية دخول لوحة المطور.';
     $('gateMsg').style.color = '#fca5a5';
@@ -162,45 +254,53 @@ onAuthStateChanged(auth, async (u) => {
   }
   $('gate').style.display = 'none';
   $('app').style.display = 'block';
+  $('tabbar').style.display = 'flex';
   $('meImg').src = u.photoURL || './icon-192.png';
   $('meName').textContent = u.displayName || u.email || 'المطور';
+  $('dbgUid').textContent = u.uid;
   loadAll();
 });
 
-// ---- تحميل كل المستخدمين وحساب الإحصائيات ----
-const STOP = new Set(['من','في','على','الى','إلى','عن','مع','هذا','هذه','ذلك','التي','الذي','كان','كانت','يكون','انا','أنا','انت','أنت','هو','هي','احنا','نحن','هم','ما','لا','لم','لن','قد','كل','بس','يعني','شو','وش','ليش','كيف','وين','متى','هل','او','أو','ثم','لكن','بين','عند','كذا','زي','الان','اليوم','the','and','you','is','are','in','on','to','of','for','with','that','this','it','was','were','what','how','why','when','where']);
+// ---- تبويبات ----
+[...document.querySelectorAll('.tabbar button')].forEach(b => b.onclick = () => {
+  [...document.querySelectorAll('.tabbar button')].forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  [...document.querySelectorAll('.pane')].forEach(p => p.classList.remove('on'));
+  $('pane-' + b.dataset.tab).classList.add('on');
+});
+function goTab(name, filter){
+  document.querySelector(`.tabbar button[data-tab="${name}"]`).click();
+  if (filter){ curFilter = filter; [...document.querySelectorAll('#filters .chip')].forEach(c => c.classList.toggle('on', c.dataset.f === filter)); renderList(); }
+}
 
+// ---- تحليل المواضيع ----
+const STOP = new Set(['من','في','على','الى','إلى','عن','مع','هذا','هذه','ذلك','التي','الذي','كان','كانت','يكون','انا','أنا','انت','أنت','هو','هي','احنا','نحن','هم','ما','لا','لم','لن','قد','كل','بس','يعني','شو','وش','ليش','كيف','وين','متى','هل','او','أو','ثم','لكن','بين','عند','كذا','زي','الان','اليوم','the','and','you','is','are','in','on','to','of','for','with','that','this','it','was','were','what','how','why','when','where']);
 function topicWords(usersArr){
   const freq = new Map();
   usersArr.forEach(u => (u.chats || []).forEach(c => (c.h || []).forEach(m => {
     if (!m || !m.text) return;
-    (String(m.text).toLowerCase().match(/[\u0600-\u06FFa-z]{3,}/g) || []).forEach(w => {
-      if (STOP.has(w)) return;
-      freq.set(w, (freq.get(w) || 0) + 1);
-    });
+    (String(m.text).toLowerCase().match(/[\u0600-\u06FFa-z]{3,}/g) || []).forEach(w => { if (!STOP.has(w)) freq.set(w, (freq.get(w) || 0) + 1); });
   })));
-  return [...freq.entries()].sort((a,b) => b[1]-a[1]).slice(0, 18);
+  return [...freq.entries()].sort((a,b) => b[1]-a[1]).slice(0, 20);
 }
 
 const RISK_WORDS = ['انتحار','اذيت نفسي','أؤذي نفسي','اقتل نفسي','ابي اموت','ودي اموت','مابي اعيش','suicide','kill myself','self harm','end my life','hurt myself'];
-function isFlagged(u){
-  return (u.chats || []).some(c => (c.h || []).some(m => m && m.text && RISK_WORDS.some(w => String(m.text).toLowerCase().includes(w))));
-}
+function isFlagged(u){ return (u.chats || []).some(c => (c.h || []).some(m => m && m.text && RISK_WORDS.some(w => String(m.text).toLowerCase().includes(w)))); }
+function countryFromTz(tz){ if (!tz) return 'غير معروف'; return tz.split('/').pop().replace(/_/g,' ') || tz; }
 
-function countryFromTz(tz){
-  if (!tz) return 'غير معروف';
-  const city = tz.split('/').pop().replace(/_/g,' ');
-  return city || tz;
-}
-
+// ---- تحميل البيانات ----
 async function loadAll(){
+  $('list').innerHTML = '<div class="empty"><div class="spin"></div></div>';
   const snap = await getDocs(collection(db, 'users'));
   const users = [];
   snap.forEach(d => users.push({id:d.id, ...d.data()}));
   ALL_USERS = users;
+  $('dbgCount').textContent = users.length;
   renderStats(users);
+  renderChart(users);
   renderTopics(users);
-  renderList(users);
+  renderCountries(users);
+  renderList();
 }
 
 function renderStats(users){
@@ -225,57 +325,110 @@ function renderStats(users){
   const installRate = total ? Math.round((installs/total) * 100) : 0;
   const avgSessions = total ? (sessions/total).toFixed(1) : '0';
 
+  if (flagged) $('tabbar').querySelector('[data-tab="users"]').classList.add('hasdot'); else $('tabbar').querySelector('[data-tab="users"]').classList.remove('hasdot');
+
+  const icGroup = '<svg class="ic top-ic" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"></circle><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"></path><circle cx="18" cy="9" r="2.6"></circle><path d="M16 14.2c2.6.3 4.5 2.5 4.5 5.1"></path></svg>';
+  const icBolt = '<svg class="ic top-ic" viewBox="0 0 24 24"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"></path></svg>';
+  const icClock = '<svg class="ic top-ic" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.2 2"></path></svg>';
+  const icDown = '<svg class="ic top-ic" viewBox="0 0 24 24"><path d="M12 3v12m0 0 4-4m-4 4-4-4"></path><path d="M4 19h16"></path></svg>';
+  const icChat = '<svg class="ic top-ic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"></path></svg>';
+  const icTrash = '<svg class="ic top-ic" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3m-9 0 1 13h10l1-13"></path></svg>';
+  const icWarn = '<svg class="ic top-ic" viewBox="0 0 24 24" style="stroke:var(--danger)"><path d="m12 3 10 18H2Z"></path><path d="M12 9v5"></path><circle cx="12" cy="17.3" r=".4" fill="var(--danger)"></circle></svg>';
+  const icBan = '<svg class="ic top-ic" viewBox="0 0 24 24" style="stroke:var(--danger)"><circle cx="12" cy="12" r="9"></circle><path d="m6 6 12 12"></path></svg>';
+
   const cards = [
-    [total, 'إجمالي المستخدمين'],
-    [active1d, 'نشطين آخر 24 ساعة'],
-    [active7d, 'نشطين آخر أسبوع'],
-    [active30d, 'نشطين آخر شهر'],
-    [idle7dRate + '%', 'نسبة خمول (أسبوع)', 'تقريبية، مبنية على آخر نشاط مسجّل'],
-    [avgSessions, 'متوسط الجلسات / مستخدم'],
-    [installs, 'تثبيتات (PWA)', 'حسابات ثبّتت التطبيق على جهاز وحد على الأقل'],
-    [installRate + '%', 'نسبة التثبيت'],
-    [created, 'محادثات أُنشئت'],
-    [deleted, 'محادثات اتحذفت'],
-    [delRate + '%', 'نسبة الحذف'],
-    [flagged, 'محادثات فيها تنبيه ⚠️'],
-    [blocked, 'حسابات محظورة'],
+    [icGroup, total, 'إجمالي المستخدمين', null, () => goTab('users','all')],
+    [icBolt, active1d, 'نشطين آخر 24 ساعة', null, () => goTab('users','today')],
+    [icClock, active7d, 'نشطين آخر أسبوع'],
+    [icClock, active30d, 'نشطين آخر شهر'],
+    [icClock, idle7dRate + '%', 'نسبة خمول (أسبوع)', 'تقريبية، على آخر نشاط مسجّل'],
+    [icBolt, avgSessions, 'متوسط الجلسات / مستخدم'],
+    [icDown, installs, 'تثبيتات (PWA)', 'حسابات ثبّتت على جهاز وحد عالأقل'],
+    [icDown, installRate + '%', 'نسبة التثبيت'],
+    [icChat, created, 'محادثات أُنشئت'],
+    [icTrash, deleted, 'محادثات اتحذفت'],
+    [icTrash, delRate + '%', 'نسبة الحذف'],
+    [icWarn, flagged, 'محادثات فيها تنبيه ⚠️', null, () => goTab('users','flag')],
+    [icBan, blocked, 'حسابات محظورة', null, () => goTab('users','blocked')],
   ];
-  $('stats').innerHTML = cards.map(c => `<div class="card"><div class="num">${c[0]}</div><div class="lbl">${c[1]}</div>${c[2] ? `<div class="note">${c[2]}</div>` : ''}</div>`).join('');
+  $('stats').innerHTML = cards.map(c => `<div class="card${c[4] ? ' clickable' : ''}" ${c[4] ? 'data-act="1"' : ''}>${c[0]}<div class="num">${c[1]}</div><div class="lbl">${c[2]}</div>${c[3] ? `<div class="note">${c[3]}</div>` : ''}</div>`).join('');
+  [...$('stats').children].forEach((el, i) => { if (cards[i][4]) el.onclick = cards[i][4]; });
+}
+
+function renderChart(users){
+  const days = [];
+  for (let i = 13; i >= 0; i--){ const d = new Date(Date.now() - i*86400000); days.push(d.toISOString().slice(0,10)); }
+  const sessions = days.map(d => users.reduce((a,u) => a + ((u.stats && u.stats.daily && u.stats.daily[d] && u.stats.daily[d].sessions) || 0), 0));
+  const inter = days.map(d => users.reduce((a,u) => a + ((u.stats && u.stats.daily && u.stats.daily[d] && u.stats.daily[d].interactions) || 0), 0));
+  const max = Math.max(1, ...sessions, ...inter);
+  const W = Math.max(640, days.length * 46), H = 190, PAD = 26, bw = (W - PAD*2) / days.length;
+  let svg = `<g font-size="9" fill="#9892c4">`;
+  days.forEach((d, i) => {
+    const x = PAD + i*bw;
+    const hS = (sessions[i]/max) * (H - 50);
+    const hI = (inter[i]/max) * (H - 50);
+    svg += `<rect x="${x+4}" y="${H-28-hS}" width="${bw/2-6}" height="${hS}" rx="3" fill="#8b5cf6"></rect>`;
+    svg += `<rect x="${x+bw/2}" y="${H-28-hI}" width="${bw/2-6}" height="${hI}" rx="3" fill="#2dd4bf"></rect>`;
+    svg += `<text x="${x+bw/2}" y="${H-10}" text-anchor="middle">${d.slice(5)}</text>`;
+  });
+  svg += `</g><g font-size="10"><rect x="${W-170}" y="4" width="10" height="10" fill="#8b5cf6"></rect><text x="${W-156}" y="13" fill="#ece9ff">جلسات</text><rect x="${W-96}" y="4" width="10" height="10" fill="#2dd4bf"></rect><text x="${W-82}" y="13" fill="#ece9ff">تفاعلات</text></g>`;
+  const el = $('chart'); el.setAttribute('width', W); el.setAttribute('viewBox', `0 0 ${W} ${H}`); el.innerHTML = svg;
 }
 
 function renderTopics(users){
   const t = topicWords(users);
-  $('topics').innerHTML = t.length ? t.map(([w,n]) => `<span>${w} <b>${n}</b></span>`).join('') : '<span style="color:var(--muted)">ما فيه بيانات كافية بعد</span>';
+  $('topics').innerHTML = t.length ? t.map(([w,n]) => `<span>${esc(w)} <b>${n}</b></span>`).join('') : '<span style="color:var(--muted)">ما فيه بيانات كافية بعد</span>';
 }
 
-function renderList(users){
+function renderCountries(users){
+  const freq = new Map();
+  users.forEach(u => { const c = countryFromTz(u.tz); freq.set(c, (freq.get(c)||0)+1); });
+  const rows = [...freq.entries()].sort((a,b) => b[1]-a[1]);
+  $('countries').innerHTML = rows.length ? rows.map(([c,n]) => `<div class="countrow"><span>${esc(c)}</span><span>${n}</span></div>`).join('') : '<div class="empty">ما فيه بيانات</div>';
+}
+
+function applyFilter(users){
+  const now = Date.now(), DAY = 86400000;
+  if (curFilter === 'today') return users.filter(u => u.lastActive && now - u.lastActive < DAY);
+  if (curFilter === 'flag') return users.filter(isFlagged);
+  if (curFilter === 'blocked') return users.filter(u => u.blocked);
+  return users;
+}
+function applySort(users){
+  const arr = users.slice();
+  if (curSort === 'sessions') arr.sort((a,b) => ((b.stats&&b.stats.sessions)||0) - ((a.stats&&a.stats.sessions)||0));
+  else if (curSort === 'chats') arr.sort((a,b) => (b.chats||[]).length - (a.chats||[]).length);
+  else if (curSort === 'name') arr.sort((a,b) => (a.name||'').localeCompare(b.name||'', 'ar'));
+  else arr.sort((a,b) => (b.lastActive||0) - (a.lastActive||0));
+  return arr;
+}
+function renderList(){
+  const q = $('search').value.trim().toLowerCase();
+  let users = applyFilter(ALL_USERS);
+  if (q) users = users.filter(u => (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q));
+  users = applySort(users);
   $('uCount').textContent = users.length;
-  const html = users
-    .slice()
-    .sort((a,b) => (b.lastActive||0) - (a.lastActive||0))
-    .map(u => {
-      const flagged = isFlagged(u);
-      return `<div class="urow" data-id="${u.id}">
-        <img src="${u.photo || './icon-192.png'}" onerror="this.src='./icon-192.png'">
-        <div class="meta">
-          <div class="n">${esc(u.name || 'بدون اسم')}</div>
-          <div class="e">${esc(u.email || '')} · ${countryFromTz(u.tz)}</div>
-        </div>
-        ${u.blocked ? '<span class="badge blocked">محظور</span>' : ''}
-        ${flagged ? '<span class="badge flag">⚠️</span>' : ''}
-      </div>`;
-    }).join('');
-  $('list').innerHTML = html || '<div class="empty">ما فيه مستخدمين بعد</div>';
+  const html = users.map(u => {
+    const flagged = isFlagged(u);
+    return `<div class="urow" data-id="${u.id}">
+      <img src="${u.photo || './icon-192.png'}" onerror="this.src='./icon-192.png'">
+      <div class="meta">
+        <div class="n">${esc(u.name || 'بدون اسم')}</div>
+        <div class="e">${esc(u.email || '')} · ${esc(countryFromTz(u.tz))}</div>
+      </div>
+      ${u.blocked ? '<span class="badge blocked">محظور</span>' : ''}
+      ${flagged ? '<span class="badge flag">⚠️</span>' : ''}
+    </div>`;
+  }).join('');
+  $('list').innerHTML = html || '<div class="empty">ما فيه نتائج</div>';
   [...document.querySelectorAll('.urow')].forEach(el => el.onclick = () => openUser(el.dataset.id));
 }
-
-$('search').oninput = (e) => {
-  const q = e.target.value.trim().toLowerCase();
-  if (!q){ renderList(ALL_USERS); return; }
-  renderList(ALL_USERS.filter(u => (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q)));
-};
-
-function esc(s){ const d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+$('search').oninput = renderList;
+$('sortSel').onchange = (e) => { curSort = e.target.value; renderList(); };
+[...document.querySelectorAll('#filters .chip')].forEach(b => b.onclick = () => {
+  [...document.querySelectorAll('#filters .chip')].forEach(c => c.classList.remove('on'));
+  b.classList.add('on'); curFilter = b.dataset.f; renderList();
+});
 
 // ---- تفاصيل مستخدم ----
 function openUser(id){
@@ -293,10 +446,13 @@ function openUser(id){
     return `<div class="chatrow" data-i="${i}"><div class="t">${chatFlag ? '⚠️ ' : ''}${esc(c.title || 'محادثة')}</div><div class="d">${d} · ${(c.h||[]).length} رسالة</div></div>`;
   }).join('') || '<div class="empty">ما فيه محادثات محفوظة</div>';
 
+  const icWarnSm = '<svg class="ic" viewBox="0 0 24 24" style="stroke:var(--danger); width:16px; height:16px"><path d="m12 3 10 18H2Z"></path><path d="M12 9v5"></path><circle cx="12" cy="17.3" r=".4" fill="var(--danger)"></circle></svg>';
+
   $('ovBody').innerHTML = `
-    ${flagged ? '<div class="flagwarn">⚠️ فيه رسالة بمحادثات هالمستخدم تحتوي كلمات مرتبطة بضيق نفسي أو خطر على النفس. راجعها بعين الاعتبار والحساسية.</div>' : ''}
+    ${flagged ? `<div class="flagwarn">${icWarnSm}<span>فيه رسالة بمحادثات هالمستخدم تحتوي كلمات مرتبطة بضيق نفسي أو خطر على النفس. راجعها بعين الاعتبار والحساسية.</span></div>` : ''}
     <div class="row" style="margin-bottom:16px">
-      <button class="btn small ${u.blocked ? '' : 'danger'}" id="blockBtn">${u.blocked ? 'إلغاء الحظر' : 'حظر الحساب'}</button>
+      <button class="btn small ${u.blocked ? 'ok2' : 'danger'}" id="blockBtn">${u.blocked ? 'إلغاء الحظر' : 'حظر الحساب'}</button>
+      <button class="btn small danger" id="delBtn">حذف كل بيانات المستخدم</button>
       <span class="badge ok">جلسات: ${s.sessions||0}</span>
       <span class="badge ok">تثبيتات: ${s.installs||0}</span>
       <span class="badge ok">أُنشئت: ${s.chatsCreated||0}</span>
@@ -308,13 +464,13 @@ function openUser(id){
   `;
 
   $('blockBtn').onclick = async () => {
-    try {
-      await updateDoc(doc(db, 'users', u.id), {blocked: !u.blocked});
-      u.blocked = !u.blocked;
-      toast(u.blocked ? 'انحظر الحساب' : 'انفك الحظر');
-      openUser(id);
-      renderList(ALL_USERS);
-    } catch(e){ toast('ما قدرت أحدّث الحساب'); }
+    try { await updateDoc(doc(db, 'users', u.id), {blocked: !u.blocked}); u.blocked = !u.blocked; toast(u.blocked ? 'انحظر الحساب' : 'انفك الحظر'); openUser(id); renderList(); renderStats(ALL_USERS); }
+    catch(e){ toast('ما قدرت أحدّث الحساب'); }
+  };
+  $('delBtn').onclick = async () => {
+    if (!confirm('متأكد تبي تمسح كل بيانات هالمستخدم نهائياً؟ ما ترجع بعدها.')) return;
+    try { await deleteDoc(doc(db, 'users', u.id)); ALL_USERS = ALL_USERS.filter(x => x.id !== u.id); toast('انمسحت بيانات المستخدم'); $('overlay').classList.remove('on'); renderList(); renderStats(ALL_USERS); renderChart(ALL_USERS); }
+    catch(e){ toast('ما قدرت أمسح البيانات'); }
   };
 
   [...document.querySelectorAll('#chatList .chatrow')].forEach(el => el.onclick = () => {

@@ -594,7 +594,18 @@ const store = {
 };
 // عدّاد بسيط لإحصائيات الاستخدام (جلسات، محادثات أُنشئت/اتحذفت، تثبيتات) — يترفع مع بقية بياناتك للمطور بس
 function bumpStat(k, by){ const s = store.get('limoai_stats', {}); s[k] = (s[k] || 0) + (by || 1); store.set('limoai_stats', s); }
-try { bumpStat('sessions'); } catch(e){}
+// سجل يومي خفيف (آخر 60 يوم بس) عشان رسوم الاستخدام بلوحة المطور
+function bumpDaily(k){
+  const s = store.get('limoai_stats', {});
+  const day = new Date().toISOString().slice(0, 10);
+  s.daily = s.daily || {};
+  s.daily[day] = s.daily[day] || {sessions:0, interactions:0};
+  s.daily[day][k] = (s.daily[day][k] || 0) + 1;
+  const days = Object.keys(s.daily).sort();
+  if (days.length > 60) days.slice(0, days.length - 60).forEach(d => delete s.daily[d]);
+  store.set('limoai_stats', s);
+}
+try { bumpStat('sessions'); bumpDaily('sessions'); } catch(e){}
 const MOODS = {'مرح':'😄','رايق':'😌','متحمس':'🤩','ملل':'🥱','نعسان':'😴','حزين':'😢','غاضب':'😠','منزعج':'😒','محب':'🥰','يتحدى':'😏','جدي':'🫩','كئيب':'🌧️','وجودي':'🌀'};
 const MOODC = {'مرح':'#facc15','رايق':'#2dd4bf','متحمس':'#fb923c','ملل':'#94a3b8','نعسان':'#818cf8','حزين':'#60a5fa','غاضب':'#f43f5e','منزعج':'#f97316','محب':'#f472b6','يتحدى':'#a78bfa','جدي':'#64748b','كئيب':'#475569','وجودي':'#a855f7'};
 let mood = store.get('limoai_mood', 'رايق');
@@ -1076,7 +1087,7 @@ function saveHist(){
   if (!history.length) return;
   let c = chats.find(x => x.id === curId);
   if (!c){ c = {id:'c' + Date.now(), title:'', ts:0, h:[]}; curId = c.id; store.set('limoai_cur', curId); bumpStat('chatsCreated'); }
-  c.h = serial(); c.ts = Date.now();
+  c.h = serial(); c.ts = Date.now(); try { bumpDaily('interactions'); } catch(e){}
   if (!c.title){ const f = history.find(h => h.role === 'user'); c.title = ((f && (f.text || (f.react && f.react.label) || (f.files && f.files[0] && f.files[0].name))) || 'محادثة').slice(0, 40); }
   chats = [c].concat(chats.filter(x => x !== c)).slice(0, 40);
   store.set('limoai_chats', chats);
