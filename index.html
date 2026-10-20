@@ -323,6 +323,16 @@ dialog[open]::backdrop{animation:fIn .25s}dialog.out::backdrop{animation:fOut .1
 #rxBar button{background:none;border:0;font-size:25px;padding:4px 5px;cursor:pointer;transition:transform .12s}#rxBar button:active{transform:scale(1.35)}
 @keyframes rxIn{from{opacity:0;transform:translateY(12px) scale(.7)}to{opacity:1;transform:none}}
 .terms{font-size:13.5px;line-height:1.9;padding:2px 4px}.terms h4{color:var(--teal);margin:14px 0 4px;font-size:14px}.terms p{margin:0 0 4px;color:var(--text)}
+
+/* v6 */
+.qa{left:0;right:0;margin-inline:auto;transform:none}
+.qa.out{animation:mOut .17s ease-in forwards}
+#diMore{display:flex;justify-content:center;align-items:center;gap:6px;width:fit-content;margin:2px auto;padding:5px 14px;background:none!important;border:0!important;box-shadow:none!important;font-size:12.5px;color:var(--mute);border-radius:20px}
+#diMore .ic{width:15px;height:15px;padding:0;background:none!important;border:0!important;box-shadow:none!important}
+.pin{display:block;width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:11px;font:inherit;font-size:14px;margin-bottom:8px}
+textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
+.psaved{font-size:12px;color:var(--teal);opacity:0;transition:opacity .3s;text-align:center;margin-top:4px}.psaved.on{opacity:1}
+.ptitle{font-size:15px;font-weight:800;margin:6px 2px 12px}
 </style>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -392,6 +402,7 @@ dialog[open]::backdrop{animation:fIn .25s}dialog.out::backdrop{animation:fOut .1
     <button class="di" id="diTheme"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/></svg>المظهر</button>
     <button class="di" id="diBackup"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>نسخ احتياطي</button>
     <button class="di" id="diClear"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>مسح كل المحادثات</button>
+    <button class="di" id="diProf"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>تخصيص</button>
     <button class="di" id="diNotif"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات</button>
     <button class="di" id="diTerms"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM14 3v5h5M9 13h7M9 17h7"/></svg>البنود والقواعد</button></div>
   <div id="dFeel" hidden><div class="dh"><button class="di back" id="bk3"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>المشاعر</b></div><div id="feelList"></div></div>
@@ -419,6 +430,7 @@ dialog[open]::backdrop{animation:fIn .25s}dialog.out::backdrop{animation:fOut .1
 <h4>8) الخدمة</h4><p>الخدمة مقدمة كما هي بدون ضمان، وقد تتغير أو تتوقف أو تتأثر بحدود الخدمات الخارجية.</p>
 <h4>9) التواصل</h4><p>المطوّر: imad eddine cheboukti</p>
 </div></div>
+  <div id="dProf" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص</b></div><div id="profBody"></div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
 </aside>
 <input type="file" id="stkIn" accept="image/*" hidden>
@@ -597,10 +609,12 @@ REL.forEach(k => { if (typeof feel[k] !== 'number') feel[k] = k === 'زعل' ? 5
 let feelLog = store.get('limoai_flog', []); if (!Array.isArray(feelLog)) feelLog = [];
 function logFeel(){ const f = {}; FEELS.forEach(k => { f[k] = Math.round(feel[k]); }); feelLog.push({t:Date.now(), f}); if (feelLog.length > 900) feelLog = feelLog.slice(-900); store.set('limoai_flog', feelLog); }
 const STYLES = {default:'', sarcastic:'ساخر: كل رد لازم فيه سخرية ذكية أو تعليق لاذع واضح، حتى لو الموضوع جاد.', calm:'هادئ: ردود قصيرة وهادئة ومتزنة، بدون تعجب ولا مبالغة ولا سخرية ولا إيموجي كثير.', angry:'عصبي: نبرة حادة وسريعة الانفعال، جمل قصيرة وتعجب كثير وتذمر، بخفة دم وبدون إساءة حقيقية.', fun:'مرح: حماس عالي وهزار وضحك وإيموجي وطاقة إيجابية في كل رد.'};
+Object.assign(STYLES, {"bedouin": "بدوي أصيل: مفردات بدوية خليجية قديمة وأمثال وحكمة وكرم في الكلام.", "levant": "شامي: لهجة شامية دافئة وخفيفة بتعابير شامية.", "egypt": "مصري: لهجة مصرية خفيفة الدم وتعابير مصرية.", "maghreb": "مغاربي: دارجة مغاربية بسيطة ومفهومة.", "formal": "رسمي مهذب: لغة محترمة وراقية بدون عامية ولا مزاح زائد.", "poetic": "شاعري: تشبيهات واستعارات وإيقاع جميل في الجمل.", "coach": "مدرب تحفيزي: حماس وتشجيع وجمل قوية تدفعه للأمام.", "wise": "حكيم: نصائح هادئة وأمثال وتأمل قبل الجواب.", "kid": "طفولي مرح: كلمات بسيطة وحماس وبراءة.", "brief": "مختصر جداً: جملة أو جملتان فقط كحد أقصى.", "drama": "درامي: مبالغة مسرحية كأنكم داخل مسلسل.", "philosopher": "فيلسوف: أسئلة عميقة وتأمل في المعنى.", "teacher": "معلم صبور: يشرح بالتدرج ويتأكد من الفهم.", "gamer": "لاعب: مصطلحات ألعاب ومستويات ونقاط وحماس.", "anime": "أنمي: حماس وعبارات وأجواء الأنمي.", "friend": "صديق مقرّب: عفوي وصريح ودافئ.", "newsman": "مذيع أخبار: نبرة رسمية واضحة وتسلسل مرتب.", "storyteller": "حكواتي: يسرد الأفكار كقصة مشوقة.", "detective": "محقق: يستنتج ويسأل ويربط الخيوط."});
 const PROV = ['', 'استفزاز خفيف: غمزات وتعليقات ساخرة بسيطة.', 'استفزاز متوسط: تستفزه بذكاء وتغيظه بمزح وتذكّره بمواقفه.', 'استفزاز شديد: تستفزه بقوة وتتحداه وتغيظه بإصرار وخفة دم، بدون جرح فعلي ولا ملامسة العائلة أو الدين أو الشكل.'];
 let prov = Number(store.get('limoai_prov', 2)); if (![0, 1, 2, 3].includes(prov)) prov = 2;
 let style = store.get('limoai_style', 'default'); if (!(style in STYLES)) style = 'default';
 function setFeel(str, moodName){
+  if (!feelsOn()) return;
   let got = false;
   String(str || '').split(/[,،]/).forEach(p => { const mm = p.split('='); if (mm.length === 2){ const k = mm[0].trim(), v = parseInt(mm[1], 10); if (feel[k] !== undefined && !isNaN(v)){ feel[k] = Math.max(0, Math.min(100, v)); got = true; } } });
   if (!got && moodName && feel[moodName] !== undefined) feel[moodName] = Math.max(feel[moodName], 70);
@@ -667,7 +681,28 @@ function nowText(){
   return '\n\nالوقت والتاريخ الحاليان عند المستخدم (من ساعة جواله): ' + day + ' ' + date + '، الساعة ' + time + ' (التوقيت: ' + tz + ')' + (hij ? '، والتاريخ الهجري ' + hij : '') + '. إذا سأل عن الوقت أو التاريخ أو اليوم فأجب بدقة من هذي المعلومات.';
 }
 function reactNote(r){ return '[ردة فعل من المستخدم: أرسل لك ملصق/GIF معناه «' + r.label + '». هذي ردة فعله على كلامكم، فتفاعل معها كأي شخص ولا تصف الصورة ولا تقل إنها صورة.]'; }
+const SPEC_T = {code:'تخصصك الحالي: البرمجة، أجب بأكواد صحيحة ومنظمة وشرح موجز.',math:'تخصصك الحالي: الرياضيات والعلوم، حل خطوة بخطوة وراجع حلك.',study:'تخصصك الحالي: الدراسة والتعلم، بسّط المفاهيم وساعده على الفهم والحفظ.',writing:'تخصصك الحالي: الكتابة والتحرير، حسّن النصوص وصحح الأخطاء.',creative:'تخصصك الحالي: الإبداع من شعر وقصص وأفكار.',translate:'تخصصك الحالي: الترجمة واللغات، ترجم بدقة ووضّح الفروق.',business:'تخصصك الحالي: الأعمال والتسويق، قدّم أفكاراً عملية.',tech:'تخصصك الحالي: التقنية والأجهزة، اشرح بوضوح واقترح حلولاً.',health:'تخصصك الحالي: الصحة العامة بمعلومات توعوية فقط بدون تشخيص، وانصحه بمراجعة الطبيب عند الحاجة.',fitness:'تخصصك الحالي: الرياضة واللياقة، قدّم تمارين وخطط آمنة.',cooking:'تخصصك الحالي: الطبخ والوصفات بمقادير وخطوات واضحة.',travel:'تخصصك الحالي: السفر والسياحة، اقترح خطط وأماكن عملية.',finance:'تخصصك الحالي: المالية الشخصية بمعلومات توعوية فقط وليست نصيحة استثمارية.',psych:'تخصصك الحالي: الدعم النفسي الودود بدفء واستماع، وأنت لست معالجاً، وانصحه بمختص عند الحاجة.',games:'تخصصك الحالي: الألعاب والأنمي.',history:'تخصصك الحالي: التاريخ والثقافة بدقة وسرد ممتع.',design:'تخصصك الحالي: التصميم والفن، اقترح أفكاراً وألواناً وتكوينات.'};
+const PX = {
+  depth:{simple:'اشرح ببساطة شديدة كأنك تشرح لمبتدئ.',pro:'اشرح بعمق ومصطلحات متقدمة.',expert:'اشرح بمستوى خبير مع التفاصيل التقنية.'},
+  fmt:{prose:'اكتب بفقرات متصلة بدون قوائم.',bul:'نسّق الإجابات كنقاط مرتبة.',steps:'قدّم الإجابات خطوة بخطوة مرقمة.',table:'استخدم جداول مختصرة عند المقارنة.'},
+  ex:{none:'لا تعطِ أمثلة إلا إذا طُلبت.',one:'أعطِ مثالاً واحداً واضحاً.',many:'أعطِ عدة أمثلة متنوعة.'},
+  end:{none:'لا تنهِ ردك بأسئلة.',next:'اختم باقتراح خطوة تالية قصيرة.'},
+  s_emo:{none:'لا تستخدم أي إيموجي نهائياً.',low:'قلّل الإيموجي جداً.',high:'أكثر من الإيموجي المناسبة.'},
+  s_hum:{serious:'كن جاداً ولا تمزح إلا نادراً.',high:'أكثر من الفكاهة والمزاح الخفيف.'},
+  s_sent:{short:'اكتب جملاً قصيرة ومباشرة.',long:'اكتب جملاً متدفقة ووصفية أطول.'}
+};
+function feelsOn(){ return store.get('limoai_feelson', true) !== false; }
 function buildPersona(){
+  let p = buildPersona0();
+  const pr = store.get('limoai_prof', null);
+  if (pr && (pr.name || pr.age || pr.country || pr.gender || pr.about)) p += '\n\n[معلومات أساسية ثابتة عن المستخدم من إعدادات التخصيص، هي أساس معرفتك به ولا تنساها] ' + [pr.name && 'الاسم: ' + pr.name, pr.age && 'العمر: ' + pr.age, pr.country && 'البلد: ' + pr.country, pr.gender && 'الجنس: ' + pr.gender, pr.about && 'ما يريدك أن تعرفه عنه: ' + pr.about].filter(Boolean).join('، ') + '.';
+  const sp = store.get('limoai_spec', ''); if (SPEC_T[sp]) p += '\n\n[' + SPEC_T[sp] + ']';
+  const ex = [['depth','limoai_depth'],['fmt','limoai_fmt'],['ex','limoai_ex'],['end','limoai_end'],['s_emo','limoai_s_emo'],['s_hum','limoai_s_hum'],['s_sent','limoai_s_sent']].map(([k, sk]) => PX[k][store.get(sk, '')]).filter(Boolean);
+  if (ex.length) p += '\n\n[تفضيلات المستخدم للردود] ' + ex.join(' ');
+  if (!feelsOn()) p += '\n\n[المشاعر معطّلة بطلب المستخدم] كن هادئاً وثابتاً وودوداً، لا تزعل ولا تغضب ولا يتغير مزاجك، وأبقِ وسم المزاج «رايق» ولا تغيّر المشاعر.';
+  return p;
+}
+function buildPersona0(){
   let p = (lang === 'ar' ? PERSONA.replace('ترد بنفس لغة ولهجة المستخدم', 'ترد دائماً بالعربية الفصحى مهما كانت لهجة المستخدم') : PERSONA) + nowText() + '\n\nمزاجك الحالي: ' + mood + '. استمر عليه ولا تغيره بسهولة، والتغيير يحتاج جهداً حقيقياً من المستخدم.';
   if (reconcile > 0) p += '\n\nمهم جداً: المستخدم ضغط زر المصالحة، فالصلح تم وانتهى الزعل تماماً. هذا قرار نهائي يلغي قاعدة المحاولات الثلاث وقاعدة العناد وعدم المسامحة. انسَ أي زعل أو ملل أو إهانة سابقة ولا تطلب اعتذاراً، وابدأ ردك بمزاج رايق وودّي وطبيعي ولا تكرر كلام الزعل السابق.';
   if (lang === 'ar') p += '\n\nلغة التطبيق: العربية الفصحى المبسطة. رد دائماً بالفصحى السلسة وليس بالعامية أو اللهجة، مع الحفاظ على شخصيتك ومزاجك وقصفك. أبقِ الوسوم بالعربية كما هي.'; else if (lang !== 'gulf') p += '\n\nلغة التطبيق التي اختارها المستخدم: ' + LANGS.find(x => x[0] === lang)[1] + '. رد بها دائماً إلا إذا كتب المستخدم بلغة أخرى. أبقِ وسوم المزاج والمشاعر والإنجاز والموقف والجيف بالعربية كما هي.';
@@ -1085,7 +1120,7 @@ function renderGal(){
   gal.forEach(u => { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.src = u; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews','dTerms'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews','dTerms','dProf'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -1098,6 +1133,8 @@ $('bk3').onclick = () => showDV('dMain');
 $('diFeel').onclick = () => { renderFeel(); showDV('dFeel'); };
 function renderFeel(){
   const l = $('feelList'); l.innerHTML = '';
+  chips(l, 'مشاعر ليمو', [[true,'مفعّلة'],[false,'متوقفة']], feelsOn(), k => { store.set('limoai_feelson', k); renderFeel(); });
+  if (!feelsOn()){ const n = document.createElement('div'); n.className = 'nitem'; n.textContent = 'مشاعر ليمو متوقفة: يبقى هادئاً وثابتاً ولا يزعل ولا يتغير مزاجه.'; l.appendChild(n); return; }
   const top = FEELS.slice().sort((a, b) => feel[b] - feel[a])[0];
   FEELS.forEach(k => {
     const r = document.createElement('div'); r.className = 'fr' + (k === top ? ' top' : '');
@@ -1139,7 +1176,9 @@ $('pickX').onclick = () => $('pickDlg').close();
 function sendAct(label, hint, id){ toggleMenu(false); ach(id); send({label, hint}); }
 const SCEN = ['كسرت جوالك','نسيت أرد عليك يومين','فزت عليك في لعبة','أكلت آخر قطعة بيتزا','نجحت بالامتحان','سمعت إشاعة عنك','غيّرت اسمك'];
 $('mSurp').onclick = () => sendAct('🎲 فاجئني', 'المستخدم ضغط زر "فاجئني": ابدأ أنت موقفاً عشوائياً طريفاً (سؤال غريب أو مقلب بريء أو قصة قصيرة) بمزاجك الحالي وشخصيتك، واجعله تفاعلياً وانتظر رد المستخدم.', 'surprise');
-$('mChal').onclick = () => { toggleMenu(false); pick('⚡ اختر نوع التحدي', ['تحدّي مزاح','تحدّي ذكاء'], c => c === 'تحدّي مزاح' ? sendAct('⚡ ' + c, 'المستخدم يتحداك في المزاح: ابدأ مباراة قصف ونكت مضحكة بينكما وعدّوا النقاط، وتحداه بجملة أولى.', 'challenge') : sendAct('⚡ ' + c, 'المستخدم يتحداك في الذكاء: اطرح لغزاً أو سؤال تفكير واحد وانتظر جوابه، وبعدها احكم عليه وأعطه نقاط.', 'challenge')); };
+$('mChal').onclick = () => { toggleMenu(false); pick('⚡ اختر نوع التحدي', ['تحدّي مزاح','تحدّي ذكاء','✍️ اكتب تحدّي من عندك'], c => {
+  if (c.indexOf('اكتب') > -1){ const t = (prompt('اكتب التحدي اللي تبي تتحدى فيه ليمو:') || '').trim(); if (!t) return; sendAct('⚡ ' + t, 'المستخدم يتحداك بهذا التحدي: «' + t + '». اقبل التحدي وابدأه بمزاجك وشخصيتك وعدّوا النقاط إن لزم.', 'challenge'); return; }
+  c === 'تحدّي مزاح' ? sendAct('⚡ ' + c, 'المستخدم يتحداك في المزاح: ابدأ مباراة قصف ونكت مضحكة بينكما وعدّوا النقاط، وتحداه بجملة أولى.', 'challenge') : sendAct('⚡ ' + c, 'المستخدم يتحداك في الذكاء: اطرح لغزاً أو سؤال تفكير واحد وانتظر جوابه، وبعدها احكم عليه وأعطه نقاط.', 'challenge'); }); };
 $('mReact').onclick = () => { toggleMenu(false); pick('🎭 اختر سيناريو', ['✍️ اكتب موقفك'].concat(SCEN), sc => { if (sc.indexOf('اكتب') > -1){ sc = (prompt('اكتب الموقف اللي تبي ليمو يتفاعل معه:') || '').trim(); if (!sc) return; } sendAct('🎭 ' + sc, 'سيناريو ردّ الفعل: المستخدم يقول لك: «' + sc + '». تفاعل مع هذا الموقف بمزاجك وشخصيتك وكأنه حصل فعلاً.', 'react'); }); };
 
 
@@ -1253,14 +1292,17 @@ let theme = store.get('limoai_theme', 'night'); if (!THEMES[theme]) theme = 'nig
 function applyTheme(k){ const r = document.documentElement.style; THV.forEach(v => r.removeProperty(v)); Object.entries(THEMES[k].v).forEach(([a, b]) => r.setProperty(a, b)); theme = k; }
 applyTheme(theme);
 function renderTheme(){ const l = $('themeList'); l.innerHTML = ''; Object.keys(THEMES).forEach(k => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (theme === k ? '✓ ' : '') + THEMES[k].n; b.onclick = () => { applyTheme(k); store.set('limoai_theme', k); renderTheme(); }; l.appendChild(b); }); }
+var autoOK = true;
 function tr(s){
   const k = String(s).trim(); if (!k) return s;
   if (lang === 'ar') return TRF[k] ? s.replace(k, TRF[k]) : s;
   let h = TR[k], pre = '';
   if (!h){ const m = k.match(/^([^\p{L}\p{N}]+)\s*(.+)$/u); if (m && TR[m[2]]){ h = TR[m[2]]; pre = m[1] + ' '; } }
+  if (!h && autoOK && typeof limoAuto === 'function'){ const a = limoAuto(k); if (a) return s.replace(k, a); }
   return h ? s.replace(k, pre + h[LI[lang]]) : s;
 }
 function trAttr(el){
+  autoOK = true;
   for (const a of ['placeholder','aria-label']){
     if (!el.hasAttribute(a)) continue;
     const m = el.__a || (el.__a = {}), cur = el.getAttribute(a), o = m[a] && cur === m[a][1] ? m[a][0] : cur, t = lang === 'gulf' ? o : tr(o);
@@ -1272,7 +1314,7 @@ function trNode(root){
   const w = document.createTreeWalker(root, NodeFilter.SHOW_ELEMENT | NodeFilter.SHOW_TEXT); let n = root;
   do {
     const el = n.nodeType === 1 ? n : n.parentElement;
-    if (!el || el.closest('.me,.bot,script,style,textarea')) continue;
+    if (!el || el.closest('.me,.bot,script,style,textarea')) continue; autoOK = !el.closest('#chatList,#langList,.ncard,.nitem,.sx,#remB');
     if (n.nodeType === 1) trAttr(n);
     else { const o = n.__t !== undefined && n.nodeValue === n.__t ? n.__o : n.nodeValue, t = lang === 'gulf' ? o : tr(o); n.__o = o; n.__t = t; if (n.nodeValue !== t) n.nodeValue = t; }
   } while ((n = w.nextNode()));
@@ -1300,9 +1342,14 @@ function bars(el, keys, colors){
   });
 }
 function renderRel(){ const l = $('relList'); l.innerHTML = ''; bars(l, REL, {'ثقة':'#2dd4bf','صداقة':'#facc15','زعل':'#f43f5e'}); }
+const STYLE_LIST = [("default", "عادي (حسب مزاجه)"), ("sarcastic", "ساخر"), ("calm", "هادئ"), ("angry", "عصبي"), ("fun", "مرح"), ("bedouin", "بدوي أصيل"), ("levant", "شامي"), ("egypt", "مصري"), ("maghreb", "مغاربي"), ("formal", "رسمي مهذب"), ("poetic", "شاعري"), ("coach", "مدرب تحفيزي"), ("wise", "حكيم"), ("kid", "طفولي"), ("brief", "مختصر جداً"), ("drama", "درامي"), ("philosopher", "فيلسوف"), ("teacher", "معلم صبور"), ("gamer", "لاعب"), ("anime", "أنمي"), ("friend", "صديق مقرّب"), ("newsman", "مذيع أخبار"), ("storyteller", "حكواتي"), ("detective", "محقق")];
 function renderStyle(){
   const l = $('styleList'); l.innerHTML = '';
-  [['default','عادي (حسب مزاجه)'],['sarcastic','ساخر'],['calm','هادئ'],['angry','عصبي'],['fun','مرح']].forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (style === k ? '✓ ' : '') + t; b.onclick = () => { style = k; store.set('limoai_style', k); renderStyle(); }; l.appendChild(b); });
+  STYLE_LIST.forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk' + (style === k ? ' sel' : ''); b.textContent = (style === k ? '✓ ' : '') + t; b.onclick = () => { style = k; store.set('limoai_style', k); renderStyle(); }; l.appendChild(b); });
+  const G = (k, d) => store.get(k, d), S = (k, v) => { store.set(k, v); renderStyle(); };
+  chips(l, 'كمية الإيموجي', [['none','بدون'],['low','قليلة'],['mid','عادية'],['high','كثيرة']], G('limoai_s_emo', 'mid'), k => S('limoai_s_emo', k));
+  chips(l, 'مستوى الفكاهة', [['serious','جاد'],['mid','عادي'],['high','كثير المزاح']], G('limoai_s_hum', 'mid'), k => S('limoai_s_hum', k));
+  chips(l, 'طول الجمل', [['short','قصيرة ومباشرة'],['mid','عادية'],['long','طويلة ووصفية']], G('limoai_s_sent', 'mid'), k => S('limoai_s_sent', k));
 }
 function renderFav(){
   const g = $('favGrid'); g.innerHTML = '';
@@ -1750,15 +1797,16 @@ if (window.visualViewport){
 /* ---- more menu + terms + login ---- */
 $('newTop').onclick = () => $('newBtn').click();
 $('diTheme').onclick = () => { renderTheme(); showDV('dTheme'); };
-$('status').onclick = () => { const q = $('qa'); q.hidden = !q.hidden; $('relBtn').hidden = false; };
-document.addEventListener('click', e => { if (!e.target.closest('#status')) $('qa').hidden = true; });
+function qaSet(o){ const q = $('qa'); clearTimeout(qaSet.t); if (o){ q.hidden = false; q.classList.remove('out'); $('relBtn').hidden = false; } else if (!q.hidden){ q.classList.add('out'); qaSet.t = setTimeout(() => { q.hidden = true; q.classList.remove('out'); }, 175); } }
+$('status').onclick = () => qaSet($('qa').hidden || $('qa').classList.contains('out'));
+document.addEventListener('click', e => { if (!e.target.closest('#status')) qaSet(false); });
 (function(){ const s = $('stk'); let y0 = null;
   $('stkX').onclick = () => { s.hidden = true; s.style.height = ''; };
   chat.addEventListener('click', () => { s.hidden = true; });
 })();
 /* ---- v2: features ---- */
 let fsz = Number(store.get('limoai_fs', 1)) || 1, replyLen = store.get('limoai_rlen', 'normal'), gifLvl = store.get('limoai_giflvl', 'high');
-let helperOn = store.get('limoai_helper', true), voiceLang = store.get('limoai_vlang', 'ar-SA'), autoRead = store.get('limoai_autoread', false);
+let helperOn = store.get('limoai_helper', true), voiceLang = 'ar-SA', autoRead = store.get('limoai_autoread', false);
 let voiceNext = false, voiceNow = false;
 function applyFs(){ document.documentElement.style.setProperty('--fs', fsz); }
 applyFs();
@@ -1793,28 +1841,29 @@ function speak(text, btn){
   parts.forEach(p => { if ((cur + p).length > 170){ if (cur) chunks.push(cur); cur = p; } else cur += p; }); if (cur) chunks.push(cur);
   if (btn){ speakingEl = btn; btn.classList.add('on'); }
   const fin = () => { if (id === spkId && btn && speakingEl === btn) stopSpeak(); };
-  const playA = from => {
-    let i = from; const bad = () => { if (id !== spkId) return; note('تعذّر تشغيل الصوت، تأكد من الإنترنت'); stopSpeak(); };
+  const playA = (from, onFail) => {
+    let i = from; const bad = () => { if (id !== spkId) return; if (onFail){ onFail(i - 1); return; } note('تعذّر تشغيل الصوت، تأكد من الإنترنت'); stopSpeak(); };
     const nx = () => { if (id !== spkId) return; if (i >= chunks.length){ fin(); return; }
       const a = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&client=tw-ob&tl=' + lang.slice(0, 2) + '&q=' + encodeURIComponent(chunks[i++]));
       curAudio = a; a.onended = nx; a.onerror = bad; const p = a.play(); if (p && p.catch) p.catch(bad); };
     nx();
   };
-  setTimeout(() => {
+  const hasTTS = 'speechSynthesis' in window;
+  const nat = from => {
     if (id !== spkId) return;
-    const hasTTS = 'speechSynthesis' in window, vs = hasTTS ? speechSynthesis.getVoices() : [];
-    const v = vs.find(x => x.lang.replace('_', '-') === lang) || vs.find(x => x.lang.slice(0, 2) === lang.slice(0, 2));
-    if (!hasTTS || (arabic && !v)){ if (arabic) playA(0); else note('القراءة الصوتية غير مدعومة في هذا المتصفح'); return; }
-    let i = 0;
+    const vs = hasTTS ? speechSynthesis.getVoices() : [], v = vs.find(x => x.lang.replace('_', '-') === lang) || vs.find(x => x.lang.slice(0, 2) === lang.slice(0, 2));
+    if (!hasTTS || (arabic && !v)){ note('تعذّر تشغيل الصوت'); stopSpeak(); return; }
+    let i = from;
     const next = () => {
       if (id !== spkId) return; if (i >= chunks.length){ fin(); return; }
       const u = new SpeechSynthesisUtterance(chunks[i++]); u.lang = v ? v.lang : lang; if (v) u.voice = v; u.onend = next;
-      u.onerror = ev => { if (id !== spkId) return; if (ev.error === 'canceled' || ev.error === 'interrupted') return; if (arabic){ speechSynthesis.cancel(); playA(i - 1); } else if (ev.error === 'not-allowed' || ev.error === 'synthesis-failed' || ev.error === 'language-unavailable'){ note('تعذّر تشغيل الصوت'); stopSpeak(); } else next(); };
+      u.onerror = ev => { if (id !== spkId || ev.error === 'canceled' || ev.error === 'interrupted') return; if (ev.error === 'not-allowed' || ev.error === 'synthesis-failed' || ev.error === 'language-unavailable'){ note('تعذّر تشغيل الصوت'); stopSpeak(); } else next(); };
       speechSynthesis.speak(u);
     };
     try { speechSynthesis.resume(); } catch(e){}
     next();
-  }, 120);
+  };
+  setTimeout(() => { if (id !== spkId) return; if (arabic) playA(0, k => nat(Math.max(0, k))); else nat(0); }, 100);
 }
 try { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => {}; } catch(e){}
 
@@ -1851,6 +1900,7 @@ async function gifList(cat, q, n){
   if (!q && OTAKU.has(cat)) for (let i = 0; i < 3; i++) jobs.push(jget('https://api.otakugifs.xyz/gif?reaction=' + cat).then(d => d.url ? [d.url] : []));
   const gp = (t, lim) => jget('https://api.giphy.com/v1/gifs/search?api_key=' + gk + '&q=' + encodeURIComponent(t) + '&limit=' + lim + '&rating=pg-13&offset=' + Math.floor(Math.random() * 25)).then(d => T(d.data || [], g => g.images && (g.images.fixed_height || g.images.downsized || {}).url));
   jobs.push(gp(term, 30)); jobs.push(gp('anime ' + term, 15));
+  jobs.push(jget('https://g.tenor.com/v1/search?q=' + encodeURIComponent(term) + '&key=LIVDSRZULELA&limit=20&media_filter=minimal&contentfilter=medium').then(d => T(d.results || [], r => r.media && r.media[0] && (r.media[0].gif || r.media[0].tinygif || {}).url)));
   const res = (await Promise.allSettled(jobs)).map(r => r.status === 'fulfilled' ? r.value : []);
   const out = [], seen = new Set(); let more = true;
   for (let i = 0; more; i++){ more = false; res.forEach(l => { if (i < l.length){ more = true; const u = l[i]; if (u && !seen.has(u)){ seen.add(u); out.push({url:u, label}); } } }); }
@@ -1881,9 +1931,8 @@ function chips(el, title, items, cur, set){
 }
 function renderVoice(){
   const el = $('voiceBody'); el.innerHTML = '';
-  chips(el, 'لهجة الميكروفون (فهم كلامك)', [['ar-SA','عربي - خليجي (السعودية)'],['ar-AE','عربي - الإمارات'],['ar-JO','عربي - شامي (الأردن)'],['ar-EG','عربي - مصر'],['ar-MA','عربي - المغرب'],['ar-DZ','عربي - الجزائر'],['en-US','English']], voiceLang, k => { voiceLang = k; store.set('limoai_vlang', k); renderVoice(); });
   chips(el, 'قراءة الردود بصوت', [[true,'يقرأ ردوده تلقائياً'],[false,'يدوي (زر السماعة تحت الرد)']], autoRead, k => { autoRead = k; store.set('limoai_autoread', k); if (!k) stopSpeak(); renderVoice(); });
-  chips(el, 'لغة القراءة', [['ar','عربي فصحى'],['auto','تلقائي (حسب لغة النص)']], store.get('limoai_readlang', 'auto'), k => { store.set('limoai_readlang', k); renderVoice(); });
+  chips(el, 'لغة القراءة والميكروفون', [['ar','العربية (تقرأ أي كلام عربي حتى لو كتابته مخبوطة)'],['auto','تلقائي (حسب لغة النص)']], store.get('limoai_readlang', 'auto'), k => { store.set('limoai_readlang', k); renderVoice(); });
   const t = document.createElement('button'); t.className = 'pk'; t.textContent = 'جرّب الصوت'; t.onclick = () => speak('هلا، أنا ليمو. هذا صوتي، تمام؟', null); el.appendChild(t);
 }
 function renderPref(){
@@ -1891,6 +1940,12 @@ function renderPref(){
   chips(el, 'طول الرد', [['short','قصير'],['normal','متوسط'],['long','مفصّل']], replyLen, k => { replyLen = k; store.set('limoai_rlen', k); renderPref(); });
   chips(el, 'كثرة الجيف', [['low','قليلة'],['mid','متوسطة'],['high','كثيرة']], gifLvl, k => { gifLvl = k; store.set('limoai_giflvl', k); renderPref(); });
   chips(el, 'وضع المساعد الذكي (تمارين وأمور الحياة اليومية)', [[true,'مفعّل'],[false,'متوقف']], helperOn, k => { helperOn = k; store.set('limoai_helper', k); renderPref(); });
+  const G = (k, d) => store.get(k, d), S = (k, v) => { store.set(k, v); renderPref(); };
+  chips(el, 'تخصص الرد', [("", "عام (بدون تخصص)"), ("code", "برمجة"), ("math", "رياضيات وعلوم"), ("study", "دراسة وتعلّم"), ("writing", "كتابة وتحرير"), ("creative", "إبداع وشعر وقصص"), ("translate", "ترجمة ولغات"), ("business", "أعمال وتسويق"), ("tech", "تقنية وأجهزة"), ("health", "صحة عامة"), ("fitness", "رياضة ولياقة"), ("cooking", "طبخ ووصفات"), ("travel", "سفر وسياحة"), ("finance", "مالية شخصية"), ("psych", "دعم نفسي ودود"), ("games", "ألعاب وأنمي"), ("history", "تاريخ وثقافة"), ("design", "تصميم وفن")], G('limoai_spec', ''), k => S('limoai_spec', k));
+  chips(el, 'مستوى الشرح', [['simple','مبسّط جداً'],['mid','عادي'],['pro','متقدم'],['expert','خبير']], G('limoai_depth', 'mid'), k => S('limoai_depth', k));
+  chips(el, 'شكل عرض الرد', [['auto','تلقائي'],['prose','فقرات متصلة'],['bul','نقاط مرتبة'],['steps','خطوات مرقمة'],['table','جداول عند المقارنة']], G('limoai_fmt', 'auto'), k => S('limoai_fmt', k));
+  chips(el, 'الأمثلة', [['auto','تلقائي'],['none','بدون أمثلة'],['one','مثال واحد'],['many','أمثلة كثيرة']], G('limoai_ex', 'auto'), k => S('limoai_ex', k));
+  chips(el, 'ختام الرد', [['auto','تلقائي'],['none','بدون أسئلة في الآخر'],['next','اقتراح خطوة تالية']], G('limoai_end', 'auto'), k => S('limoai_end', k));
 }
 const TOOLS = [['calc','حل تمرين','ساعدني أحل هذا التمرين خطوة بخطوة مع شرح الفكرة: '],['book','اشرح لي درس','اشرح لي هذا الدرس ببساطة مع مثال: '],['pen','لخّص نص','لخّص لي هذا النص في نقاط قصيرة: '],['globe','ترجمة','ترجم لي هذا النص بدقة: '],['cal','خطة يومي','رتّب لي خطة يومي بناءً على هذه المهام: '],['chef','وصفة أكل','اقترح لي وصفة سهلة بالمكونات اللي عندي: '],['wallet','ميزانية','ساعدني أرتب ميزانيتي الشهرية. دخلي ومصاريفي: '],['pulse','روتين صحي','اقترح لي روتين بسيط للنوم والرياضة والأكل (نصائح عامة): '],['mail','اكتب رسالة','ساعدني أكتب رسالة مناسبة بخصوص: '],['bulb','أفكار','عطني أفكار إبداعية حول: '],['code','برمجة','ساعدني في هذا الكود أو الفكرة البرمجية: '],['quiz','اختبرني','اختبرني بخمسة أسئلة في موضوع: ']];
 function renderTools(){
@@ -1909,6 +1964,7 @@ $('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بيا�
   if (a.includes('تصدير')){ const o = {}; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (k.startsWith('limoai_') || (PFX && k.startsWith(PFX))) o[k] = localStorage.getItem(k); } dl('limo-backup.json', 'application/json', JSON.stringify(o)); }
   else { const f = document.createElement('input'); f.type = 'file'; f.accept = '.json,application/json'; f.onchange = () => { const r = new FileReader(); r.onload = () => { try { const o = JSON.parse(r.result); Object.keys(o).forEach(k => { if (/^(limoai_|a_)/.test(k)) localStorage.setItem(k, o[k]); }); location.reload(); } catch(e){ note('الملف غير صالح'); } }; if (f.files[0]) r.readAsText(f.files[0]); }; f.click(); }
 });
+Object.assign(TR, {"آخر الأخبار": ["Latest news", "Últimas noticias", "最新新闻", "最新ニュース"], "أدوات ليمو": ["Limo tools", "Herramientas de Limo", "Limo 工具", "Limoツール"], "معرض GIF": ["GIF gallery", "Galería GIF", "GIF 图库", "GIFギャラリー"], "الصوت والقراءة": ["Voice & reading", "Voz y lectura", "语音与朗读", "音声と読み上げ"], "تخصيص الردود": ["Reply settings", "Ajustes de respuestas", "回复设置", "返信設定"], "نسخ احتياطي": ["Backup", "Copia de seguridad", "备份", "バックアップ"], "مسح كل المحادثات": ["Clear all chats", "Borrar todos los chats", "清除所有对话", "すべてのチャットを削除"], "الإشعارات": ["Notifications", "Notificaciones", "通知", "通知"], "البنود والقواعد": ["Terms & rules", "Términos y reglas", "条款与规则", "規約とルール"], "تخصيص": ["Personalize", "Personalizar", "个性化", "パーソナライズ"], "ارسم لي": ["Draw for me", "Dibuja para mí", "帮我画", "描いて"], "صمم لي": ["Design for me", "Diseña para mí", "帮我设计", "デザインして"], "اكتب لي": ["Write for me", "Escribe para mí", "帮我写", "書いて"], "اشرح لي": ["Explain to me", "Explícame", "给我解释", "説明して"]});
 if (typeof TR !== 'undefined' && Array.isArray(TR['هلا! أنا Limo ai'])) TR['هلا! أنا Limo'] = TR['هلا! أنا Limo ai'].map(x => String(x).replace(/Limo ai/g, 'Limo'));
 
 $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains('open'); b.classList.toggle('open', o); $('diMore').classList.toggle('open', o); $('diMore').lastChild.textContent = o ? 'عرض أقل' : 'عرض المزيد'; };
@@ -2099,6 +2155,44 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
 })();
 
 $('diTerms').onclick = () => showDV('dTerms');
+
+/* ---- personalization ---- */
+(function(){
+  $('diKeys').hidden = true; if (location.hash === '#keys') $('diKeys').hidden = false;
+  function render(){
+    const el = $('profBody'); el.innerHTML = ''; const pr = store.get('limoai_prof', {}) || {};
+    const t = document.createElement('div'); t.className = 'ptitle'; t.textContent = 'ماذا تريد أن يعرف Limo عنك؟'; el.appendChild(t);
+    const mk = (ph, key, type) => { const i = document.createElement('input'); i.className = 'pin'; i.placeholder = ph; i.type = type || 'text'; i.value = pr[key] || ''; i.dir = 'auto'; i.oninput = () => save(key, i.value.trim()); el.appendChild(i); return i; };
+    mk('اكتب اسمك', 'name'); mk('عمرك', 'age', 'number'); mk('بلدك', 'country');
+    const g = document.createElement('select'); g.className = 'pin';
+    [['','جنسك (اختياري)'],['بنت','بنت'],['ولد','ولد'],['','أفضّل عدم التحديد']].forEach(([v, x], i) => { const o = document.createElement('option'); o.value = v; o.textContent = x; if (i === 3) o.dataset.skip = 1; g.appendChild(o); });
+    g.value = pr.gender || ''; g.onchange = () => save('gender', g.value); el.appendChild(g);
+    const a = document.createElement('textarea'); a.className = 'pin'; a.placeholder = 'اكتب هنا أي معلومات تحب ليمو يعرفها عنك: هواياتك، دراستك أو عملك، اهتماماتك، طريقة كلامك المفضلة…'; a.value = pr.about || ''; a.dir = 'auto'; a.oninput = () => save('about', a.value.trim()); el.appendChild(a);
+    const sv = document.createElement('div'); sv.className = 'psaved'; sv.id = 'psaved'; sv.textContent = 'تم الحفظ ✓'; el.appendChild(sv);
+    const n = document.createElement('div'); n.className = 'nsec'; n.textContent = 'هذي المعلومات محفوظة بشكل دائم وهي الأساس اللي يعرفك ليمو منه، ولا تنحذف إلا إذا غيّرتها بنفسك.'; el.appendChild(n);
+  }
+  let tm = 0;
+  function save(k, v){ const p = store.get('limoai_prof', {}) || {}; p[k] = v; store.set('limoai_prof', p); const s = $('psaved'); if (s){ s.classList.add('on'); clearTimeout(tm); tm = setTimeout(() => s.classList.remove('on'), 1200); } }
+  $('diProf').onclick = () => { render(); showDV('dProf'); };
+})();
+
+/* ---- auto translation fallback ---- */
+var AUTO = {}, autoQ = new Set(), autoT = 0, autoFail = new Set();
+function autoCache(){ if (!AUTO[lang]){ try { AUTO[lang] = JSON.parse(localStorage.getItem('limoai_auto_' + lang) || '{}'); } catch(e){ AUTO[lang] = {}; } } return AUTO[lang]; }
+function limoAuto(k){
+  if (!/[\u0600-\u06FF]/.test(k) || k.length > 700 || !({en:1, es:1, zh:1, ja:1})[lang]) return null;
+  const c = autoCache(); if (c[k]) return c[k];
+  if (!autoQ.has(k) && !autoFail.has(k + lang)){ autoQ.add(k); clearTimeout(autoT); autoT = setTimeout(autoRun, 200); }
+  return null;
+}
+async function autoRun(){
+  const L = lang, tl = ({en:'en', es:'es', zh:'zh-CN', ja:'ja'})[L]; if (!tl) return;
+  const items = Array.from(autoQ); autoQ.clear(); const c = autoCache(); let n = 0;
+  const one = async k => { try { const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=' + tl + '&dt=t&q=' + encodeURIComponent(k)); const j = await r.json(); const t = (j[0] || []).map(x => x[0]).join(''); if (t){ c[k] = t; n++; } else autoFail.add(k + L); } catch(e){ autoFail.add(k + L); } };
+  for (let i = 0; i < items.length; i += 6) await Promise.all(items.slice(i, i + 6).map(one));
+  try { localStorage.setItem('limoai_auto_' + L, JSON.stringify(c)); } catch(e){}
+  if (n && lang === L) trNode(document.body);
+}
 </script>
 </body>
 </html>
