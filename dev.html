@@ -101,6 +101,15 @@
   table.dbg{width:100%; border-collapse:collapse; font-size:12px}
   table.dbg td{padding:7px 4px; border-bottom:1px solid var(--border); color:var(--muted)}
   table.dbg td:last-child{color:var(--text); text-align:left; direction:ltr}
+
+.pcard{background:var(--panel,#14141f);border:1px solid var(--line,#26263a);border-radius:16px;padding:14px;margin-bottom:16px}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pit{background:rgba(255,255,255,.04);border-radius:12px;padding:9px 11px;min-width:0}
+.pit .k{font-size:11px;color:var(--muted,#8b8ba7);margin-bottom:2px}.pit .v{font-size:14px;word-break:break-word}
+.pit.wide{grid-column:1/-1}
+.about{white-space:pre-wrap;line-height:1.8;font-size:13.5px}
+.bars .br{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}.bars .br i{display:block;height:8px;border-radius:6px;background:linear-gradient(90deg,#8b5cf6,#2dd4bf);min-width:4px}.bars .br span:first-child{width:92px;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(139,92,246,.18);margin-inline-start:4px}
 </style>
 </head>
 <body>
@@ -120,6 +129,7 @@
         <span id="meName">—</span>
       </div>
       <div class="row">
+        <button class="btn ghost small" id="csvBtn">CSV</button>
         <button class="btn ghost small" id="refreshBtn">تحديث</button>
         <button class="btn ghost small" id="logoutBtn">خروج</button>
       </div>
@@ -136,6 +146,9 @@
       <h2 class="sec">أكثر المواضيع تكراراً</h2>
       <div id="topics" class="topics panel"><span style="color:var(--muted)">...جاري التحليل</span></div>
 
+      <h2 class="sec">ملفات المستخدمين (التخصيص)</h2>
+      <div id="profStats"></div>
+
       <h2 class="sec">المناطق الزمنية (تقدير الدولة/المدينة)</h2>
       <div id="countries" class="panel"></div>
     </section>
@@ -143,13 +156,19 @@
     <!-- ===== المستخدمون ===== -->
     <section id="pane-users" class="pane">
       <h2 class="sec">المستخدمون (<span id="uCount">0</span>)</h2>
-      <input type="text" id="search" placeholder="ابحث بالاسم أو الإيميل...">
+      <input type="text" id="search" placeholder="ابحث بالاسم أو الإيميل أو البلد...">
       <div class="sortrow">
         <div class="row" id="filters">
           <button class="chip on" data-f="all">الكل</button>
           <button class="chip" data-f="today">نشطين اليوم</button>
           <button class="chip" data-f="flag">فيها تنبيه ⚠️</button>
           <button class="chip" data-f="blocked">محظورين</button>
+          <button class="chip" data-f="prof">عبّوا ملفهم</button>
+          <button class="chip" data-f="noprof">بدون ملف</button>
+          <button class="chip" data-f="boy">ولد</button>
+          <button class="chip" data-f="girl">بنت</button>
+          <button class="chip" data-f="minor">أقل من 18</button>
+          <button class="chip" data-f="new7">جدد (أسبوع)</button>
         </div>
       </div>
       <div class="row" style="margin-bottom:4px">
@@ -159,6 +178,8 @@
           <option value="sessions">أكثر جلسات</option>
           <option value="chats">أكثر محادثات</option>
           <option value="name">الاسم</option>
+          <option value="newest">الأحدث تسجيلاً</option>
+          <option value="age">العمر</option>
         </select>
       </div>
       <div id="list" class="list"><div class="empty"><div class="spin"></div></div></div>
@@ -177,7 +198,7 @@
       <h2 class="sec">ملاحظات صدق مهمة</h2>
       <div class="panel" style="font-size:13px; color:var(--muted); line-height:2">
         • <b style="color:var(--text)">نسبة الخمول</b> تقريبية، مبنية على آخر نشاط مسجّل — التطبيق ما يقدر يعرف لحظة إغلاق التبويب فعلياً.<br>
-        • <b style="color:var(--text)">الجنس/العمر</b> مو متوفرين: تسجيل الدخول بجوجل ما يعطينا هالبيانات، وما نجمعها من المستخدم مباشرة احتراماً لخصوصيته إلا لو قررت تضيف سؤال اختياري بالتطبيق لاحقاً.<br>
+        • <b style="color:var(--text)">الاسم/العمر/البلد/الجنس</b> يكتبها المستخدم بنفسه من زر «تخصيص» بالتطبيق وهي اختيارية، فمو كل الحسابات فيها بيانات، وما نتحقق من صحتها.<br>
         • <b style="color:var(--text)">تنبيه المحتوى</b> مبني على كلمات دلالية بسيطة لضيق نفسي/خطر على النفس، مو نظام ذكاء اصطناعي — ممكن يفوت حالات أو ينبّه بالخطأ، استخدمه كمؤشر أولي بس.
       </div>
     </section>
@@ -238,6 +259,7 @@ $('loginBtn').onclick = async () => {
 };
 $('logoutBtn').onclick = () => signOut(auth).then(() => location.reload());
 $('refreshBtn').onclick = () => loadAll();
+$('csvBtn').onclick = () => exportCsv();
 getRedirectResult(auth).catch(() => {});
 
 let ALL_USERS = [];
@@ -288,6 +310,39 @@ const RISK_WORDS = ['انتحار','اذيت نفسي','أؤذي نفسي','اق
 function isFlagged(u){ return (u.chats || []).some(c => (c.h || []).some(m => m && m.text && RISK_WORDS.some(w => String(m.text).toLowerCase().includes(w)))); }
 function countryFromTz(tz){ if (!tz) return 'غير معروف'; return tz.split('/').pop().replace(/_/g,' ') || tz; }
 
+
+// ---- ملف التخصيص (prof) ----
+const P = u => (u && u.prof) || {};
+const genderOf = u => { const g = P(u).gender; return g === 'ولد' || g === 'بنت' ? g : (g ? 'غير محدد' : 'لم يحدد'); };
+const ageOf = u => { const a = parseInt(P(u).age, 10); return a > 0 && a < 120 ? a : null; };
+const hasProf = u => { const p = P(u); return !!(p.name || p.age || p.country || p.gender || p.about); };
+const shownName = u => P(u).name || u.name || 'بدون اسم';
+const shownCountry = u => P(u).country || countryFromTz(u.tz);
+const fmtDate = t => t ? new Date(t).toLocaleString('ar') : '—';
+function ageGroup(a){ return a == null ? 'غير معروف' : a < 13 ? 'أقل من 13' : a < 18 ? '13 - 17' : a < 25 ? '18 - 24' : a < 35 ? '25 - 34' : a < 50 ? '35 - 49' : '50+'; }
+function barsHtml(map){
+  const rows = [...map.entries()].sort((a,b) => b[1]-a[1]); const mx = rows.length ? rows[0][1] : 1;
+  return rows.length ? '<div class="bars">' + rows.map(([k,n]) => `<div class="br"><span>${esc(k)}</span><i style="width:${Math.max(4, Math.round(n/mx*100))}%"></i><span>${n}</span></div>`).join('') + '</div>' : '<div class="empty">ما فيه بيانات</div>';
+}
+function renderProfStats(users){
+  const c = new Map(), g = new Map(), a = new Map(); let filled = 0;
+  users.forEach(u => { if (hasProf(u)) filled++; const p = P(u);
+    if (p.country) c.set(p.country.trim(), (c.get(p.country.trim())||0)+1);
+    g.set(genderOf(u), (g.get(genderOf(u))||0)+1); a.set(ageGroup(ageOf(u)), (a.get(ageGroup(ageOf(u)))||0)+1); });
+  const ages = users.map(ageOf).filter(x => x != null); const avg = ages.length ? (ages.reduce((x,y)=>x+y,0)/ages.length).toFixed(1) : '—';
+  $('profStats').innerHTML = `<div class="grid" style="margin-bottom:12px"><div class="card"><div class="num">${filled}</div><div class="lbl">عبّوا ملف التخصيص</div></div><div class="card"><div class="num">${users.length ? Math.round(filled/users.length*100) : 0}%</div><div class="lbl">نسبة التعبئة</div></div><div class="card"><div class="num">${avg}</div><div class="lbl">متوسط العمر</div></div></div>
+  <h3 class="sec" style="font-size:14px">الدول (من ملف المستخدم)</h3><div class="panel">${barsHtml(c)}</div>
+  <h3 class="sec" style="font-size:14px">الجنس</h3><div class="panel">${barsHtml(g)}</div>
+  <h3 class="sec" style="font-size:14px">الفئات العمرية</h3><div class="panel">${barsHtml(a)}</div>`;
+}
+function exportCsv(){
+  const q = v => '"' + String(v == null ? '' : v).replace(/"/g,'""') + '"';
+  const head = ['الاسم','اسم جوجل','الإيميل','العمر','البلد','الجنس','عن نفسه','اللغة','المنطقة الزمنية','التسجيل','آخر نشاط','الجلسات','المحادثات','محظور'];
+  const rows = applySort(applyFilter(ALL_USERS)).map(u => [P(u).name||'', u.name||'', u.email||'', P(u).age||'', P(u).country||'', P(u).gender||'', P(u).about||'', u.lang||'', u.tz||'', u.createdAt?new Date(u.createdAt).toISOString():'', u.lastActive?new Date(u.lastActive).toISOString():'', (u.stats&&u.stats.sessions)||0, (u.chats||[]).length, u.blocked?'نعم':'لا'].map(q).join(','));
+  const blob = new Blob(['\ufeff' + [head.map(q).join(',')].concat(rows).join('\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'limo-users.csv'; a.click(); toast('انحفظ ملف CSV');
+}
+
 // ---- تحميل البيانات ----
 async function loadAll(){
   $('list').innerHTML = '<div class="empty"><div class="spin"></div></div>';
@@ -300,6 +355,7 @@ async function loadAll(){
   renderChart(users);
   renderTopics(users);
   renderCountries(users);
+  renderProfStats(users);
   renderList();
 }
 
@@ -392,20 +448,28 @@ function applyFilter(users){
   if (curFilter === 'today') return users.filter(u => u.lastActive && now - u.lastActive < DAY);
   if (curFilter === 'flag') return users.filter(isFlagged);
   if (curFilter === 'blocked') return users.filter(u => u.blocked);
+  if (curFilter === 'prof') return users.filter(hasProf);
+  if (curFilter === 'noprof') return users.filter(u => !hasProf(u));
+  if (curFilter === 'boy') return users.filter(u => P(u).gender === 'ولد');
+  if (curFilter === 'girl') return users.filter(u => P(u).gender === 'بنت');
+  if (curFilter === 'minor') return users.filter(u => { const a = ageOf(u); return a != null && a < 18; });
+  if (curFilter === 'new7') return users.filter(u => u.createdAt && now - u.createdAt < 7*DAY);
   return users;
 }
 function applySort(users){
   const arr = users.slice();
   if (curSort === 'sessions') arr.sort((a,b) => ((b.stats&&b.stats.sessions)||0) - ((a.stats&&a.stats.sessions)||0));
   else if (curSort === 'chats') arr.sort((a,b) => (b.chats||[]).length - (a.chats||[]).length);
-  else if (curSort === 'name') arr.sort((a,b) => (a.name||'').localeCompare(b.name||'', 'ar'));
+  else if (curSort === 'name') arr.sort((a,b) => shownName(a).localeCompare(shownName(b), 'ar'));
+  else if (curSort === 'newest') arr.sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+  else if (curSort === 'age') arr.sort((a,b) => (ageOf(b)||0) - (ageOf(a)||0));
   else arr.sort((a,b) => (b.lastActive||0) - (a.lastActive||0));
   return arr;
 }
 function renderList(){
   const q = $('search').value.trim().toLowerCase();
   let users = applyFilter(ALL_USERS);
-  if (q) users = users.filter(u => (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q));
+  if (q) users = users.filter(u => (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q) || (P(u).name||'').toLowerCase().includes(q) || (P(u).country||'').toLowerCase().includes(q) || String(P(u).about||'').toLowerCase().includes(q));
   users = applySort(users);
   $('uCount').textContent = users.length;
   const html = users.map(u => {
@@ -413,8 +477,8 @@ function renderList(){
     return `<div class="urow" data-id="${u.id}">
       <img src="${u.photo || './icon-192.png'}" onerror="this.src='./icon-192.png'">
       <div class="meta">
-        <div class="n">${esc(u.name || 'بدون اسم')}</div>
-        <div class="e">${esc(u.email || '')} · ${esc(countryFromTz(u.tz))}</div>
+        <div class="n">${esc(shownName(u))}${P(u).gender ? `<span class="tag">${esc(P(u).gender)}${ageOf(u) ? ' · ' + ageOf(u) : ''}</span>` : (ageOf(u) ? `<span class="tag">${ageOf(u)}</span>` : '')}</div>
+        <div class="e">${esc(u.email || '')} · ${esc(shownCountry(u))}</div>
       </div>
       ${u.blocked ? '<span class="badge blocked">محظور</span>' : ''}
       ${flagged ? '<span class="badge flag">⚠️</span>' : ''}
@@ -435,7 +499,7 @@ function openUser(id){
   const u = ALL_USERS.find(x => x.id === id);
   if (!u) return;
   $('ovImg').src = u.photo || './icon-192.png';
-  $('ovName').textContent = u.name || 'بدون اسم';
+  $('ovName').textContent = shownName(u) + (P(u).name && u.name && P(u).name !== u.name ? ' (' + u.name + ')' : '');
   $('ovEmail').textContent = u.email || '';
 
   const flagged = isFlagged(u);
@@ -458,11 +522,35 @@ function openUser(id){
       <span class="badge ok">أُنشئت: ${s.chatsCreated||0}</span>
       <span class="badge ok">اتحذفت: ${s.chatsDeleted||0}</span>
     </div>
-    <h2 class="sec" style="margin-top:0">المحادثات</h2>
+    <h2 class="sec" style="margin-top:0">ملف المستخدم</h2>
+    <div class="pcard">
+      <div class="pgrid">
+        <div class="pit"><div class="k">الاسم</div><div class="v">${esc(P(u).name || '—')}</div></div>
+        <div class="pit"><div class="k">العمر</div><div class="v">${esc(P(u).age || '—')}</div></div>
+        <div class="pit"><div class="k">البلد</div><div class="v">${esc(P(u).country || '—')}</div></div>
+        <div class="pit"><div class="k">الجنس</div><div class="v">${esc(P(u).gender || '—')}</div></div>
+        <div class="pit wide"><div class="k">عن نفسه</div><div class="v about">${esc(P(u).about || '—')}</div></div>
+      </div>
+    </div>
+    <h2 class="sec">معلومات الحساب</h2>
+    <div class="pcard"><div class="pgrid">
+      <div class="pit"><div class="k">اسم حساب جوجل</div><div class="v">${esc(u.name || '—')}</div></div>
+      <div class="pit"><div class="k">الإيميل</div><div class="v" style="direction:ltr;text-align:start">${esc(u.email || '—')}</div></div>
+      <div class="pit"><div class="k">اللغة</div><div class="v">${esc(u.lang || '—')}</div></div>
+      <div class="pit"><div class="k">المنطقة الزمنية</div><div class="v" style="direction:ltr;text-align:start">${esc(u.tz || '—')}</div></div>
+      <div class="pit"><div class="k">تاريخ التسجيل</div><div class="v">${fmtDate(u.createdAt)}</div></div>
+      <div class="pit"><div class="k">آخر نشاط</div><div class="v">${fmtDate(u.lastActive)}</div></div>
+      <div class="pit"><div class="k">آخر مزامنة</div><div class="v">${fmtDate(u.updatedAt)}</div></div>
+      <div class="pit"><div class="k">عدد المحادثات</div><div class="v">${(u.chats||[]).length}</div></div>
+      <div class="pit wide"><div class="k">UID</div><div class="v" style="direction:ltr;text-align:start;font-size:12px">${esc(u.id)}</div></div>
+    </div>
+    <div class="row" style="margin-top:10px"><button class="btn ghost small" id="copyJson">نسخ بيانات الحساب JSON</button></div></div>
+    <h2 class="sec">المحادثات</h2>
     <div id="chatList">${chatsHtml}</div>
     <div id="chatView"></div>
   `;
 
+  $('copyJson').onclick = () => { const o = Object.assign({}, u); delete o.chats; navigator.clipboard.writeText(JSON.stringify(o, null, 2)).then(() => toast('اننسخت')).catch(() => toast('ما قدرت أنسخ')); };
   $('blockBtn').onclick = async () => {
     try { await updateDoc(doc(db, 'users', u.id), {blocked: !u.blocked}); u.blocked = !u.blocked; toast(u.blocked ? 'انحظر الحساب' : 'انفك الحظر'); openUser(id); renderList(); renderStats(ALL_USERS); }
     catch(e){ toast('ما قدرت أحدّث الحساب'); }
