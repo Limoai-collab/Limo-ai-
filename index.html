@@ -1965,6 +1965,9 @@ $('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بيا�
   else { const f = document.createElement('input'); f.type = 'file'; f.accept = '.json,application/json'; f.onchange = () => { const r = new FileReader(); r.onload = () => { try { const o = JSON.parse(r.result); Object.keys(o).forEach(k => { if (/^(limoai_|a_)/.test(k)) localStorage.setItem(k, o[k]); }); location.reload(); } catch(e){ note('الملف غير صالح'); } }; if (f.files[0]) r.readAsText(f.files[0]); }; f.click(); }
 });
 Object.assign(TR, {"آخر الأخبار": ["Latest news", "Últimas noticias", "最新新闻", "最新ニュース"], "أدوات ليمو": ["Limo tools", "Herramientas de Limo", "Limo 工具", "Limoツール"], "معرض GIF": ["GIF gallery", "Galería GIF", "GIF 图库", "GIFギャラリー"], "الصوت والقراءة": ["Voice & reading", "Voz y lectura", "语音与朗读", "音声と読み上げ"], "تخصيص الردود": ["Reply settings", "Ajustes de respuestas", "回复设置", "返信設定"], "نسخ احتياطي": ["Backup", "Copia de seguridad", "备份", "バックアップ"], "مسح كل المحادثات": ["Clear all chats", "Borrar todos los chats", "清除所有对话", "すべてのチャットを削除"], "الإشعارات": ["Notifications", "Notificaciones", "通知", "通知"], "البنود والقواعد": ["Terms & rules", "Términos y reglas", "条款与规则", "規約とルール"], "تخصيص": ["Personalize", "Personalizar", "个性化", "パーソナライズ"], "ارسم لي": ["Draw for me", "Dibuja para mí", "帮我画", "描いて"], "صمم لي": ["Design for me", "Diseña para mí", "帮我设计", "デザインして"], "اكتب لي": ["Write for me", "Escribe para mí", "帮我写", "書いて"], "اشرح لي": ["Explain to me", "Explícame", "给我解释", "説明して"]});
+Object.assign(TR, {"رجوع":["Back","Atrás","返回","戻る"],"جنسك (اختياري)":["Gender (optional)","Género (opcional)","性别（可选）","性別（任意）"],"بنت":["Girl","Chica","女生","女の子"],"ولد":["Boy","Chico","男生","男の子"],"أفضّل عدم التحديد":["Prefer not to say","Prefiero no decirlo","不想说明","答えたくない"]});
+Object.assign(TR, {"أي فكرة تخطر ببالك": ["Any idea that comes to mind", "Cualquier idea que se te ocurra", "你想到的任何点子", "思いついたアイデア"], "شعار، بوستر، شكل": ["Logo, poster, look", "Logo, póster, diseño", "标志、海报、造型", "ロゴ、ポスター、デザイン"], "رسالة، قصة، شعر": ["Message, story, poem", "Mensaje, historia, poema", "信息、故事、诗", "メッセージ、物語、詩"], "أي درس أو فكرة": ["Any lesson or idea", "Cualquier lección o idea", "任何课程或想法", "どんなレッスンやアイデアも"], "موقف عشوائي": ["Random scenario", "Situación aleatoria", "随机情景", "ランダムな場面"], "مزاح أو ذكاء": ["Fun or brains", "Humor o ingenio", "玩笑或智力", "ジョークか知恵"], "اكتب موقف وشوف": ["Write a scenario", "Escribe una situación", "写一个情景", "場面を書いてみて"], "شو صار اليوم": ["What happened today", "Qué pasó hoy", "今天发生了什么", "今日何があった"], "تحدّي": ["Challenge", "Desafío", "挑战", "チャレンジ"], "تصالح": ["Make up", "Reconciliar", "和好", "仲直り"], "تحدّي مزاح": ["Banter challenge", "Desafío de bromas", "玩笑挑战", "ジョーク対決"], "تحدّي ذكاء": ["Brain challenge", "Desafío de ingenio", "智力挑战", "頭脳チャレンジ"], "اكتب تحدّي من عندك": ["Write your own challenge", "Escribe tu propio desafío", "自己写挑战", "自分でチャレンジを書く"]});
+if (lang !== 'gulf') trNode(document.body);
 if (typeof TR !== 'undefined' && Array.isArray(TR['هلا! أنا Limo ai'])) TR['هلا! أنا Limo'] = TR['هلا! أنا Limo ai'].map(x => String(x).replace(/Limo ai/g, 'Limo'));
 
 $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains('open'); b.classList.toggle('open', o); $('diMore').classList.toggle('open', o); $('diMore').lastChild.textContent = o ? 'عرض أقل' : 'عرض المزيد'; };
@@ -2177,18 +2180,18 @@ $('diTerms').onclick = () => showDV('dTerms');
 })();
 
 /* ---- auto translation fallback ---- */
-var AUTO = {}, autoQ = new Set(), autoT = 0, autoFail = new Set();
-function autoCache(){ if (!AUTO[lang]){ try { AUTO[lang] = JSON.parse(localStorage.getItem('limoai_auto_' + lang) || '{}'); } catch(e){ AUTO[lang] = {}; } } return AUTO[lang]; }
+function LA(){ return window.__LA || (window.__LA = {c:{}, q:new Set(), f:new Set(), t:0}); }
+function autoCache(){ const A = LA(); if (!A.c[lang]){ try { A.c[lang] = JSON.parse(localStorage.getItem('limoai_auto_' + lang) || '{}'); } catch(e){ A.c[lang] = {}; } } return A.c[lang]; }
 function limoAuto(k){
   if (!/[\u0600-\u06FF]/.test(k) || k.length > 700 || !({en:1, es:1, zh:1, ja:1})[lang]) return null;
-  const c = autoCache(); if (c[k]) return c[k];
-  if (!autoQ.has(k) && !autoFail.has(k + lang)){ autoQ.add(k); clearTimeout(autoT); autoT = setTimeout(autoRun, 200); }
+  const A = LA(), c = autoCache(); if (c[k]) return c[k];
+  if (!A.q.has(k) && !A.f.has(k + lang)){ A.q.add(k); clearTimeout(A.t); A.t = setTimeout(autoRun, 200); }
   return null;
 }
 async function autoRun(){
-  const L = lang, tl = ({en:'en', es:'es', zh:'zh-CN', ja:'ja'})[L]; if (!tl) return;
-  const items = Array.from(autoQ); autoQ.clear(); const c = autoCache(); let n = 0;
-  const one = async k => { try { const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=' + tl + '&dt=t&q=' + encodeURIComponent(k)); const j = await r.json(); const t = (j[0] || []).map(x => x[0]).join(''); if (t){ c[k] = t; n++; } else autoFail.add(k + L); } catch(e){ autoFail.add(k + L); } };
+  const A = LA(), L = lang, tl = ({en:'en', es:'es', zh:'zh-CN', ja:'ja'})[L]; if (!tl) return;
+  const items = Array.from(A.q); A.q.clear(); const c = autoCache(); let n = 0;
+  const one = async k => { try { const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=ar&tl=' + tl + '&dt=t&q=' + encodeURIComponent(k)); const j = await r.json(); const t = (j[0] || []).map(x => x[0]).join(''); if (t){ c[k] = t; n++; } else A.f.add(k + L); } catch(e){ A.f.add(k + L); } };
   for (let i = 0; i < items.length; i += 6) await Promise.all(items.slice(i, i + 6).map(one));
   try { localStorage.setItem('limoai_auto_' + L, JSON.stringify(c)); } catch(e){}
   if (n && lang === L) trNode(document.body);
