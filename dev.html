@@ -110,6 +110,27 @@
 .about{white-space:pre-wrap;line-height:1.8;font-size:13.5px}
 .bars .br{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px}.bars .br i{display:block;height:8px;border-radius:6px;background:linear-gradient(90deg,#8b5cf6,#2dd4bf);min-width:4px}.bars .br span:first-child{width:92px;flex:none;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;background:rgba(139,92,246,.18);margin-inline-start:4px}
+
+#app .wrap{padding-bottom:calc(140px + env(safe-area-inset-bottom,0px))}
+.ov-body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px))}
+#sdrOv{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:88;opacity:0;pointer-events:none;transition:opacity .25s}
+#sdrOv.on{opacity:1;pointer-events:auto}
+#sdr{position:fixed;top:0;bottom:0;right:0;width:min(86vw,340px);background:#10101c;border-inline-start:1px solid #26263a;z-index:89;transform:translateX(102%);transition:transform .3s cubic-bezier(.2,.9,.3,1);overflow-y:auto;padding:16px 14px calc(30px + env(safe-area-inset-bottom,0px));box-shadow:-10px 0 30px rgba(0,0,0,.5)}
+#sdr.on{transform:none}
+#sdr.drag{transition:none}
+#sdr h3{font-size:13px;color:#8b8ba7;margin:18px 2px 8px;font-weight:700}
+#sdr h3:first-child{margin-top:4px}
+.sbtn{display:flex;align-items:center;justify-content:space-between;width:100%;background:rgba(255,255,255,.05);border:1px solid #26263a;color:inherit;border-radius:12px;padding:11px 12px;font:inherit;font-size:13.5px;margin-bottom:6px;cursor:pointer;text-align:start;transition:transform .15s,border-color .2s}
+.sbtn:active{transform:scale(.97);border-color:#8b5cf6}
+.sbtn b{font-size:12px;color:#2dd4bf}
+.sf{display:block;width:100%;background:#0b0b14;border:1px solid #26263a;color:inherit;border-radius:10px;padding:10px;font:inherit;font-size:13.5px;margin-bottom:6px}
+.sfr{display:flex;gap:6px}.sfr .sf{min-width:0}
+.sstat{display:flex;justify-content:space-between;font-size:13px;padding:6px 2px;border-bottom:1px dashed #26263a}.sstat b{color:#2dd4bf}
+#predBar{display:none;align-items:center;justify-content:space-between;gap:8px;background:rgba(139,92,246,.16);border:1px solid #8b5cf6;border-radius:12px;padding:8px 12px;margin:8px 0;font-size:13px}
+#predBar.on{display:flex}#predBar button{background:none;border:0;color:#fca5a5;font-size:18px;cursor:pointer}
+.mail{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.mbox{display:none;margin-top:10px}.mbox.on{display:block}
+.mbox textarea{min-height:110px;resize:vertical}
 </style>
 </head>
 <body>
@@ -129,6 +150,7 @@
         <span id="meName">—</span>
       </div>
       <div class="row">
+        <button class="btn ghost small" id="toolsBtn">أدوات</button>
         <button class="btn ghost small" id="csvBtn">CSV</button>
         <button class="btn ghost small" id="refreshBtn">تحديث</button>
         <button class="btn ghost small" id="logoutBtn">خروج</button>
@@ -182,6 +204,7 @@
           <option value="age">العمر</option>
         </select>
       </div>
+      <div id="predBar"><span id="predTxt"></span><button id="predX" aria-label="إلغاء">✕</button></div>
       <div id="list" class="list"><div class="empty"><div class="spin"></div></div></div>
     </section>
 
@@ -233,6 +256,8 @@
   <div class="ov-body" id="ovBody"></div>
 </div>
 
+<div id="sdrOv"></div>
+<aside id="sdr"></aside>
 <div class="toast" id="toast"></div>
 
 <script type="module">
@@ -263,7 +288,7 @@ $('csvBtn').onclick = () => exportCsv();
 getRedirectResult(auth).catch(() => {});
 
 let ALL_USERS = [];
-let curFilter = 'all', curSort = 'active';
+let curFilter = 'all', curSort = 'active', curPred = null;
 
 onAuthStateChanged(auth, async (u) => {
   if (!u){ $('gate').style.display = 'flex'; $('app').style.display = 'none'; $('tabbar').style.display = 'none'; return; }
@@ -445,6 +470,7 @@ function renderCountries(users){
 
 function applyFilter(users){
   const now = Date.now(), DAY = 86400000;
+  if (curPred) users = users.filter(curPred.fn);
   if (curFilter === 'today') return users.filter(u => u.lastActive && now - u.lastActive < DAY);
   if (curFilter === 'flag') return users.filter(isFlagged);
   if (curFilter === 'blocked') return users.filter(u => u.blocked);
@@ -545,11 +571,36 @@ function openUser(id){
       <div class="pit wide"><div class="k">UID</div><div class="v" style="direction:ltr;text-align:start;font-size:12px">${esc(u.id)}</div></div>
     </div>
     <div class="row" style="margin-top:10px"><button class="btn ghost small" id="copyJson">نسخ بيانات الحساب JSON</button></div></div>
+    <h2 class="sec">مراسلة المستخدم</h2>
+    <div class="pcard">
+      ${u.email ? `<div style="font-size:12.5px;color:var(--muted,#8b8ba7)">يفتح تطبيق الإيميل عندك والرسالة تنرسل من حسابك أنت.</div>
+      <div class="mail">
+        <button class="btn small" data-m="welcome">ترحيب</button>
+        <button class="btn small" data-m="help">مساعدة</button>
+        <button class="btn small" data-m="warn">تنبيه</button>
+        <button class="btn small ghost" data-m="custom">رسالة مخصصة</button>
+        <button class="btn small ghost" id="copyMail">نسخ الإيميل</button>
+      </div>
+      <div class="mbox" id="mbox"><input class="sf" id="mSub" placeholder="العنوان"><textarea class="sf" id="mBody" placeholder="نص الرسالة"></textarea><button class="btn small" id="mSend">فتح الإيميل</button></div>` : '<div class="empty">هذا الحساب ما عنده إيميل</div>'}
+    </div>
     <h2 class="sec">المحادثات</h2>
     <div id="chatList">${chatsHtml}</div>
     <div id="chatView"></div>
   `;
 
+  if (u.email){
+    const nm = shownName(u);
+    const T = {
+      welcome:['أهلاً بك في Limo ai', `هلا ${nm}،\n\nمرحباً فيك بـ Limo ai! سعيدين إنك معنا. لو احتجت أي مساعدة أو عندك فكرة تحسّن التطبيق، رد على هالرسالة.\n\nتحياتي`],
+      help:['مساعدة من Limo ai', `هلا ${nm}،\n\nلاحظت إنك تستخدم Limo ai وحبيت أساعدك. لو واجهت مشكلة أو تبي تعرف طريقة استخدام ميزة معيّنة، قل لي وأنا حاضر.\n\nتحياتي`],
+      warn:['تنبيه بخصوص استخدام Limo ai', `هلا ${nm}،\n\nحبيت أنبّهك بخصوص استخدامك Limo ai: \n\n\nشكراً لتفهمك.`],
+      custom:['', '']
+    };
+    const box = $('mbox');
+    document.querySelectorAll('.mail [data-m]').forEach(b => b.onclick = () => { const t = T[b.dataset.m]; $('mSub').value = t[0]; $('mBody').value = t[1]; box.classList.add('on'); $('mBody').focus(); });
+    $('mSend').onclick = () => { location.href = 'mailto:' + encodeURIComponent(u.email) + '?subject=' + encodeURIComponent($('mSub').value) + '&body=' + encodeURIComponent($('mBody').value); };
+    $('copyMail').onclick = () => navigator.clipboard.writeText(u.email).then(() => toast('اننسخ الإيميل')).catch(() => toast('ما قدرت أنسخ'));
+  }
   $('copyJson').onclick = () => { const o = Object.assign({}, u); delete o.chats; navigator.clipboard.writeText(JSON.stringify(o, null, 2)).then(() => toast('اننسخت')).catch(() => toast('ما قدرت أنسخ')); };
   $('blockBtn').onclick = async () => {
     try { await updateDoc(doc(db, 'users', u.id), {blocked: !u.blocked}); u.blocked = !u.blocked; toast(u.blocked ? 'انحظر الحساب' : 'انفك الحظر'); openUser(id); renderList(); renderStats(ALL_USERS); }
@@ -574,6 +625,80 @@ function renderChatView(c){
   $('chatView').scrollIntoView({behavior:'smooth'});
 }
 $('backBtn').onclick = () => $('overlay').classList.remove('on');
+// ---- قائمة الأدوات الجانبية ----
+const sdr = $('sdr'), sdrOv = $('sdrOv');
+function openSdr(){ renderSdr(); sdr.classList.add('on'); sdrOv.classList.add('on'); }
+function closeSdr(){ sdr.classList.remove('on'); sdrOv.classList.remove('on'); sdr.style.transform = ''; }
+$('toolsBtn').onclick = openSdr; sdrOv.onclick = closeSdr;
+let tx0 = null, txd = 0, tOpen = false;
+document.addEventListener('touchstart', e => { const t = e.touches[0]; tOpen = sdr.classList.contains('on'); if ((!tOpen && t.clientX > innerWidth - 26 && $('app').style.display !== 'none') || tOpen){ tx0 = t.clientX; txd = 0; } else tx0 = null; }, {passive:true});
+document.addEventListener('touchmove', e => { if (tx0 === null) return; txd = e.touches[0].clientX - tx0; const w = sdr.offsetWidth;
+  if (!tOpen && txd < 0){ if (!sdr.classList.contains('drag')){ renderSdr(); sdr.classList.add('drag'); } const p = Math.max(0, w + txd); sdr.style.transform = 'translateX(' + p + 'px)'; sdrOv.style.opacity = String(1 - p / w); sdrOv.style.pointerEvents = 'auto'; }
+  else if (tOpen && txd > 0){ sdr.classList.add('drag'); sdr.style.transform = 'translateX(' + txd + 'px)'; sdrOv.style.opacity = String(1 - txd / w); } }, {passive:true});
+document.addEventListener('touchend', () => { if (tx0 === null) return; const dragging = sdr.classList.contains('drag'); sdr.classList.remove('drag'); sdrOv.style.opacity = ''; sdr.style.transform = '';
+  if (dragging){ if (!tOpen && txd < -70) { sdr.classList.add('on'); sdrOv.classList.add('on'); } else if (tOpen && txd > 70) closeSdr(); else if (!tOpen) { sdr.classList.remove('on'); sdrOv.classList.remove('on'); } sdrOv.style.pointerEvents = ''; }
+  tx0 = null; });
+
+function setPred(label, fn, sort){
+  curPred = {label, fn}; curFilter = 'all'; if (sort) { curSort = sort; $('sortSel').value = sort; }
+  [...document.querySelectorAll('#filters .chip')].forEach(c => c.classList.toggle('on', c.dataset.f === 'all'));
+  $('predTxt').textContent = 'فلتر: ' + label; $('predBar').classList.add('on'); closeSdr(); goTab('users'); renderList();
+}
+$('predX').onclick = () => { curPred = null; $('predBar').classList.remove('on'); renderList(); };
+function chatsText(u){ return (u.chats || []).map(c => (c.h || []).map(m => m && m.text || '').join(' ')).join(' ').toLowerCase(); }
+function curList(){ return applySort(applyFilter(ALL_USERS)); }
+function renderSdr(){
+  const U = ALL_USERS, now = Date.now(), D = 864e5;
+  const msgs = U.reduce((a,u) => a + (u.chats||[]).reduce((b,c) => b + (c.h||[]).length, 0), 0), chats = U.reduce((a,u) => a + (u.chats||[]).length, 0);
+  const lc = new Map(); U.forEach(u => { if (u.lang) lc.set(u.lang, (lc.get(u.lang)||0)+1); }); const topLang = [...lc.entries()].sort((a,b)=>b[1]-a[1])[0];
+  const cc = new Map(); U.forEach(u => { const c = shownCountry(u); cc.set(c, (cc.get(c)||0)+1); }); const topC = [...cc.entries()].sort((a,b)=>b[1]-a[1])[0];
+  const minors = U.filter(u => { const a = ageOf(u); return a != null && a < 18; }).length;
+  const langs = [...lc.keys()];
+  const pre = [
+    ['الأكثر نشاطاً (جلسات)', () => true, 'sessions', ''], ['الجدد آخر 7 أيام', u => u.createdAt && now - u.createdAt < 7*D, 'newest', U.filter(u => u.createdAt && now - u.createdAt < 7*D).length],
+    ['الخاملين أكثر من 14 يوم', u => !u.lastActive || now - u.lastActive > 14*D, 'active', U.filter(u => !u.lastActive || now - u.lastActive > 14*D).length],
+    ['بدون ملف تخصيص', u => !hasProf(u), 'active', U.filter(u => !hasProf(u)).length], ['القاصرين (أقل من 18)', u => { const a = ageOf(u); return a != null && a < 18; }, 'age', minors],
+    ['الأكثر محادثات', u => (u.chats||[]).length > 0, 'chats', ''], ['بدون أي محادثة', u => !(u.chats||[]).length, 'active', U.filter(u => !(u.chats||[]).length).length],
+    ['فيها تنبيه ⚠️', isFlagged, 'active', U.filter(isFlagged).length], ['المحظورين', u => u.blocked, 'active', U.filter(u => u.blocked).length]
+  ];
+  sdr.innerHTML = `<h3>قوائم جاهزة للتحليل</h3>` + pre.map((p,i) => `<button class="sbtn" data-p="${i}"><span>${p[0]}</span><b>${p[3]}</b></button>`).join('') + `
+  <h3>بحث متقدم</h3>
+  <input class="sf" id="qC" placeholder="البلد (مثلاً الجزائر)">
+  <div class="sfr"><select class="sf" id="qG"><option value="">كل الأجناس</option><option>ولد</option><option>بنت</option><option value="none">غير محدد</option></select><select class="sf" id="qL"><option value="">كل اللغات</option>${langs.map(l => `<option>${esc(l)}</option>`).join('')}</select></div>
+  <div class="sfr"><input class="sf" id="qA1" type="number" placeholder="عمر من"><input class="sf" id="qA2" type="number" placeholder="عمر إلى"></div>
+  <select class="sf" id="qT"><option value="">أي وقت نشاط</option><option value="a1">نشط آخر 24 ساعة</option><option value="a7">نشط آخر أسبوع</option><option value="a30">نشط آخر شهر</option><option value="i7">خامل أكثر من أسبوع</option><option value="i30">خامل أكثر من شهر</option></select>
+  <input class="sf" id="qW" placeholder="كلمة داخل المحادثات">
+  <div class="sfr"><button class="sbtn" id="qGo" style="justify-content:center">تطبيق البحث</button><button class="sbtn" id="qRst" style="justify-content:center">مسح</button></div>
+  <h3>أدوات</h3>
+  <button class="sbtn" id="tCopy"><span>نسخ إيميلات القائمة الحالية</span><b>${curList().filter(u => u.email).length}</b></button>
+  <button class="sbtn" id="tMail"><span>مراسلة القائمة الحالية (BCC)</span></button>
+  <button class="sbtn" id="tCsv"><span>تصدير CSV</span></button>
+  <button class="sbtn" id="tJson"><span>تصدير JSON (بدون المحادثات)</span></button>
+  <button class="sbtn" id="tRef"><span>تحديث البيانات</span></button>
+  <button class="sbtn" id="tOv"><span>الذهاب للنظرة العامة</span></button>
+  <h3>تحليل سريع</h3>
+  <div class="sstat"><span>إجمالي الرسائل</span><b>${msgs}</b></div><div class="sstat"><span>متوسط المحادثات/مستخدم</span><b>${U.length ? (chats/U.length).toFixed(1) : 0}</b></div><div class="sstat"><span>متوسط الرسائل/محادثة</span><b>${chats ? (msgs/chats).toFixed(1) : 0}</b></div><div class="sstat"><span>أكثر لغة</span><b>${topLang ? esc(topLang[0]) + ' (' + topLang[1] + ')' : '—'}</b></div><div class="sstat"><span>أكثر بلد</span><b>${topC ? esc(topC[0]) + ' (' + topC[1] + ')' : '—'}</b></div><div class="sstat"><span>نسبة القاصرين</span><b>${U.length ? Math.round(minors/U.length*100) : 0}%</b></div>`;
+  sdr.querySelectorAll('[data-p]').forEach(b => b.onclick = () => { const p = pre[+b.dataset.p]; setPred(p[0], p[1], p[2]); });
+  $('qGo').onclick = () => {
+    const c = $('qC').value.trim().toLowerCase(), g = $('qG').value, l = $('qL').value, a1 = parseInt($('qA1').value, 10), a2 = parseInt($('qA2').value, 10), t = $('qT').value, w = $('qW').value.trim().toLowerCase();
+    const parts = [c && 'بلد: ' + c, g && 'جنس: ' + (g === 'none' ? 'غير محدد' : g), l && 'لغة: ' + l, (a1 || a2) && 'عمر ' + (a1 || 0) + '-' + (a2 || '∞'), t && 'نشاط', w && 'كلمة: ' + w].filter(Boolean);
+    if (!parts.length){ toast('اختر شرط وحد على الأقل'); return; }
+    setPred(parts.join(' · '), u => {
+      if (c && !String(shownCountry(u)).toLowerCase().includes(c)) return false;
+      if (g === 'none' ? (P(u).gender === 'ولد' || P(u).gender === 'بنت') : (g && P(u).gender !== g)) return false;
+      if (l && u.lang !== l) return false;
+      const a = ageOf(u); if ((a1 || a2) && (a == null || (a1 && a < a1) || (a2 && a > a2))) return false;
+      const la = u.lastActive || 0; if (t === 'a1' && now - la > D) return false; if (t === 'a7' && now - la > 7*D) return false; if (t === 'a30' && now - la > 30*D) return false; if (t === 'i7' && now - la <= 7*D) return false; if (t === 'i30' && now - la <= 30*D) return false;
+      if (w && !chatsText(u).includes(w)) return false; return true; });
+  };
+  $('qRst').onclick = () => { curPred = null; $('predBar').classList.remove('on'); renderList(); closeSdr(); };
+  $('tCopy').onclick = () => navigator.clipboard.writeText(curList().map(u => u.email).filter(Boolean).join(', ')).then(() => toast('اننسخت الإيميلات')).catch(() => toast('ما قدرت أنسخ'));
+  $('tMail').onclick = () => { const em = curList().map(u => u.email).filter(Boolean); if (!em.length){ toast('ما فيه إيميلات'); return; } location.href = 'mailto:?bcc=' + encodeURIComponent(em.join(',')) + '&subject=' + encodeURIComponent('رسالة من Limo ai'); };
+  $('tCsv').onclick = () => exportCsv();
+  $('tJson').onclick = () => { const data = curList().map(u => { const o = Object.assign({}, u); delete o.chats; return o; }); const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], {type:'application/json'})); a.download = 'limo-users.json'; a.click(); toast('انحفظ JSON'); };
+  $('tRef').onclick = () => { closeSdr(); loadAll(); };
+  $('tOv').onclick = () => { closeSdr(); goTab('overview'); };
+}
 </script>
 </body>
 </html>
