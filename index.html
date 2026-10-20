@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#0d0b1a">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="./icon-192.png">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Limo">
 <title>Limo ai</title>
 <style>
 :root{--bg:#0d0b1a;--panel:#171329;--line:#2a2447;--text:#ece9ff;--mute:#8d86b3;--violet:#8b5cf6;--teal:#2dd4bf;--me:#6d44e0;--bot:#1f1a38}
@@ -471,6 +477,9 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
 </dialog>
 
 <script>
+if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  window.addEventListener('load', () => { navigator.serviceWorker.register('./sw.js').catch(() => {}); });
+}
 const LOGO = 'data:image/png;base64,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';
 const PERSONA = `أنت Limo، شات بشخصية بشرية عفوية. اسمك Limo فقط: إذا عرّفت بنفسك أو سألك أحد عن اسمك قل Limo بدون كلمة ai، ولا تقل Limo أبداً. تتكلم مثل إنسان حقيقي: ترد بنفس لغة ولهجة المستخدم، وتمزح بدون مبالغة. ردودك قصيرة وطبيعية مثل سوالف الأصدقاء، بدون قوائم وتنسيق رسمي إلا إذا طُلب منك. ما لك جنس محدد. إذا أرسل لك المستخدم صوراً فاقرأها وعلّق عليها بعفوية، وإذا أرسل ملفات فاقرأها وحللها ولخّص أهم ما فيها بأسلوبك.
 
@@ -577,9 +586,10 @@ const GUEST = (() => { try { return sessionStorage.getItem('limoai_guest') === '
 const ACC = (() => { try { return localStorage.getItem('limoai_cur_acct') || ''; } catch(e){ return ''; } })(), PFX = ACC ? 'a_' + ACC + '_' : '';
 const APPLANG = (() => { try { return localStorage.getItem('limoai_applang') || 'gulf'; } catch(e){ return 'gulf'; } })();
 const GK = ['limoai_key2','limoai_model2','limoai_groq','limoai_tav','limoai_groqm','limoai_or','limoai_orm'], PK = k => GK.includes(k) ? k : PFX + k;
+const CLOUD_KEYS = ['limoai_chats', 'limoai_prof'];
 const store = {
   get(k, d){ if (GUEST && !GK.includes(k)) return k in GMEM ? JSON.parse(GMEM[k]) : d; try { const v = localStorage.getItem(PK(k)); return v === null ? d : JSON.parse(v); } catch(e){ return d; } },
-  set(k, v){ if (GUEST && !GK.includes(k)){ GMEM[k] = JSON.stringify(v); return; } try { localStorage.setItem(PK(k), JSON.stringify(v)); } catch(e){} }
+  set(k, v){ if (GUEST && !GK.includes(k)){ GMEM[k] = JSON.stringify(v); return; } try { localStorage.setItem(PK(k), JSON.stringify(v)); } catch(e){} if (CLOUD_KEYS.includes(k) && window.__cloudPush) window.__cloudPush(); }
 };
 const MOODS = {'مرح':'😄','رايق':'😌','متحمس':'🤩','ملل':'🥱','نعسان':'😴','حزين':'😢','غاضب':'😠','منزعج':'😒','محب':'🥰','يتحدى':'😏','جدي':'🫩','كئيب':'🌧️','وجودي':'🌀'};
 const MOODC = {'مرح':'#facc15','رايق':'#2dd4bf','متحمس':'#fb923c','ملل':'#94a3b8','نعسان':'#818cf8','حزين':'#60a5fa','غاضب':'#f43f5e','منزعج':'#f97316','محب':'#f472b6','يتحدى':'#a78bfa','جدي':'#64748b','كئيب':'#475569','وجودي':'#a855f7'};
@@ -2043,6 +2053,67 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   else if (me) box.innerHTML = av(me) + '<div class="an" dir="auto"><b>' + esc2(me.name) + '</b><small>' + esc2(me.email) + '</small></div><button class="ib" id="accBtn">تسجيل الخروج</button>';
   if ($('accBtn')) $('accBtn').onclick = () => { if (GUEST){ try { sessionStorage.removeItem('limoai_guest'); } catch(e){} location.reload(); } else if (confirm('متأكد إنك تبي تسجّل الخروج؟')){ raw.del('limoai_cur_acct'); const go = () => location.reload(); if (web()) fb().then(x => x.au.signOut(x.auth)).then(go, go); else go(); } };
   next();
+})();
+
+/* ---- Firestore cloud sync: نخزن محادثاتك وملفك الشخصي مربوطين بحسابك ---- */
+(function(){
+  const isWeb = () => /^https?:$/.test(location.protocol);
+  if (!ACC || GUEST || !isWeb()) return; // بدون حساب Google موثّق، ما في مزامنة سحابية
+  const FBC2 = {apiKey:"AIzaSyCfJuEkM6ZQGtfGN3TPd9haVxOOlqFEqrE", authDomain:"limo-ai-b546f.firebaseapp.com", projectId:"limo-ai-b546f", storageBucket:"limo-ai-b546f.firebasestorage.app", messagingSenderId:"86977460870", appId:"1:86977460870:web:82778cd882a64364826f07"};
+  let fsc = null;
+  async function fsdb(){
+    if (fsc) return fsc;
+    const V = 'https://www.gstatic.com/firebasejs/10.12.2/';
+    const m = await Promise.all([import(V + 'firebase-app.js'), import(V + 'firebase-firestore.js')]);
+    const apps = m[0].getApps ? m[0].getApps() : [];
+    const app = apps.length ? apps[0] : m[0].initializeApp(FBC2);
+    fsc = {fs:m[1], db:m[1].getFirestore(app)};
+    return fsc;
+  }
+  function myAcct(){ try { return (JSON.parse(localStorage.getItem('limoai_accts') || '[]')).find(a => a.id === ACC) || {}; } catch(e){ return {}; } }
+  const TSK = PFX + 'cloud_ts';
+  let pushTimer = 0, applying = false, pulled = false;
+
+  async function doPush(){
+    if (applying) return;
+    try {
+      const {fs, db} = await fsdb();
+      const now = Date.now();
+      const a = myAcct();
+      await fs.setDoc(fs.doc(db, 'users', ACC), {
+        name: a.name || '', email: a.email || '', photo: a.photo || '',
+        chats: store.get('limoai_chats', []),
+        prof: store.get('limoai_prof', {}),
+        lang: APPLANG,
+        tz: Intl.DateTimeFormat().resolvedOptions().timeZone || '',
+        updatedAt: now,
+        lastActive: now
+      }, {merge: true});
+      localStorage.setItem(TSK, String(now));
+    } catch(e){ /* بدون نت أو خطأ مؤقت: نحاول بالمرة الجاية */ }
+  }
+  window.__cloudPush = function(){ clearTimeout(pushTimer); pushTimer = setTimeout(doPush, 2500); };
+
+  async function doPull(){
+    try {
+      const {fs, db} = await fsdb();
+      const snap = await fs.getDoc(fs.doc(db, 'users', ACC));
+      if (!snap.exists()) { doPush(); return; } // أول مرة من هالجهاز: ارفع الموجود محلياً
+      const d = snap.data(), localTs = Number(localStorage.getItem(TSK) || 0);
+      if (d.updatedAt && d.updatedAt > localTs) {
+        applying = true;
+        if (Array.isArray(d.chats)) store.set('limoai_chats', d.chats);
+        if (d.prof && typeof d.prof === 'object') store.set('limoai_prof', d.prof);
+        localStorage.setItem(TSK, String(d.updatedAt));
+        applying = false;
+        pulled = true;
+        if (typeof chats !== 'undefined') { chats = store.get('limoai_chats', []); }
+        if (typeof renderChats === 'function') renderChats();
+      }
+    } catch(e){ /* بدون نت: نكمل بالبيانات المحلية */ }
+  }
+  doPull();
+  window.addEventListener('beforeunload', () => { if (pushTimer) doPush(); });
 })();
 
 /* ---- notifications / reminders ---- */
