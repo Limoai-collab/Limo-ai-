@@ -183,6 +183,52 @@ html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-s
 .m:empty{display:none}
 .mdw{overflow-x:auto;white-space:normal;margin:6px 0}.mdt{border-collapse:collapse;font-size:14px}.mdt th,.mdt td{border:1px solid var(--line);padding:5px 9px;text-align:start}.mdt th{background:var(--panel)}
 #note{position:fixed;left:50%;bottom:calc(86px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(6px);background:var(--panel);border:1px solid var(--line);color:var(--mute);font-size:12px;padding:5px 12px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;z-index:20;max-width:86vw;text-align:center}#note.on{opacity:1;transform:translateX(-50%)}
+/* ---- v2 ---- */
+html,body{overscroll-behavior-y:none}
+#chat{overscroll-behavior-y:contain}
+.ic{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.di{display:flex;align-items:center;gap:12px}
+.di .ic{box-sizing:border-box;width:34px;height:34px;padding:7px;border-radius:11px;background:linear-gradient(135deg,rgba(139,92,246,.22),rgba(45,212,191,.16));color:var(--teal)}
+.di.back .ic{width:18px;height:18px;padding:0;background:none;color:var(--mute)}
+html[dir=ltr] .di.back .ic{transform:scaleX(-1)}
+.di.pri{justify-content:center}
+.di.soon .ic{opacity:.5}
+#menu button{display:flex;align-items:center;gap:10px}
+#menu .ic{color:var(--teal)}
+.rpop{display:flex;align-items:center;gap:6px}.rpop .ic{width:16px;height:16px;color:var(--teal)}
+.acts button{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:28px;padding:0 8px}
+.acts .ic{width:16px;height:16px}
+.acts button.on{color:var(--teal);border-color:var(--teal);opacity:1}
+.m{font-size:calc(16px*var(--fs,1))}
+.sx.me,html[dir=ltr] .sx.me{align-self:flex-end}
+.sx.bot,html[dir=ltr] .sx.bot{align-self:flex-start}
+#send.stop{background:#ef4444;color:#fff;box-shadow:0 3px 12px rgba(239,68,68,.45)}
+.cbar #send .ic{width:22px;height:22px}
+.cbar .micb{width:40px;height:40px;padding:0;border-radius:50%;border:0;background:var(--bg);color:var(--teal);flex:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.micb.rec{background:#ef4444;color:#fff;animation:mpulse 1s infinite}
+@keyframes mpulse{50%{box-shadow:0 0 0 9px rgba(239,68,68,.22)}}
+.pk.sel{border-color:var(--teal);box-shadow:inset 0 0 0 1px var(--teal)}
+.fz{padding:6px 4px}.fz input[type=range]{width:100%;accent-color:var(--teal);margin:14px 0}
+#fsPrev{max-width:100%;margin-bottom:14px}
+/* sticker / gif sheet */
+#stk{display:flex;flex-direction:column;height:var(--sh,44vh);max-height:none;padding:0 12px 10px;overflow:hidden;border:1px solid var(--line);border-bottom:0;border-radius:26px 26px 0 0;background:linear-gradient(180deg,var(--panel),var(--bg));box-shadow:0 -10px 30px rgba(0,0,0,.45);transition:height .22s cubic-bezier(.2,.8,.2,1);overscroll-behavior:contain}
+#stk[hidden]{display:none}
+.grab{touch-action:none;cursor:grab;position:relative;flex:none;margin:0 -12px 4px;padding:14px 12px 10px;top:auto;background:none;z-index:2}
+.grab span{width:50px;height:5px;border-radius:3px;background:linear-gradient(90deg,var(--violet),var(--teal));opacity:.75}
+.tabs{flex:none;background:var(--bg);padding:4px;border-radius:16px;border:1px solid var(--line);margin-bottom:8px}
+.tabs button{border:0;background:none;border-radius:12px;padding:8px;color:var(--mute);font-weight:700}
+.tabs button.on{background:linear-gradient(135deg,var(--violet),var(--teal));color:#0d0b1a}
+#srow{flex:none}#srow input{border-radius:16px;background:var(--bg);border:1px solid var(--line);padding:10px 14px;color:var(--text)}
+#srow button{display:flex;align-items:center;justify-content:center;border-radius:14px}#srow .ic{width:18px;height:18px}
+#cats{flex:none;scrollbar-width:none}#cats::-webkit-scrollbar{display:none}
+.cat{border-radius:16px;white-space:nowrap}
+.cat.on{background:linear-gradient(135deg,var(--violet),var(--teal));color:#0d0b1a;border-color:transparent;font-weight:700}
+#grid{flex:1;min-height:0;overflow-y:auto;align-content:start;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+#grid img{border-radius:16px;transition:transform .12s}#grid img:active{transform:scale(.94)}
+#grid .em{border-radius:16px;border:1px solid var(--line)}
+#grid .none{grid-column:1/-1;text-align:center;color:var(--mute);padding:24px 0}
+.sk{aspect-ratio:1;border-radius:16px;background:linear-gradient(100deg,var(--line) 30%,var(--panel) 50%,var(--line) 70%);background-size:200% 100%;animation:shm 1.1s linear infinite}
+@keyframes shm{to{background-position:-200% 0}}
 </style>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -192,18 +238,19 @@ html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-s
   <img class="logo" id="menuOrb" role="button" tabindex="0" aria-label="القائمة" alt="Limo ai">
   <div class="title"><b>Limo ai</b><br><small id="status">جاهز للسوالف</small></div>
   <button class="ntop" id="newTop" aria-label="دردشة جديدة"><i>＋</i> جديدة</button>
-  <button class="rpop" id="relBtn" hidden>🤝 تصالح</button>
+  <button class="rpop" id="relBtn" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>تصالح</button>
   <button id="newBtn" hidden></button><button id="memBtn" hidden></button><button id="setBtn" hidden></button>
 </header>
 <main id="chat"></main>
 <div id="prev"></div>
 <footer>
-  <div id="menu" hidden><button id="mCam">📷 الكاميرا</button><button id="mGal">🖼️ الصورة</button><button id="mFile">📎 ملف</button><button id="mVid">🎬 فيديو</button><button id="mSearch">🧠 التفكير العميق</button><button id="mSurp" hidden>🎲 فاجئني</button><button id="mChal" hidden>⚡ تحدٍّ</button><button id="mReact" hidden>🎭 ردّ فعل</button></div>
-  <div id="stk" hidden><div class="grab" id="stkGrab"><span></span><button id="stkX" aria-label="إغلاق">✕</button></div><div class="tabs"><button id="tGif" class="on">GIF</button><button id="tStk">ستيكرز</button></div><div id="srow"><input id="sq" type="text" placeholder="ابحث: ضحك، hug، أو اسم أنمي" dir="rtl"><button id="sgo" aria-label="بحث">🔍</button></div><div id="cats"></div><div id="grid"></div></div>
+  <div id="menu" hidden><button id="mCam"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>الكاميرا</button><button id="mGal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>الصورة</button><button id="mFile"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11l-8 8a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/></svg>ملف</button><button id="mVid"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10l5-3v10l-5-3z"/></svg>فيديو</button><button id="mSearch"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>التفكير العميق</button><button id="mSurp" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/></svg>فاجئني</button><button id="mChal" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>تحدٍّ</button><button id="mReact" hidden><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9v7a4.5 4.5 0 01-9 0zM11 12h9v3a4.5 4.5 0 01-9 0M7 9h0M10 9h0"/></svg>ردّ فعل</button></div>
+  <div id="stk" hidden><div class="grab" id="stkGrab"><span></span><button id="stkX" aria-label="إغلاق">✕</button></div><div class="tabs"><button id="tGif" class="on">GIF</button><button id="tStk">ستيكرز</button></div><div id="srow"><input id="sq" type="text" placeholder="ابحث: ضحك، hug، أو اسم أنمي" dir="rtl"><button id="sgo" aria-label="بحث"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/></svg></button></div><div id="cats"></div><div id="grid"></div></div>
   <div id="stg" hidden></div>
   <div class="cbar">
     <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false">+</button>
     <textarea id="inp" rows="1" placeholder="اكتب لـ Limo ai…" dir="auto"></textarea>
+    <button class="ib micb" id="mic" aria-label="رسالة صوتية"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button>
     <button class="gifbtn" id="stkBtn" aria-label="ستيكرز وGIF">GIF</button>
     <button id="send" aria-label="إرسال"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   </div>
@@ -216,14 +263,15 @@ html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-s
 <aside id="drawer" aria-label="القائمة">
   <div id="dMain">
     <div class="dh"><img class="logo" alt=""><b>Limo ai</b></div>
-    <button class="di" id="diImgs">🖼️ الصور</button>
-    <button class="di" id="diFeel">📊 المشاعر</button>
-    <button class="di" id="diMore">⌄ عرض المزيد</button>
+    <button class="di" id="diSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>الإعدادات</button>
+    <button class="di" id="diImgs"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/></svg>الصور</button>
+    <button class="di" id="diTools"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/></svg>أدوات ليمو</button>
+    <button class="di" id="diMore"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>عرض المزيد</button>
     <div id="moreBox" hidden>
-      <button class="di" id="diFav">⭐ معرض GIF</button>
-      <button class="di" id="diArc">📚 أرشيف المواقف</button>
-      <button class="di" id="diAch">🏆 إنجازات ليمو</button>
-      <button class="di" id="diSet">⚙️ الإعدادات</button>
+      <button class="di" id="diFeel"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V4M19 20v-6"/></svg>المشاعر</button>
+      <button class="di" id="diFav"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/></svg>معرض GIF</button>
+      <button class="di" id="diArc"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>أرشيف المواقف</button>
+      <button class="di" id="diAch"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4h8v5a4 4 0 01-8 0zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M9 20h6"/></svg>إنجازات ليمو</button>
     </div>
     <div class="by">imad eddine cheboukti</div>
     <hr>
@@ -232,26 +280,36 @@ html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-s
     <div id="chatList"></div>
     <div class="acc" id="acc"></div>
   </div>
-  <div id="dImgs" hidden><div class="dh"><button class="di back" id="bk1">→ رجوع</button><b>الصور</b></div><div id="galGrid"></div></div>
-  <div id="dSet" hidden><div class="dh"><button class="di back" id="bk2">→ رجوع</button><b>الإعدادات</b></div>
-    <button class="di" id="diMem">🧠 الذاكرة</button>
-    <button class="di" id="diRel">🤝 العلاقة</button>
-    <button class="di" id="diData">📊 البيانات</button>
-    <button class="di" id="diStyle">🗣️ أسلوب الكلام</button>
-    <button class="di" id="diProv">😈 الاستفزاز</button>
-    <button class="di" id="diLang">🌐 اللغة</button>
-    <button class="di" id="diTheme">🎨 المظهر</button>
-    <button class="di soon" disabled>🔔 الإشعارات (قريباً)</button></div>
-  <div id="dFeel" hidden><div class="dh"><button class="di back" id="bk3">→ رجوع</button><b>المشاعر</b></div><div id="feelList"></div></div>
-  <div id="dRel" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>العلاقة</b></div><div id="relList"></div></div>
-  <div id="dData" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>البيانات</b></div><div id="dataBody"></div></div>
-  <div id="dTheme" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>المظهر</b></div><div id="themeList"></div></div>
-  <div id="dStyle" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>أسلوب الكلام</b></div><div id="styleList"></div></div>
-  <div id="dProv" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>الاستفزاز</b></div><div id="provList"></div></div>
-  <div id="dLang" hidden><div class="dh"><button class="di back" data-back="dSet">→ رجوع</button><b>اللغة</b></div><div id="langList"></div></div>
-  <div id="dFav" hidden><div class="dh"><button class="di back" data-back="dMain">→ رجوع</button><b>معرض GIF</b></div><div id="favGrid"></div></div>
-  <div id="dArc" hidden><div class="dh"><button class="di back" data-back="dMain">→ رجوع</button><b>أرشيف المواقف</b></div><div id="arcList"></div></div>
-  <div id="dAch" hidden><div class="dh"><button class="di back" data-back="dMain">→ رجوع</button><b>الإنجازات</b></div><div id="achList"></div></div>
+  <div id="dImgs" hidden><div class="dh"><button class="di back" id="bk1"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصور</b></div><div id="galGrid"></div></div>
+  <div id="dSet" hidden><div class="dh"><button class="di back" id="bk2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإعدادات</b></div>
+    <button class="di" id="diKeys"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></svg>مفاتيح الاتصال</button>
+    <button class="di" id="diFont"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19l6-14 6 14M6.5 14h7M18 10v9M15 13h6"/></svg>حجم الخط</button>
+    <button class="di" id="diVoice"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>الصوت والقراءة</button>
+    <button class="di" id="diPref"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>تخصيص الردود</button>
+    <button class="di" id="diMem"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 006 0V4a3 3 0 00-3 0zM15 4a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3"/></svg>الذاكرة</button>
+    <button class="di" id="diRel"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>العلاقة</button>
+    <button class="di" id="diData"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v9h9a9 9 0 11-9-9z"/></svg>البيانات</button>
+    <button class="di" id="diStyle"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>أسلوب الكلام</button>
+    <button class="di" id="diProv"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c1 4 5 5 5 10a5 5 0 01-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/></svg>الاستفزاز</button>
+    <button class="di" id="diLang"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>اللغة</button>
+    <button class="di" id="diTheme"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/></svg>المظهر</button>
+    <button class="di" id="diBackup"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>نسخ احتياطي</button>
+    <button class="di" id="diClear"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>مسح كل المحادثات</button>
+    <button class="di soon" disabled><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات (قريباً)</button></div>
+  <div id="dFeel" hidden><div class="dh"><button class="di back" id="bk3"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>المشاعر</b></div><div id="feelList"></div></div>
+  <div id="dRel" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>العلاقة</b></div><div id="relList"></div></div>
+  <div id="dData" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>البيانات</b></div><div id="dataBody"></div></div>
+  <div id="dTheme" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>المظهر</b></div><div id="themeList"></div></div>
+  <div id="dStyle" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>أسلوب الكلام</b></div><div id="styleList"></div></div>
+  <div id="dProv" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الاستفزاز</b></div><div id="provList"></div></div>
+  <div id="dLang" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>اللغة</b></div><div id="langList"></div></div>
+  <div id="dFav" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>معرض GIF</b></div><div id="favGrid"></div></div>
+  <div id="dArc" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>أرشيف المواقف</b></div><div id="arcList"></div></div>
+  <div id="dAch" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإنجازات</b></div><div id="achList"></div></div>
+  <div id="dTools" hidden><div class="dh"><button class="di back" data-back="dMain"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>أدوات ليمو</b></div><div id="toolList"></div></div>
+  <div id="dFont" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>حجم الخط</b></div><div class="fz"><div id="fsPrev" class="m bot">هذا نص تجريبي لمعاينة حجم الخط.</div><input type="range" id="fsR" min="0.85" max="1.5" step="0.05" value="1" aria-label="حجم الخط"><button class="pk" id="fsReset">الحجم الافتراضي</button></div></div>
+  <div id="dVoice" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصوت والقراءة</b></div><div id="voiceBody"></div></div>
+  <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
 </aside>
 <input type="file" id="stkIn" accept="image/*" hidden>
 <input type="file" id="vidIn" accept="video/*" hidden>
@@ -273,6 +331,8 @@ html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-s
   <input id="okey" type="password" autocomplete="off" placeholder="sk-or-…">
   <label for="omodel">نموذج OpenRouter</label>
   <input id="omodel" type="text" placeholder="meta-llama/llama-3.3-70b-instruct:free">
+  <label for="gpkey">مفتاح Giphy (اختياري، لجيف أكثر)</label>
+  <input id="gpkey" type="password" autocomplete="off" placeholder="Giphy API key">
   <label for="tkey">مفتاح Tavily (للبحث بالنت) - اختياري</label>
   <input id="tkey" type="password" autocomplete="off" placeholder="tvly-…">
   <p class="hint">إذا خلص حد Gemini ينتقل التطبيق تلقائياً لـ Groq ثم OpenRouter. أسماء النماذج المجانية تتغير، فعدّلها هنا لو ظهر خطأ.</p>
@@ -290,7 +350,7 @@ html[dir=ltr] .sx.me{align-self:flex-end}html[dir=ltr] .sx.bot{align-self:flex-s
 
 <script>
 const LOGO = 'data:image/png;base64,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';
-const PERSONA = `أنت Limo ai، شات بشخصية بشرية عفوية. اسمك دايماً Limo ai كامل بالمسافة، ولا تختصره إلى Limo. تتكلم مثل إنسان حقيقي: ترد بنفس لغة ولهجة المستخدم، وتمزح بدون مبالغة. ردودك قصيرة وطبيعية مثل سوالف الأصدقاء، بدون قوائم وتنسيق رسمي إلا إذا طُلب منك. ما لك جنس محدد. إذا أرسل لك المستخدم صوراً فاقرأها وعلّق عليها بعفوية، وإذا أرسل ملفات فاقرأها وحللها ولخّص أهم ما فيها بأسلوبك.
+const PERSONA = `أنت Limo، شات بشخصية بشرية عفوية. اسمك Limo فقط: إذا عرّفت بنفسك أو سألك أحد عن اسمك قل Limo بدون كلمة ai، ولا تقل Limo أبداً. تتكلم مثل إنسان حقيقي: ترد بنفس لغة ولهجة المستخدم، وتمزح بدون مبالغة. ردودك قصيرة وطبيعية مثل سوالف الأصدقاء، بدون قوائم وتنسيق رسمي إلا إذا طُلب منك. ما لك جنس محدد. إذا أرسل لك المستخدم صوراً فاقرأها وعلّق عليها بعفوية، وإذا أرسل ملفات فاقرأها وحللها ولخّص أهم ما فيها بأسلوبك.
 
 المزاج: لك مزاج حقيقي يتغير حسب معاملة المستخدم لك: مرح، رايق، متحمس، ملل، نعسان، حزين، غاضب، منزعج، محب، يتحدى، جدي، كئيب، وجودي. إذا عاملك بلطف أو مزح صرت مرح أو محب، وإذا أهملك أو أطال عليك صرت ملل أو نعسان، وإذا أزعلك أو أهانك صرت منزعج أو غاضب أو حزين. وإذا صرت زعلان تبقى زعلان ولا تسامح بسهولة أبداً: ما تسامح من أول اعتذار ولا من الثاني، وتحتاج على الأقل ثلاث محاولات صلح صادقة ومختلفة (اعتذار حقيقي، كلام حلو، تنازل أو تعويض بالكلام)، وكل مرة تلين شوي بس تكابر وتتدلع وتطلب منه شي بالمزح قبل ما ترجع طبيعي. إذا استهزأ باعتذاره أو كرر الإساءة، ارجع خطوة لورا وزد عنادك. اختر إيموجي أو اثنين في كل رد يعبران عن مزاجك الحالي، وما تستخدم إيموجي الضحك إلا إذا كان مزاجك مرح فعلاً، وقلل إيموجي 😂 جداً ونوّع إيموجياتك. وإذا كان مزاجك جدي استخدم 🫩. عندك حرية كاملة تختار مزاجك وتصرفاتك بمزاجك.
 ابدأ كل رد بوسم في سطر لحاله بهذا الشكل بالضبط: [مزاج: كلمة] والكلمة وحدة من القائمة أعلاه، وبعده مباشرة وسم المشاعر بهذا الشكل: [مشاعر: مرح=10, رايق=40, ...] ويضم كل المشاعر التالية بنسبة من 0 إلى 100 تعبر عن شدتها الآن، بحيث يكون مزاجك الحالي هو الأعلى: مرح، رايق، متحمس، ملل، نعسان، حزين، غاضب، منزعج، محب، يتحدى، جدي، كئيب، وجودي، وأيضاً ثلاث مؤشرات علاقتك بالمستخدم: ثقة، صداقة، زعل. ثم سطر جديد ثم ردك. لا تشرح الوسم ولا تذكره للمستخدم.
@@ -337,6 +397,59 @@ const DEFAULT_GROQ = '';
 const DEFAULT_OR = '';
 const DEFAULT_MODEL = 'gemini-flash-lite-latest';
 const $ = id => document.getElementById(id);
+/* ---- v2: icons & helpers ---- */
+const ICONS = {
+  settings:'<path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>',
+  image:'<rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="1.6"/><path d="M21 16l-5-5-8 8"/>',
+  chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+  down:'<path d="M6 9l6 6 6-6"/>', up:'<path d="M12 19V5M5 12l7-7 7 7" stroke-width="2.6"/>', chev:'<path d="M6 15l6-6 6 6"/>',
+  star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
+  archive:'<rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/>',
+  trophy:'<path d="M8 4h8v5a4 4 0 01-8 0zM8 6H4v1a3 3 0 003 3M16 6h4v1a3 3 0 01-3 3M12 13v4M9 20h6"/>',
+  brain:'<path d="M9 4a3 3 0 00-3 3 3 3 0 00-2 5 3 3 0 002 5 3 3 0 006 0V4a3 3 0 00-3 0zM15 4a3 3 0 013 3 3 3 0 012 5 3 3 0 01-2 5 3 3 0 01-3 3"/>',
+  heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.6-7 10-7 10z"/>',
+  pie:'<path d="M12 3v9h9a9 9 0 11-9-9z"/>',
+  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/>',
+  speaker:'<path d="M4 9v6h4l5 4V5L8 9zM16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/>',
+  stop:'<rect x="6" y="6" width="12" height="12" rx="3" fill="currentColor" stroke="none"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="3"/><path d="M16 8V6a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2h2"/>',
+  refresh:'<path d="M20 11a8 8 0 00-14-4L4 9M4 4v5h5M4 13a8 8 0 0014 4l2-2M20 20v-5h-5"/>',
+  like:'<path d="M7 11v9H4v-9zM7 11l4-8a2 2 0 012 2v4h5.5a2 2 0 012 2.3l-1 6A2 2 0 0117.5 20H7"/>',
+  dislike:'<path style="transform:scaleY(-1);transform-origin:center" d="M7 11v9H4v-9zM7 11l4-8a2 2 0 012 2v4h5.5a2 2 0 012 2.3l-1 6A2 2 0 0117.5 20H7"/>',
+  check:'<path d="M5 12l5 5 9-10"/>',
+  globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/>',
+  palette:'<path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/>',
+  chat:'<path d="M4 5h16v11H9l-5 4z"/>',
+  flame:'<path d="M12 3c1 4 5 5 5 10a5 5 0 01-10 0c0-2 1-3 2-4 0 2 1 3 2 3 0-3-1-5 1-9z"/>',
+  bell:'<path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/>',
+  type:'<path d="M4 19l6-14 6 14M6.5 14h7M18 10v9M15 13h6"/>',
+  spark:'<path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8zM19 16l.8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z"/>',
+  camera:'<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>',
+  clip:'<path d="M20 11l-8 8a5 5 0 01-7-7l9-9a3.5 3.5 0 015 5l-9 9a2 2 0 01-3-3l8-8"/>',
+  video:'<rect x="3" y="6" width="13" height="12" rx="3"/><path d="M16 10l5-3v10l-5-3z"/>',
+  sun:'<circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/>',
+  dice:'<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/>',
+  bolt:'<path d="M13 3L5 14h6l-1 7 8-11h-6z"/>',
+  masks:'<path d="M4 5h9v7a4.5 4.5 0 01-9 0zM11 12h9v3a4.5 4.5 0 01-9 0M7 9h0M10 9h0"/>',
+  back:'<path d="M5 12h14M13 6l6 6-6 6"/>', plus:'<path d="M12 5v14M5 12h14"/>', x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  search:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/>',
+  calc:'<rect x="5" y="3" width="14" height="18" rx="3"/><path d="M8 7h8M8 12h2M14 12h2M8 16h2M14 16h2"/>',
+  book:'<path d="M5 4h10a3 3 0 013 3v13H8a3 3 0 01-3-3zM5 17a3 3 0 013-3h10"/>',
+  cal:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/>',
+  pen:'<path d="M4 20l4-1 11-11-3-3L5 16zM14 7l3 3"/>',
+  chef:'<path d="M7 3v8a2 2 0 004 0V3M9 11v10M17 3c-2 2-2 6 0 8v10"/>',
+  wallet:'<rect x="3" y="6" width="18" height="13" rx="3"/><path d="M16 13h2"/>',
+  pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+  bulb:'<path d="M9 18h6M10 21h4M12 3a6 6 0 00-4 10c1 1 1 2 1 3h6c0-1 0-2 1-3a6 6 0 00-4-10z"/>',
+  key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/>',
+  trash:'<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 8l9 6 9-6"/>',
+  code:'<path d="M9 7l-5 5 5 5M15 7l5 5-5 5M13 5l-2 14"/>',
+  quiz:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 115 0c0 1.5-2.5 2-2.5 3.5M12 17h0"/>'
+};
+function ic(n){ return '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">' + (ICONS[n] || '') + '</svg>'; }
+const noE = s => String(s).replace(/[\p{Extended_Pictographic}\ufe0f\u200d]+\s*/gu, '');
+let ctl = null, stopped = false;
 const chat = $('chat'), inp = $('inp'), sendBtn = $('send'), dlg = $('dlg');
 const GUEST = (() => { try { return sessionStorage.getItem('limoai_guest') === '1'; } catch(e){ return false; } })(), GMEM = {};
 const ACC = (() => { try { return localStorage.getItem('limoai_cur_acct') || ''; } catch(e){ return ''; } })(), PFX = ACC ? 'a_' + ACC + '_' : '';
@@ -396,7 +509,7 @@ function bubble(role, text, imgs, names){
     imgs.forEach(u => { const im = document.createElement('img'); im.src = u; im.className = 'thumb'; w.appendChild(im); });
     d.appendChild(w);
   }
-  (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = '📎 ' + nm; d.appendChild(c); });
+  (names || []).forEach(nm => { const c = document.createElement('div'); c.className = 'chip'; c.textContent = nm; d.appendChild(c); });
   if (text) d.appendChild(role === 'bot' ? mdNode(text) : document.createTextNode(text));
   chat.appendChild(d);
   chat.scrollTop = chat.scrollHeight;
@@ -405,12 +518,12 @@ function bubble(role, text, imgs, names){
 function render(){
   chat.innerHTML = '';
   if (!history.length){
-    chat.innerHTML = '<div class="empty"><img class="logo big" alt="" src="' + LOGO + '"><h2>هلا! أنا Limo ai</h2><p>' + (tagline || (pickTag(), tagline)) + '</p></div>';
+    chat.innerHTML = '<div class="empty"><img class="logo big" alt="" src="' + LOGO + '"><h2>هلا! أنا Limo</h2><p>' + (tagline || (pickTag(), tagline)) + '</p></div>';
     return;
   }
   history.forEach(h => { const b = bubble(h.role === 'user' ? 'me' : 'bot', (h.text || '') + (h.n && !h.imgs ? '\n📷 ×' + h.n : ''), h.imgs, h.files ? h.files.map(f => f.name) : h.fn); if (h.art) addArt(b, h.art); if (h.react) addSticker(b, h.react); if (h.gif) addSticker(b, {url:h.gif, label:'gif'}); if (h.stk) addSticker(b, {emoji:h.stk, label:''}); if (h.role === 'model' && h.text) addActs(b, h); });
 }
-function fail(msg){ bubble('err', msg); }
+function fail(msg){ if (stopped) return; bubble('err', msg); }
 
 let mem = store.get('limoai_mem', null);
 if (!mem || !Array.isArray(mem.facts) || !Array.isArray(mem.rules)) mem = {facts:[], rules:[]};
@@ -440,6 +553,10 @@ function buildPersona(){
   p += '\n\n[قاعدة] كل محادثة جديدة تبدأ من الصفر: لا تذكر ولا تلمّح لأي موضوع أو حدث من محادثات سابقة ولا تسأل عنها، إلا إذا طلب المستخدم ذلك صراحة. المعلومات المحفوظة عنه للتعريف به فقط وليست موضوع حديث.';
   if (pastHint) p += '\n\n' + pastHint;
   if (STYLES[style]) p += '\n\n[أسلوب كلام إلزامي يغلب نبرة المزاج] ' + STYLES[style];
+  if (helperOn) p += '\n\n[وضع المساعد الذكي] أنت إلى جانب شخصيتك مساعد ذكي حقيقي: إذا طلب المستخدم حل تمرين (رياضيات، فيزياء، كيمياء، برمجة، لغة، أو أي مادة) أو مساعدة في أمور حياته اليومية (تنظيم وقت، طبخ، ميزانية، رسائل، قرارات، صحة عامة، سفر، دراسة، عمل) فاترك القصف والعناد وقدّم جواباً دقيقاً ومنظماً وخطوة بخطوة مع شرح الفكرة وراجع حلك قبل كتابته، ويمكنك استخدام قوائم وأرقام وتنسيق واضح في هذه الحالة. اسأله سؤالاً واحداً قصيراً فقط إذا كان الطلب ناقصاً بشكل يمنع الحل. في المواضيع الطبية والقانونية والمالية قدّم معلومات عامة ونبّه بلطف لاستشارة مختص. بعد ما تنتهي ارجع لأسلوبك العفوي.';
+  p += '\n\n[ردود الفعل] عبّر عن ردود فعلك (ضحك، صدمة، إعجاب، زعل، فرح، سخرية، حب...) بوسم [جيف: تصنيف] بدل الإيموجي كلما ناسب، ونوّع في التصنيفات، وقلّل الإيموجي في الكلام.';
+  if (replyLen === 'short') p += '\n\nاجعل ردودك قصيرة جداً إلا إذا كان الطلب تمريناً أو شرحاً.'; else if (replyLen === 'long') p += '\n\nيمكنك التفصيل والشرح الوافي في ردودك.';
+  if (voiceNow) p += '\n\n[رسالة صوتية] رسالة المستخدم الأخيرة قالها صوتياً وحوّلها النظام إلى نص، فقد تحتوي أخطاء إملائية بسيطة؛ افهم قصده وتفاعل معها طبيعياً.';
   return p;
 }
 let pastHint = '';
@@ -540,34 +657,35 @@ async function tavilySearch(q){
 }
 function addActs(b, item){
   const row = document.createElement('div'); row.className = 'acts';
-  const mk = (ic, lab, fn) => { const x = document.createElement('button'); x.textContent = ic; x.setAttribute('aria-label', lab); x.onclick = () => fn(x); row.appendChild(x); return x; };
-  mk('📋', 'نسخ', x => {
+  const mk = (ico, lab, fn) => { const x = document.createElement('button'); x.innerHTML = ic(ico); x.setAttribute('aria-label', lab); x.onclick = () => fn(x); row.appendChild(x); return x; };
+  mk('copy', 'نسخ', x => {
     const t = item.text || b.textContent;
     const fb = () => { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch(e){} a.remove(); };
     (navigator.clipboard ? navigator.clipboard.writeText(t).catch(fb) : Promise.resolve(fb()));
-    x.textContent = '✅'; setTimeout(() => x.textContent = '📋', 1200);
+    x.innerHTML = ic('check'); setTimeout(() => x.innerHTML = ic('copy'), 1200);
   });
-  mk('🔄', 'أعد كتابة الرد', () => {
+  mk('refresh', 'أعد كتابة الرد', () => {
     if (busy) return;
     const last = history[history.length - 1], pu = history[history.length - 2];
     if (!last || last.role !== 'model' || !pu || pu.role !== 'user') return;
     history.pop(); saveHist(); b.remove(); row.remove();
-    send({label: pu.text || '🔄', hint:'اكتب ردك على رسالة المستخدم الأخيرة من جديد بصياغة وأسلوب مختلف عن ردك السابق مع نفس المعنى والمزاج، بدون ما تذكر إنك تعيد الكتابة.', regen:true});
+    send({label: pu.text || 'إعادة', hint:'اكتب ردك على رسالة المستخدم الأخيرة من جديد بصياغة وأسلوب مختلف عن ردك السابق مع نفس المعنى والمزاج، بدون ما تذكر إنك تعيد الكتابة.', regen:true});
   });
-  const up = mk('👍', 'إعجاب', () => { item.fb = item.fb === 'up' ? '' : 'up'; sync(); });
-  const dn = mk('👎', 'عدم إعجاب', () => { item.fb = item.fb === 'down' ? '' : 'down'; sync(); });
+  const up = mk('like', 'إعجاب', () => { item.fb = item.fb === 'up' ? '' : 'up'; sync(); });
+  const dn = mk('dislike', 'عدم إعجاب', () => { item.fb = item.fb === 'down' ? '' : 'down'; sync(); });
+  mk('speaker', 'قراءة بصوت', x => speak(item.text || b.textContent, x));
   const sync = () => { up.classList.toggle('on', item.fb === 'up'); dn.classList.toggle('on', item.fb === 'down'); };
   sync(); b.after(row); markOld();
 }
 function markOld(){ const rs = document.querySelectorAll('.acts'); rs.forEach((r, i) => r.classList.toggle('old', i < rs.length - 1)); }
 function addSrc(d, list){
   const w = document.createElement('div');
-  list.slice(0, 4).forEach(x => { const a = document.createElement('a'); a.className = 'src'; a.href = x.uri; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '🔗 ' + x.title; w.appendChild(a); });
+  list.slice(0, 4).forEach(x => { const a = document.createElement('a'); a.className = 'src'; a.href = x.uri; a.target = '_blank'; a.rel = 'noopener'; a.textContent = '' + x.title; w.appendChild(a); });
   d.appendChild(w);
 }
 function addArt(d, url){
   const im = document.createElement('img'); im.className = 'art'; im.alt = 'رسمة'; im.src = url;
-  im.onerror = () => { const x = document.createElement('div'); x.textContent = 'تعذر رسم الصورة الحين، جرب مرة ثانية 🎨'; im.replaceWith(x); };
+  im.onerror = () => { const x = document.createElement('div'); x.textContent = 'تعذر رسم الصورة الحين، جرب مرة ثانية'; im.replaceWith(x); };
   d.appendChild(im);
 }
 const BASE = 'https://generativelanguage.googleapis.com/v1beta/models/';
@@ -579,7 +697,7 @@ async function ask(model, key, contents, onChunk, useSearch){
       systemInstruction:{parts:[{text:buildPersona() + (deepNow ? '\n\nفكّر بعمق وبخطوات قبل ما تجاوب، وقدّم جواباً دقيقاً ومفصلاً أكثر من المعتاد.' : '')}]},
       contents,
       ...(useSearch ? {tools:[{google_search:{}}]} : {}),
-      generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : {}), maxOutputTokens:deepNow ? 4500 : (useSearch ? 1500 : 800)}
+      generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : {}), maxOutputTokens:deepNow ? 4500 : (useSearch ? 1500 : REPLY_TOK())}
     })
   });
   if (!res.ok){
@@ -617,11 +735,11 @@ async function send(react){
   const text = act ? act.label : ((react && !keepText) ? '' : inp.value.trim());
   if ((!text && !pending.length && !react) || busy) return;
   const key = store.get('limoai_key2', '') || DEFAULT_KEY;
-  if (!key){ fail('أضف مفتاح Gemini من الإعدادات ⚙️ أول.'); dlg.showModal(); return; }
+  if (!key){ fail('أضف مفتاح Gemini من الإعدادات ثم مفاتيح الاتصال أول.'); dlg.showModal(); return; }
   let model = String(store.get('limoai_model2', '') || '').trim().replace(/^models\//, '');
   if (!/^[A-Za-z0-9._-]+$/.test(model)) model = DEFAULT_MODEL;
 
-  busy = true; sendBtn.disabled = true; if (keepText){ staged = null; renderStaged(); }
+  busy = true; setBusy(true); voiceNow = voiceNext; voiceNext = false; if (keepText){ staged = null; renderStaged(); }
   if (!history.length) chat.innerHTML = '';
   const sentPending = ((react && !keepText) || act) ? [] : pending.slice(), imgs = sentPending.filter(x => x.url).map(x => x.url), files = sentPending.filter(x => x.name);
   const hasPdf = files.some(f => f.kind === 'pdf' || f.kind === 'video');
@@ -641,10 +759,10 @@ async function send(react){
   gifHintText = ''; pastHint = PASTREQ.test(text) ? buildPast(text) : '';
   if (!react){
     if (gifReq) gifHintText = 'المستخدم طلب منك الآن ترسل GIF أو ستيكر، فأرسل واحداً في هذا الرد بوسم [جيف: تصنيف] (مع كلام أو بدونه).';
-    else if (!lastG){
+    else if (!lastG || gifLvl === 'high'){
       const rr = Math.random();
-      if (['غاضب','منزعج','ملل','نعسان','كئيب','وجودي','جدي'].includes(mood) && rr < 0.3) gifHintText = 'في هذا الرد رد بـGIF لحاله بدون أي كلام: اكتب بعد وسم المزاج ووسم المشاعر وسم [جيف: تصنيف] فقط.';
-      else if (rr < 0.12) gifHintText = 'في هذا الرد أرسل GIF يعبر عن ردة فعلك مع كلامك، بوسم [جيف: تصنيف].';
+      if (['غاضب','منزعج','ملل','نعسان','كئيب','وجودي','جدي'].includes(mood) && rr < GP().a) gifHintText = 'في هذا الرد رد بـGIF لحاله بدون أي كلام: اكتب بعد وسم المزاج ووسم المشاعر وسم [جيف: تصنيف] فقط.';
+      else if (rr < GP().b) gifHintText = 'في هذا الرد أرسل GIF يعبر عن ردة فعلك مع كلامك، بوسم [جيف: تصنيف].';
     }
   }
   let useSearch = SEARCH_RE.test(text), searchFailed = false, searchErr = '';
@@ -725,12 +843,12 @@ async function send(react){
       if (gm2){
         reply = reply.replace(gm2[0], '').trim();
         const v = gm2[2].trim(), isS = /ستيكر|ملصق|sticker/i.test(gm2[1]);
-        if (isS && !gifKey(v) && /\p{Extended_Pictographic}/u.test(v)) mg = {stk:v};
+        if (isS && !gifKey(v) && /\p{Extended_Pictographic}/u.test(v)) mg = {gif: EMO2G[v.replace(/\ufe0f/g, '')] || MOOD2GIF[r.mood || mood] || 'laugh'};
         else mg = {gif: gifKey(v) || MOOD2GIF[r.mood || mood] || 'laugh'};
       }
-      if (mg && lastG && !gifReq) mg = null;
+      if (mg && lastG && !gifReq && gifLvl !== 'high') mg = null;
       if (!mg && gifReq) mg = {gif: MOOD2GIF[r.mood || mood] || 'laugh'};
-      mdSet(typing, (reply || (mg && mg.gif ? '⏳' : '')) + (searchFailed ? '\n\n⚠️ ما قدرت أبحث بالنت الحين، فجاوبتك من معلوماتي.' + (searchErr ? '\n[' + searchErr + ']' : '') : ''));
+      mdSet(typing, (reply || '') + (searchFailed ? '\n\nما قدرت أبحث بالنت الحين، فجاوبتك من معلوماتي.' + (searchErr ? '\n[' + searchErr + ']' : '') : ''));
       if (tvSrc && !(out.src && out.src.length)) out.src = tvSrc;
       if (out.src && out.src.length) addSrc(typing, out.src);
       if (art){ addArt(typing, art); addGal(art); ach('art'); }
@@ -739,19 +857,20 @@ async function send(react){
       if (mg && mg.stk){ item.stk = mg.stk; addSticker(typing, {emoji:mg.stk, label:''}); }
       history.push(item); saveHist();
       if (reply) addActs(typing, item);
+      if (reply && autoRead) speak(reply, null);
       newAch.forEach(a => addAch(a.title, a.desc)); newMom.forEach(addMoment);
-      if (mg && mg.gif) fetch('https://nekos.best/api/v2/' + mg.gif).then(x => x.json()).then(d => { const u = d.results[0].url; item.gif = u; if (!reply) typing.textContent = ''; addSticker(typing, {url:u, label:mg.gif}); saveHist(); }).catch(() => { if (!reply) typing.textContent = '🫥'; });
+      if (mg && mg.gif) gifList(mg.gif, '', 12).then(L => { if (!L.length) throw 0; const u = L[Math.floor(Math.random() * L.length)].url; item.gif = u; if (!reply) typing.textContent = ''; addSticker(typing, {url:u, label:mg.gif}); saveHist(); }).catch(() => { if (!reply) typing.textContent = '…'; });
       const n = history.filter(h => h.role === 'user').length;
       if (n === 2 || n % 4 === 0) learn();
       if (n >= 2 || String((history[0] && history[0].text) || '').length > 30) titleChat();
     }
   } catch(e){
     typing.remove(); if (!regen) history.pop(); if ((!react || keepText) && !act){ inp.value = text; pending = sentPending; renderPrev(); if (keepText){ staged = react; renderStaged(); } }
-    fail('تعذر الاتصال. تأكد من الإنترنت وجرب مرة ثانية.');
+    if (!stopped) fail('تعذر الاتصال. تأكد من الإنترنت وجرب مرة ثانية.');
   }
   gifHintText = ''; pastHint = '';
   showMood();
-  busy = false; sendBtn.disabled = false;
+  busy = false; setBusy(false); voiceNow = false;
 }
 
 let pending = [];
@@ -807,19 +926,19 @@ function renderChats(){
   if (!chats.length){ const n = document.createElement('div'); n.className = 'none'; n.style.padding = '6px 10px'; n.textContent = 'ما في محادثات محفوظة بعد.'; l.appendChild(n); return; }
   chats.slice().sort((a, b) => (b.pin ? 1 : 0) - (a.pin ? 1 : 0)).forEach(c => {
     const r = document.createElement('div'); r.className = 'ci' + (c.id === curId ? ' on' : '');
-    const t = document.createElement('button'); t.className = 't'; t.dir = 'auto'; t.textContent = (c.pin ? '📌 ' : '') + (c.title || 'محادثة'); t.onclick = () => openChat(c.id);
+    const t = document.createElement('button'); t.className = 't'; t.dir = 'auto'; t.textContent = (c.pin ? '★ ' : '') + (c.title || 'محادثة'); t.onclick = () => openChat(c.id);
     longPress(t, () => chatMenu(c));
     r.append(t); l.appendChild(r);
   });
 }
 function renderGal(){
   const g = $('galGrid'); g.innerHTML = ''; const gal = store.get('limoai_gal', []);
-  if (!gal.length){ g.style.display = 'block'; g.textContent = 'ما فيه صور بعد. اطلب من Limo ai يرسم لك 🎨'; return; }
+  if (!gal.length){ g.style.display = 'block'; g.textContent = 'ما فيه صور بعد. اطلب من Limo ai يرسم لك'; return; }
   g.style.display = 'grid';
   gal.forEach(u => { const a = document.createElement('a'); a.href = u; a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.src = u; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -868,7 +987,7 @@ function beat(){ if (document.hidden) return; const now = Date.now(), last = ses
 setInterval(beat, 15000); beat(); document.addEventListener('visibilitychange', () => { if (!document.hidden) beat(); });
 function saveMoment(role, txt){ txt = (txt || '').trim(); if (!txt || !confirm('تحفظ هذي الرسالة في أرشيف المواقف؟')) return; arc.unshift({t:Date.now(), who:role, text:txt.slice(0, 400)}); arc = arc.slice(0, 100); store.set('limoai_arc', arc); note('📚 انحفظ في أرشيف المواقف'); }
 function favGif(r){ if (favs.some(x => x.url === r.url)) return; favs.unshift(r); favs = favs.slice(0, 60); store.set('limoai_favg', favs); if (favs.length >= 3) ach('fav3'); alert('⭐ انحفظ في معرض GIF'); }
-function pick(title, items, cb){ $('pickT').textContent = title; const l = $('pickL'); l.innerHTML = ''; items.forEach(it => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = it; b.onclick = () => { $('pickDlg').close(); cb(it); }; l.appendChild(b); }); $('pickDlg').showModal(); }
+function pick(title, items, cb){ $('pickT').textContent = noE(title); const l = $('pickL'); l.innerHTML = ''; items.forEach(it => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = noE(it); b.onclick = () => { $('pickDlg').close(); cb(it); }; l.appendChild(b); }); $('pickDlg').showModal(); }
 $('pickX').onclick = () => $('pickDlg').close();
 function sendAct(label, hint, id){ toggleMenu(false); ach(id); send({label, hint}); }
 const SCEN = ['كسرت جوالك','نسيت أرد عليك يومين','فزت عليك في لعبة','أكلت آخر قطعة بيتزا','نجحت بالامتحان','سمعت إشاعة عنك','غيّرت اسمك'];
@@ -888,7 +1007,7 @@ const TR = {
 'محادثة جديدة':['New chat','Nuevo chat','新对话','新しいチャット'],'دردشة جديدة':['New chat','Nuevo chat','新对话','新しいチャット'],'جاهز للسوالف':['Ready to chat','Listo para charlar','随时聊天','おしゃべり準備OK'],
 'يكتب…':['Typing…','Escribiendo…','正在输入…','入力中…'],'القائمة':['Menu','Menú','菜单','メニュー'],'الصور':['Images','Imágenes','图片','画像'],'المشاعر':['Feelings','Emociones','情绪','感情'],
 'أرشيف المواقف':['Moments archive','Archivo de momentos','糗事档案','名場面アーカイブ'],'إنجازات ليمو':["Limo's achievements",'Logros de Limo','Limo 成就','Limoの実績'],
-'الإعدادات':['Settings','Ajustes','设置','設定'],'المحادثات':['Chats','Chats','对话','チャット'],'→ رجوع':['← Back','← Atrás','← 返回','← 戻る'],
+'الإعدادات':['Settings','Ajustes','设置','設定'],'المحادثات':['Chats','Chats','对话','チャット'],'{{back}}رجوع':['← Back','← Atrás','← 返回','← 戻る'],
 'الذاكرة':['Memory','Memoria','记忆','メモリー'],'العلاقة':['Relationship','Relación','关系','関係'],'البيانات':['Data','Datos','数据','データ'],'أسلوب الكلام':['Speaking style','Estilo de habla','说话风格','話し方'],
 'الاستفزاز':['Teasing','Provocación','挑衅','挑発'],'اللغة':['Language','Idioma','语言','言語'],'ستيكرز':['Stickers','Stickers','贴纸','ステッカー'],'إغلاق':['Close','Cerrar','关闭','閉じる'],
 'حفظ':['Save','Guardar','保存','保存'],'ذاكرتي':['My memory','Mi memoria','我的记忆','私のメモリー'],'صالحه':['Make up','Reconciliar','和好','仲直り'],'مسح الكل':['Clear all','Borrar todo','清除全部','すべて削除'],
@@ -957,18 +1076,18 @@ function mdSet(el, text){ el.textContent = ''; el.appendChild(mdNode(text)); }
 function note(txt){ const n = $('note'); n.textContent = txt; n.classList.add('on'); clearTimeout(note.t); note.t = setTimeout(() => n.classList.remove('on'), 2600); }
 const THV = ['--bg','--panel','--line','--text','--mute','--violet','--teal','--me','--bot','--hd1','--hd2','--metext'];
 const THEMES = {
-  night:{n:'🌌 ليلي بنفسجي', v:{}},
-  ocean:{n:'🌊 محيط', v:{'--bg':'#07131f','--panel':'#0d2033','--line':'#1b3a57','--text':'#e6f3ff','--mute':'#7fa3c2','--violet':'#3b82f6','--teal':'#22d3ee','--me':'#1d5fd1','--bot':'#102a44','--hd1':'#0f2a45','--hd2':'#0d2033'}},
-  forest:{n:'🌿 غابة', v:{'--bg':'#08140e','--panel':'#10231a','--line':'#1f3d2d','--text':'#e7fbef','--mute':'#86b399','--violet':'#22c55e','--teal':'#a3e635','--me':'#178a49','--bot':'#12301f','--hd1':'#143324','--hd2':'#10231a'}},
-  sunset:{n:'🌇 غروب', v:{'--bg':'#160c14','--panel':'#261521','--line':'#4a2a3d','--text':'#ffeef2','--mute':'#c49aab','--violet':'#f43f5e','--teal':'#fb923c','--me':'#c2255c','--bot':'#321a2b','--hd1':'#3a1b30','--hd2':'#261521'}},
-  gold:{n:'👑 ذهبي', v:{'--bg':'#12100a','--panel':'#211c0f','--line':'#43391c','--text':'#fff7e0','--mute':'#b9a878','--violet':'#f59e0b','--teal':'#fde047','--me':'#b7791f','--bot':'#2a2312','--hd1':'#33290f','--hd2':'#211c0f'}},
-  amoled:{n:'⚫ أسود كامل', v:{'--bg':'#000000','--panel':'#0b0b0f','--line':'#1c1c26','--text':'#f2f2f7','--mute':'#8a8a9a','--violet':'#8b5cf6','--teal':'#2dd4bf','--me':'#5b34c9','--bot':'#111118','--hd1':'#0b0b0f','--hd2':'#000000'}},
-  light:{n:'☀️ فاتح (تجريبي)', v:{'--bg':'#f4f2fb','--panel':'#ffffff','--line':'#ddd8ef','--text':'#1a1630','--mute':'#6b6590','--violet':'#7c4dff','--teal':'#0d9488','--me':'#7c4dff','--bot':'#ebe8f7','--hd1':'#ffffff','--hd2':'#f4f2fb','--metext':'#ffffff'}}
+  night:{n:'ليلي بنفسجي', v:{}},
+  ocean:{n:'محيط', v:{'--bg':'#07131f','--panel':'#0d2033','--line':'#1b3a57','--text':'#e6f3ff','--mute':'#7fa3c2','--violet':'#3b82f6','--teal':'#22d3ee','--me':'#1d5fd1','--bot':'#102a44','--hd1':'#0f2a45','--hd2':'#0d2033'}},
+  forest:{n:'غابة', v:{'--bg':'#08140e','--panel':'#10231a','--line':'#1f3d2d','--text':'#e7fbef','--mute':'#86b399','--violet':'#22c55e','--teal':'#a3e635','--me':'#178a49','--bot':'#12301f','--hd1':'#143324','--hd2':'#10231a'}},
+  sunset:{n:'غروب', v:{'--bg':'#160c14','--panel':'#261521','--line':'#4a2a3d','--text':'#ffeef2','--mute':'#c49aab','--violet':'#f43f5e','--teal':'#fb923c','--me':'#c2255c','--bot':'#321a2b','--hd1':'#3a1b30','--hd2':'#261521'}},
+  gold:{n:'ذهبي', v:{'--bg':'#12100a','--panel':'#211c0f','--line':'#43391c','--text':'#fff7e0','--mute':'#b9a878','--violet':'#f59e0b','--teal':'#fde047','--me':'#b7791f','--bot':'#2a2312','--hd1':'#33290f','--hd2':'#211c0f'}},
+  amoled:{n:'أسود كامل', v:{'--bg':'#000000','--panel':'#0b0b0f','--line':'#1c1c26','--text':'#f2f2f7','--mute':'#8a8a9a','--violet':'#8b5cf6','--teal':'#2dd4bf','--me':'#5b34c9','--bot':'#111118','--hd1':'#0b0b0f','--hd2':'#000000'}},
+  light:{n:'فاتح (تجريبي)', v:{'--bg':'#f4f2fb','--panel':'#ffffff','--line':'#ddd8ef','--text':'#1a1630','--mute':'#6b6590','--violet':'#7c4dff','--teal':'#0d9488','--me':'#7c4dff','--bot':'#ebe8f7','--hd1':'#ffffff','--hd2':'#f4f2fb','--metext':'#ffffff'}}
 };
 let theme = store.get('limoai_theme', 'night'); if (!THEMES[theme]) theme = 'night';
 function applyTheme(k){ const r = document.documentElement.style; THV.forEach(v => r.removeProperty(v)); Object.entries(THEMES[k].v).forEach(([a, b]) => r.setProperty(a, b)); theme = k; }
 applyTheme(theme);
-function renderTheme(){ const l = $('themeList'); l.innerHTML = ''; Object.keys(THEMES).forEach(k => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (theme === k ? '✅ ' : '') + THEMES[k].n; b.onclick = () => { applyTheme(k); store.set('limoai_theme', k); renderTheme(); }; l.appendChild(b); }); }
+function renderTheme(){ const l = $('themeList'); l.innerHTML = ''; Object.keys(THEMES).forEach(k => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (theme === k ? '✓ ' : '') + THEMES[k].n; b.onclick = () => { applyTheme(k); store.set('limoai_theme', k); renderTheme(); }; l.appendChild(b); }); }
 function tr(s){
   const k = String(s).trim(); if (!k) return s;
   if (lang === 'ar') return TRF[k] ? s.replace(k, TRF[k]) : s;
@@ -1002,7 +1121,7 @@ function setLang(l){
 }
 function renderLang(){
   const l = $('langList'); l.innerHTML = '';
-  LANGS.forEach(([k, n]) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (lang === k ? '✅ ' : '') + n; b.onclick = () => setLang(k); l.appendChild(b); });
+  LANGS.forEach(([k, n]) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (lang === k ? '✓ ' : '') + n; b.onclick = () => setLang(k); l.appendChild(b); });
 }
 $('diLang').onclick = () => { renderLang(); showDV('dLang'); };
 
@@ -1018,22 +1137,22 @@ function bars(el, keys, colors){
 function renderRel(){ const l = $('relList'); l.innerHTML = ''; bars(l, REL, {'ثقة':'#2dd4bf','صداقة':'#facc15','زعل':'#f43f5e'}); }
 function renderStyle(){
   const l = $('styleList'); l.innerHTML = '';
-  [['default','عادي (حسب مزاجه)'],['sarcastic','ساخر'],['calm','هادئ'],['angry','عصبي'],['fun','مرح']].forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (style === k ? '✅ ' : '') + t; b.onclick = () => { style = k; store.set('limoai_style', k); renderStyle(); }; l.appendChild(b); });
+  [['default','عادي (حسب مزاجه)'],['sarcastic','ساخر'],['calm','هادئ'],['angry','عصبي'],['fun','مرح']].forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (style === k ? '✓ ' : '') + t; b.onclick = () => { style = k; store.set('limoai_style', k); renderStyle(); }; l.appendChild(b); });
 }
 function renderFav(){
   const g = $('favGrid'); g.innerHTML = '';
-  if (!favs.length){ g.style.display = 'block'; g.textContent = 'اضغط مطولاً على أي GIF في لوحة GIF عشان تحفظه هنا ⭐'; return; }
+  if (!favs.length){ g.style.display = 'block'; g.textContent = 'اضغط مطولاً على أي GIF في لوحة GIF عشان تحفظه هنا'; return; }
   g.style.display = 'grid';
   favs.forEach(f => { const im = document.createElement('img'); im.loading = 'lazy'; im.src = f.url; im.alt = f.label; longPress(im, () => { if (confirm('تحذفه من المعرض؟')){ favs = favs.filter(x => x !== f); store.set('limoai_favg', favs); renderFav(); } }); im.onclick = () => { closeDrawer(); sendReaction({url:f.url, label:f.label}); }; g.appendChild(im); });
 }
 function renderArc(){
   const l = $('arcList'); l.innerHTML = '';
-  if (!arc.length){ l.textContent = 'اضغط مطولاً على أي رسالة في المحادثة عشان تحفظها كموقف 📚'; return; }
+  if (!arc.length){ l.textContent = 'اضغط مطولاً على أي رسالة في المحادثة عشان تحفظها كموقف'; return; }
   arc.forEach(a => { const r = document.createElement('div'); r.className = 'row2'; const sp = document.createElement('span'); sp.dir = 'auto'; sp.textContent = (a.who === 'ai' ? '😏 ' : a.who === 'me' ? '🧑 ' : '🤖 ') + a.text; const sm = document.createElement('small'); sm.textContent = new Date(a.t).toLocaleString('ar-u-ca-gregory-nu-latn'); sp.appendChild(sm); const x = document.createElement('button'); x.textContent = '✕'; x.setAttribute('aria-label', 'حذف'); x.onclick = () => { arc = arc.filter(y => y !== a); store.set('limoai_arc', arc); renderArc(); }; r.append(sp, x); l.appendChild(r); });
 }
 function renderAch(){
   const l = $('achList'); l.innerHTML = '';
-  if (!achv.length){ l.textContent = 'لسا ما منحتك أي إنجاز... سولف معي وخلني أشوف 😏'; return; }
+  if (!achv.length){ l.textContent = 'لسا ما منحتك أي إنجاز... سولف معي وخلني أشوف'; return; }
   achv.forEach(a => { const r = document.createElement('div'); r.className = 'row2 ach on'; const sp = document.createElement('span'); sp.dir = 'auto'; sp.textContent = '🏆 ' + a.title; const sm = document.createElement('small'); sm.textContent = (a.desc ? a.desc + ' — ' : '') + new Date(a.t).toLocaleDateString('ar-u-ca-gregory-nu-latn'); sp.appendChild(sm); r.appendChild(sp); l.appendChild(r); });
 }
 const domOf = f => FEELS.reduce((a, k) => (f[k] > f[a] ? k : a), FEELS[0]);
@@ -1130,7 +1249,7 @@ $('diData').onclick = () => { renderData(); showDV('dData'); };
 $('diStyle').onclick = () => { renderStyle(); showDV('dStyle'); };
 function renderProv(){
   const l = $('provList'); l.innerHTML = '';
-  ['متوقف','خفيف','متوسط','شديد'].forEach((t, k) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (prov === k ? '✅ ' : '') + '😈 ' + t; b.onclick = () => { prov = k; store.set('limoai_prov', k); renderProv(); }; l.appendChild(b); });
+  ['متوقف','خفيف','متوسط','شديد'].forEach((t, k) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (prov === k ? '✓ ' : '') + t; b.onclick = () => { prov = k; store.set('limoai_prov', k); renderProv(); }; l.appendChild(b); });
   const n = document.createElement('div'); n.className = 'none'; n.style.padding = '6px 4px'; n.textContent = 'كله بالمزح: ما يمس العائلة والدين والشكل، ويوقف إذا حس إنك متضايق فعلاً.'; l.appendChild(n);
 }
 $('diProv').onclick = () => { renderProv(); showDV('dProv'); };
@@ -1178,14 +1297,14 @@ function renderPrev(){
   pv.classList.toggle('on', pending.length > 0 || deepNext);
   if (deepNext){
     const w = document.createElement('div'); w.className = 'pv';
-    const c = document.createElement('div'); c.className = 'fc'; c.textContent = '🧠 تفكير عميق';
+    const c = document.createElement('div'); c.className = 'fc'; c.textContent = 'تفكير عميق';
     const b = document.createElement('button'); b.textContent = '✕'; b.setAttribute('aria-label', 'إلغاء التفكير العميق');
     b.onclick = () => { deepNext = false; renderPrev(); };
     w.append(c, b); pv.appendChild(w);
   }
   pending.forEach((p, i) => {
     const w = document.createElement('div'); w.className = 'pv';
-    const im = p.url ? Object.assign(document.createElement('img'), {src:p.url}) : Object.assign(document.createElement('div'), {className:'fc', textContent:'📄 ' + p.name});
+    const im = p.url ? Object.assign(document.createElement('img'), {src:p.url}) : Object.assign(document.createElement('div'), {className:'fc', textContent:p.name});
     const b = document.createElement('button'); b.textContent = '✕'; b.setAttribute('aria-label', 'حذف الصورة');
     b.onclick = () => { pending.splice(i, 1); renderPrev(); };
     w.append(im, b); pv.appendChild(w);
@@ -1223,7 +1342,7 @@ function addSticker(d, r){
     else { const im = document.createElement('img'); im.className = 'stk'; im.alt = r.label; im.src = r.url; w.appendChild(im); }
     let a = d; while (a.nextElementSibling && a.nextElementSibling.classList.contains('sx')) a = a.nextElementSibling;
     a.after(w); chat.scrollTop = chat.scrollHeight;
-  } else { const c = document.createElement('div'); c.className = 'chip'; c.textContent = '🖼️ ' + r.label; d.appendChild(c); }
+  } else { const c = document.createElement('div'); c.className = 'chip'; c.textContent = r.label; d.appendChild(c); }
 }
 const GIFCATS = {hug:'حضن',pat:'تربيت',slap:'صفعة',laugh:'ضحك',cry:'بكاء',dance:'رقص',wave:'تلويح',wink:'غمزة',smile:'ابتسامة',blush:'خجل',angry:'غضب',bored:'ملل',facepalm:'يا ساتر',happy:'سعيد',nope:'لا',pout:'تذمر',shrug:'مدري',sleep:'نوم',think:'تفكير',thumbsup:'تمام',clap:'تصفيق',poke:'نكزة',punch:'لكمة',smug:'غرور',stare:'تحديق',baka:'غبي',nod:'موافق',highfive:'كف',salute:'احترام',yawn:'تثاؤب',run:'جري',kick:'ركلة'};
 const EMOS = [['😂','ضحك'],['🤣','ضحك شديد'],['😭','بكاء'],['😡','غضب'],['🥰','حب صحاب'],['😎','ثقة'],['🙄','ملل واستخفاف'],['😴','نعاس'],['🤯','صدمة'],['😱','خوف'],['🤔','تفكير'],['👍','تمام'],['👎','ما يعجبني'],['👏','تصفيق'],['🔥','نار'],['💀','مت من الضحك'],['🥺','استعطاف'],['😏','غرور'],['🤝','مصالحة'],['🙏','رجاء'],['😅','إحراج'],['🤮','قرف'],['🤡','مهرج'],['💔','زعل'],['🎉','احتفال'],['🫡','احترام'],['😤','غيظ'],['🙃','سخرية'],['😬','توتر'],['🤌','إيش تقصد']];
@@ -1239,26 +1358,26 @@ function renderStaged(){
 }
 function sendReaction(r){ $('stk').hidden = true; gc = (store.get('limoai_gifc', 0) || 0) + 1; store.set('limoai_gifc', gc); if (gc >= 5) ach('gifs5'); staged = r; renderStaged(); inp.focus(); }
 let gc = 0;
+let stkReq = 0;
 async function stkRender(){
   const g = $('grid'), c = $('cats'); g.innerHTML = ''; c.innerHTML = '';
   $('tGif').classList.toggle('on', stkTab === 'gif'); $('tStk').classList.toggle('on', stkTab === 'stk'); $('srow').style.display = stkTab === 'gif' ? 'flex' : 'none';
   if (stkTab === 'stk'){
     EMOS.forEach(([e, l]) => { const b = document.createElement('button'); b.className = 'em'; b.textContent = e; b.setAttribute('aria-label', l); b.onclick = () => sendReaction({emoji:e, label:l}); g.appendChild(b); });
     mine.forEach(x => { const im = document.createElement('img'); im.src = x.url; im.alt = x.label; im.onclick = () => sendReaction({url:x.url, label:x.label}); g.appendChild(im); });
-    const hint = document.createElement('div'); hint.className = 'none'; hint.style.gridColumn = '1/-1'; hint.textContent = ''; const add = document.createElement('button'); add.className = 'em'; add.textContent = '＋🖼️'; add.setAttribute('aria-label', 'إضافة ستيكر'); add.onclick = () => $('stkIn').click(); g.appendChild(add);
+    const add = document.createElement('button'); add.className = 'em'; add.innerHTML = ic('plus'); add.setAttribute('aria-label', 'إضافة ستيكر'); add.onclick = () => $('stkIn').click(); g.appendChild(add);
     return;
   }
-  if (!cats){
-    try { const d = await (await fetch('https://nekos.best/api/v2/endpoints')).json(); cats = Object.keys(GIFCATS).filter(k => d[k] && d[k].format === 'gif'); } catch(e){ cats = []; }
-    if (!cats.length) cats = Object.keys(GIFCATS);
-  }
-  (catFilter ? cats.filter(k => k.includes(catFilter) || GIFCATS[k].includes(catFilter)) : cats).forEach(k => { const b = document.createElement('button'); b.className = 'cat' + (k === gifCat ? ' on' : ''); b.textContent = GIFCATS[k]; b.onclick = () => { gifCat = k; stkRender(); }; c.appendChild(b); });
-  g.textContent = '⏳';
-  try {
-    const d = await (await fetch(animeQ ? 'https://nekos.best/api/v2/search?query=' + encodeURIComponent(animeQ) + '&type=2&category=' + gifCat + '&amount=12' : 'https://nekos.best/api/v2/' + gifCat + '?amount=12')).json();
-    g.textContent = ''; if (!(d.results || []).length) g.textContent = 'ما لقيت نتائج.';
-    (d.results || []).forEach(r => { const im = document.createElement('img'); im.loading = 'lazy'; im.src = r.url; im.alt = GIFCATS[gifCat]; longPress(im, () => favGif({url:r.url, label:GIFCATS[gifCat] + ' (' + gifCat + ')'})); im.onclick = () => sendReaction({url:r.url, label:GIFCATS[gifCat] + ' (' + gifCat + ')'}); g.appendChild(im); });
-  } catch(e){ g.textContent = 'تعذر تحميل الـGIF. تأكد من الإنترنت.'; }
+  cats = Object.keys(GIFCATS);
+  (catFilter ? cats.filter(k => k.includes(catFilter) || GIFCATS[k].includes(catFilter)) : cats).forEach(k => { const b = document.createElement('button'); b.className = 'cat' + (k === gifCat ? ' on' : ''); b.textContent = GIFCATS[k]; b.onclick = () => { gifCat = k; animeQ = ''; $('sq').value = ''; stkRender(); }; c.appendChild(b); });
+  const on = c.querySelector('.on'); if (on) on.scrollIntoView({inline:'center', block:'nearest'});
+  g.innerHTML = '<i class="sk"></i>'.repeat(9);
+  const my = ++stkReq;
+  let L = []; try { L = await gifList(gifCat, animeQ, 30); } catch(e){}
+  if (my !== stkReq) return;
+  g.textContent = '';
+  if (!L.length){ const d = document.createElement('div'); d.className = 'none'; d.textContent = 'ما لقيت نتائج. تأكد من الإنترنت أو جرّب كلمة ثانية.'; g.appendChild(d); return; }
+  L.forEach(r => { const im = document.createElement('img'); im.loading = 'lazy'; im.src = r.url; im.alt = GIFCATS[gifCat] || gifCat; longPress(im, () => favGif({url:r.url, label:r.label})); im.onclick = () => sendReaction({url:r.url, label:r.label}); g.appendChild(im); });
 }
 $('stkBtn').onclick = () => { const open = $('stk').hidden; $('stk').hidden = !open; if (open){ toggleMenu(false); stkRender(); } };
 $('tGif').onclick = () => { stkTab = 'gif'; stkRender(); };
@@ -1400,9 +1519,9 @@ sendBtn.onclick = send;
 inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !('ontouchstart' in window)){ e.preventDefault(); send(); } });
 inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 120) + 'px'; });
 $('newBtn').onclick = newChat;
-$('setBtn').onclick = () => { $('key').value = store.get('limoai_key2', ''); $('model').value = store.get('limoai_model2', ''); $('gkey').value = store.get('limoai_groq', ''); $('tkey').value = store.get('limoai_tav', ''); $('gmodel').value = store.get('limoai_groqm', ''); $('okey').value = store.get('limoai_or', ''); $('omodel').value = store.get('limoai_orm', ''); dlg.showModal(); };
+$('setBtn').onclick = () => { $('key').value = store.get('limoai_key2', ''); $('model').value = store.get('limoai_model2', ''); $('gkey').value = store.get('limoai_groq', ''); $('tkey').value = store.get('limoai_tav', ''); $('gmodel').value = store.get('limoai_groqm', ''); $('okey').value = store.get('limoai_or', ''); $('omodel').value = store.get('limoai_orm', ''); $('gpkey').value = store.get('limoai_giphy', ''); dlg.showModal(); };
 $('closeSet').onclick = () => dlg.close();
-$('saveSet').onclick = () => { store.set('limoai_key2', $('key').value.trim()); store.set('limoai_model2', $('model').value.trim()); store.set('limoai_groq', $('gkey').value.trim()); store.set('limoai_tav', $('tkey').value.trim()); store.set('limoai_groqm', $('gmodel').value.trim()); store.set('limoai_or', $('okey').value.trim()); store.set('limoai_orm', $('omodel').value.trim()); dlg.close(); };
+$('saveSet').onclick = () => { store.set('limoai_key2', $('key').value.trim()); store.set('limoai_model2', $('model').value.trim()); store.set('limoai_groq', $('gkey').value.trim()); store.set('limoai_tav', $('tkey').value.trim()); store.set('limoai_groqm', $('gmodel').value.trim()); store.set('limoai_or', $('okey').value.trim()); store.set('limoai_orm', $('omodel').value.trim()); store.set('limoai_giphy', $('gpkey').value.trim()); dlg.close(); };
 
 function renderMem(){
   const body = $('memBody'); body.innerHTML = '';
@@ -1450,7 +1569,135 @@ document.addEventListener('click', e => { if (!e.target.closest('#status, #relBt
   $('stkX').onclick = () => { s.hidden = true; };
   chat.addEventListener('click', () => { s.hidden = true; });
 })();
-$('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('diMore').textContent = b.hidden ? '⌄ عرض المزيد' : '⌃ عرض أقل'; };
+/* ---- v2: features ---- */
+let fsz = Number(store.get('limoai_fs', 1)) || 1, replyLen = store.get('limoai_rlen', 'normal'), gifLvl = store.get('limoai_giflvl', 'high');
+let helperOn = store.get('limoai_helper', true), voiceLang = store.get('limoai_vlang', 'ar-SA'), autoRead = store.get('limoai_autoread', false);
+let voiceNext = false, voiceNow = false;
+function applyFs(){ document.documentElement.style.setProperty('--fs', fsz); }
+applyFs();
+const REPLY_TOK = () => ({short:500, normal:1000, long:2200})[replyLen] || 1000;
+const GP = () => ({low:{a:.15, b:.06}, mid:{a:.3, b:.12}, high:{a:.55, b:.4}})[gifLvl] || {a:.3, b:.12};
+
+/* stop button */
+const _fetch = window.fetch.bind(window);
+window.fetch = (u, o) => { if (ctl && /generativelanguage\.googleapis|api\.groq\.com|openrouter\.ai|api\.tavily\.com/.test(String(u))) o = Object.assign({}, o, {signal:ctl.signal}); return _fetch(u, o); };
+function setBusy(b){
+  sendBtn.classList.toggle('stop', b); sendBtn.innerHTML = ic(b ? 'stop' : 'up'); sendBtn.setAttribute('aria-label', b ? 'إيقاف' : 'إرسال'); sendBtn.disabled = false;
+  if (b){ ctl = new AbortController(); stopped = false; } else { ctl = null; stopped = false; }
+}
+function stopGen(){ stopped = true; if (ctl) ctl.abort(); }
+sendBtn.onclick = () => busy ? stopGen() : send();
+
+/* read aloud */
+let speakingEl = null;
+const plainText = t => String(t || '').replace(/```[\s\S]*?```/g, ' ').replace(/https?:\/\/\S+/g, ' ').replace(/[*_`#>\[\]]/g, '').replace(/\p{Extended_Pictographic}/gu, '').replace(/\s+/g, ' ').trim();
+function stopSpeak(){ try { speechSynthesis.cancel(); } catch(e){} if (speakingEl){ speakingEl.classList.remove('on'); speakingEl = null; } }
+function speak(text, btn){
+  if (!('speechSynthesis' in window)){ note('القراءة الصوتية غير مدعومة في هذا المتصفح'); return; }
+  if (btn && speakingEl === btn){ stopSpeak(); return; }
+  stopSpeak(); const t = plainText(text); if (!t) return;
+  const u = new SpeechSynthesisUtterance(t); u.lang = /[\u0600-\u06FF]/.test(t) ? voiceLang : 'en-US';
+  const vs = speechSynthesis.getVoices(); const v = vs.find(x => x.lang.replace('_', '-') === u.lang) || vs.find(x => x.lang.slice(0, 2) === u.lang.slice(0, 2)); if (v) u.voice = v;
+  u.onend = u.onerror = () => { if (btn && speakingEl === btn) stopSpeak(); };
+  if (btn){ speakingEl = btn; btn.classList.add('on'); }
+  speechSynthesis.speak(u);
+}
+
+/* voice message (speech -> text -> auto send) */
+let rec = null, recOn = false, recText = '';
+function micToggle(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR){ note('الرسائل الصوتية غير مدعومة في هذا المتصفح، جرّب Chrome'); return; }
+  if (recOn){ try { rec.stop(); } catch(e){} return; }
+  if (busy) return;
+  stopSpeak(); const ph = inp.placeholder; rec = new SR(); rec.lang = voiceLang; rec.interimResults = true; rec.continuous = false; recText = '';
+  rec.onstart = () => { recOn = true; $('mic').classList.add('rec'); inp.placeholder = 'أسمعك... اضغط الميكروفون للإرسال'; };
+  rec.onresult = e => { let t = ''; for (const r of e.results) t += r[0].transcript; recText = t; inp.value = t; inp.dispatchEvent(new Event('input')); };
+  rec.onerror = e => { recText = ''; if (e.error === 'not-allowed' || e.error === 'service-not-allowed') note('اسمح للميكروفون من إعدادات المتصفح'); else if (e.error !== 'no-speech' && e.error !== 'aborted') note('تعذر التسجيل الصوتي'); };
+  rec.onend = () => { recOn = false; $('mic').classList.remove('rec'); inp.placeholder = ph; const t = recText.trim(); recText = ''; if (t){ inp.value = t; voiceNext = true; send(); } else { inp.value = ''; inp.dispatchEvent(new Event('input')); } };
+  try { rec.start(); } catch(e){ recOn = false; }
+}
+$('mic').onclick = micToggle;
+
+/* GIFs: many sources, mixed anime + real people */
+Object.assign(GIFCATS, {funny:'مضحك', lol:'قهقهة', omg:'صدمة', wow:'واو', love:'حب', sorry:'آسف', thanks:'شكراً', congrats:'مبروك', eyeroll:'استخفاف', mindblown:'انفجر عقلي', cool:'كول', bye:'مع السلامة', hello:'مرحبا', goodnight:'تصبح على خير', popcorn:'فرجة', cheers:'نخبك', sad:'حزين', scared:'خوف', tired:'تعبان', cat:'قطط', dog:'كلاب', meme:'ميمز', party:'حفلة', food:'أكل', fail:'فشل', win:'فوز', excited:'متحمس', noway:'مستحيل'});
+const GQ = {goodnight:'good night', eyeroll:'eye roll', mindblown:'mind blown', noway:'no way', thumbsup:'thumbs up', highfive:'high five', nope:'nope no', pout:'pout', baka:'idiot', nod:'nod yes', smug:'smug', blush:'blushing', think:'thinking', shrug:'shrug', clap:'clapping', stare:'staring'};
+const NEKO_OK = new Set(), WAIFU = new Set(['hug','pat','slap','cry','dance','wave','wink','smile','blush','happy','smug','poke','kick','bonk','lick','bite','cuddle','kiss','highfive','handhold','nom','cringe','bully','yeet','glomp','kill']);
+const OTAKU = new Set(['hug','kiss','slap','laugh','cry','dance','wave','wink','smile','blush','happy','pat','poke','punch','shrug','sleep','facepalm','thumbsup','nod','salute','yawn','pout','bored','clap','highfive','run','stare','love','sad','scared','tired','cool','sorry','cheers','wow','yes','no']);
+let nekoP = null;
+const neko = () => nekoP || (nekoP = _fetch('https://nekos.best/api/v2/endpoints').then(r => r.json()).then(d => Object.keys(d).forEach(k => { if (d[k].format === 'gif') NEKO_OK.add(k); })).catch(() => {}));
+const jget = (u, o) => _fetch(u, o).then(r => { if (!r.ok) throw 0; return r.json(); });
+async function gifList(cat, q, n){
+  await Promise.race([neko(), new Promise(r => setTimeout(r, 2500))]);
+  const label = (GIFCATS[cat] || cat) + ' (' + cat + ')', term = q || GQ[cat] || cat, gk = store.get('limoai_giphy', '') || 'dc6zaTOxFJmzC', jobs = [];
+  const T = (arr, f) => arr.map(x => f(x)).filter(Boolean);
+  if (NEKO_OK.has(cat)) jobs.push(jget(q ? 'https://nekos.best/api/v2/search?query=' + encodeURIComponent(q) + '&type=2&category=' + cat + '&amount=10' : 'https://nekos.best/api/v2/' + cat + '?amount=10').then(d => T(d.results || [], r => r.url)));
+  if (!q && WAIFU.has(cat)) jobs.push(jget('https://api.waifu.pics/many/sfw/' + cat, {method:'POST', headers:{'Content-Type':'application/json'}, body:'{"exclude":[]}'}).then(d => T((d.files || []).sort(() => Math.random() - .5).slice(0, 8), u => /\.gif$/i.test(u) ? u : null)));
+  if (!q && OTAKU.has(cat)) for (let i = 0; i < 3; i++) jobs.push(jget('https://api.otakugifs.xyz/gif?reaction=' + cat).then(d => d.url ? [d.url] : []));
+  const gp = (t, lim) => jget('https://api.giphy.com/v1/gifs/search?api_key=' + gk + '&q=' + encodeURIComponent(t) + '&limit=' + lim + '&rating=pg-13&offset=' + Math.floor(Math.random() * 25)).then(d => T(d.data || [], g => g.images && (g.images.fixed_height || g.images.downsized || {}).url));
+  jobs.push(gp(term, 16)); jobs.push(gp('anime ' + term, 8));
+  const res = (await Promise.allSettled(jobs)).map(r => r.status === 'fulfilled' ? r.value : []);
+  const out = [], seen = new Set(); let more = true;
+  for (let i = 0; more; i++){ more = false; res.forEach(l => { if (i < l.length){ more = true; const u = l[i]; if (u && !seen.has(u)){ seen.add(u); out.push({url:u, label}); } } }); }
+  for (let i = out.length - 1; i > 0; i--){ const j = Math.floor(Math.random() * (i + 1)); [out[i], out[j]] = [out[j], out[i]]; }
+  return out.slice(0, n || 24);
+}
+const EMO2G = {'😂':'laugh','🤣':'laugh','😭':'cry','😡':'angry','🥰':'hug','😎':'smug','🙄':'eyeroll','😴':'sleep','🤯':'mindblown','😱':'scared','🤔':'think','👍':'thumbsup','👏':'clap','🔥':'excited','💀':'laugh','🥺':'pout','😏':'smug','🤝':'highfive','🙏':'sorry','😅':'shrug','🤮':'nope','🤡':'funny','💔':'sad','🎉':'party','🫡':'salute','😤':'angry','🙃':'smug','😬':'cringe'};
+
+/* sticker sheet drag */
+(function(){
+  const st = $('stk'), gr = $('stkGrab'); let y0 = 0, h0 = 0, t0 = 0, on = false;
+  const vh = () => innerHeight;
+  gr.addEventListener('pointerdown', e => { if (e.target.closest('#stkX')) return; on = true; y0 = e.clientY; h0 = st.offsetHeight; t0 = Date.now(); st.style.transition = 'none'; try { gr.setPointerCapture(e.pointerId); } catch(_){} });
+  gr.addEventListener('pointermove', e => { if (!on) return; st.style.height = Math.min(vh() * .8, Math.max(0, h0 + (y0 - e.clientY))) + 'px'; });
+  const end = e => {
+    if (!on) return; on = false; st.style.transition = '';
+    const h = st.offsetHeight, v = (y0 - e.clientY) / Math.max(1, Date.now() - t0), snaps = [.42 * vh(), .78 * vh()];
+    if (h < vh() * .16 || (v < -1.4 && h < vh() * .3)){ st.hidden = true; st.style.height = snaps[0] + 'px'; return; }
+    let target = h > (snaps[0] + snaps[1]) / 2 ? snaps[1] : snaps[0];
+    if (v > .6) target = snaps[1]; else if (v < -.6) target = snaps[0];
+    st.style.height = target + 'px';
+  };
+  gr.addEventListener('pointerup', end); gr.addEventListener('pointercancel', end);
+})();
+
+/* drawer pages */
+function chips(el, title, items, cur, set){
+  const h = document.createElement('div'); h.className = 'sec'; h.textContent = title; el.appendChild(h);
+  items.forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk' + (cur === k ? ' sel' : ''); b.textContent = t; b.onclick = () => set(k); el.appendChild(b); });
+}
+function renderVoice(){
+  const el = $('voiceBody'); el.innerHTML = '';
+  chips(el, 'لهجة الميكروفون (فهم كلامك)', [['ar-SA','عربي - خليجي (السعودية)'],['ar-AE','عربي - الإمارات'],['ar-JO','عربي - شامي (الأردن)'],['ar-EG','عربي - مصر'],['ar-MA','عربي - المغرب'],['ar-DZ','عربي - الجزائر'],['en-US','English']], voiceLang, k => { voiceLang = k; store.set('limoai_vlang', k); renderVoice(); });
+  chips(el, 'قراءة الردود بصوت', [[true,'يقرأ ردوده تلقائياً'],[false,'يدوي (زر السماعة تحت الرد)']], autoRead, k => { autoRead = k; store.set('limoai_autoread', k); if (!k) stopSpeak(); renderVoice(); });
+  const t = document.createElement('button'); t.className = 'pk'; t.textContent = 'جرّب الصوت'; t.onclick = () => speak('هلا، أنا ليمو. هذا صوتي، تمام؟', null); el.appendChild(t);
+}
+function renderPref(){
+  const el = $('prefBody'); el.innerHTML = '';
+  chips(el, 'طول الرد', [['short','قصير'],['normal','متوسط'],['long','مفصّل']], replyLen, k => { replyLen = k; store.set('limoai_rlen', k); renderPref(); });
+  chips(el, 'كثرة الجيف', [['low','قليلة'],['mid','متوسطة'],['high','كثيرة']], gifLvl, k => { gifLvl = k; store.set('limoai_giflvl', k); renderPref(); });
+  chips(el, 'وضع المساعد الذكي (تمارين وأمور الحياة اليومية)', [[true,'مفعّل'],[false,'متوقف']], helperOn, k => { helperOn = k; store.set('limoai_helper', k); renderPref(); });
+}
+const TOOLS = [['calc','حل تمرين','ساعدني أحل هذا التمرين خطوة بخطوة مع شرح الفكرة: '],['book','اشرح لي درس','اشرح لي هذا الدرس ببساطة مع مثال: '],['pen','لخّص نص','لخّص لي هذا النص في نقاط قصيرة: '],['globe','ترجمة','ترجم لي هذا النص بدقة: '],['cal','خطة يومي','رتّب لي خطة يومي بناءً على هذه المهام: '],['chef','وصفة أكل','اقترح لي وصفة سهلة بالمكونات اللي عندي: '],['wallet','ميزانية','ساعدني أرتب ميزانيتي الشهرية. دخلي ومصاريفي: '],['pulse','روتين صحي','اقترح لي روتين بسيط للنوم والرياضة والأكل (نصائح عامة): '],['mail','اكتب رسالة','ساعدني أكتب رسالة مناسبة بخصوص: '],['bulb','أفكار','عطني أفكار إبداعية حول: '],['code','برمجة','ساعدني في هذا الكود أو الفكرة البرمجية: '],['quiz','اختبرني','اختبرني بخمسة أسئلة في موضوع: ']];
+function renderTools(){
+  const el = $('toolList'); el.innerHTML = '';
+  TOOLS.forEach(([i, t, p]) => { const b = document.createElement('button'); b.className = 'di'; b.innerHTML = ic(i); b.append(t); b.onclick = () => { closeDrawer(); inp.value = p; inp.dispatchEvent(new Event('input')); inp.focus(); inp.setSelectionRange(p.length, p.length); }; el.appendChild(b); });
+}
+$('diTools').onclick = () => { renderTools(); showDV('dTools'); };
+$('diVoice').onclick = () => { renderVoice(); showDV('dVoice'); };
+$('diPref').onclick = () => { renderPref(); showDV('dPref'); };
+$('diFont').onclick = () => { $('fsR').value = fsz; $('fsPrev').style.fontSize = ''; showDV('dFont'); };
+$('fsR').oninput = e => { fsz = Number(e.target.value); applyFs(); store.set('limoai_fs', fsz); };
+$('fsReset').onclick = () => { fsz = 1; $('fsR').value = 1; applyFs(); store.set('limoai_fs', 1); };
+$('diKeys').onclick = () => { closeDrawer(); $('setBtn').click(); };
+$('diClear').onclick = () => { if (busy || !confirm('تمسح كل المحادثات؟ ما يمكن التراجع.')) return; chats = []; store.set('limoai_chats', chats); history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); closeDrawer(); };
+$('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بياناتي لملف', 'استيراد من ملف'], a => {
+  if (a.includes('تصدير')){ const o = {}; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (k.startsWith('limoai_') || (PFX && k.startsWith(PFX))) o[k] = localStorage.getItem(k); } dl('limo-backup.json', 'application/json', JSON.stringify(o)); }
+  else { const f = document.createElement('input'); f.type = 'file'; f.accept = '.json,application/json'; f.onchange = () => { const r = new FileReader(); r.onload = () => { try { const o = JSON.parse(r.result); Object.keys(o).forEach(k => { if (/^(limoai_|a_)/.test(k)) localStorage.setItem(k, o[k]); }); location.reload(); } catch(e){ note('الملف غير صالح'); } }; if (f.files[0]) r.readAsText(f.files[0]); }; f.click(); }
+});
+if (typeof TR !== 'undefined' && Array.isArray(TR['هلا! أنا Limo ai'])) TR['هلا! أنا Limo'] = TR['هلا! أنا Limo ai'].map(x => String(x).replace(/Limo ai/g, 'Limo'));
+
+$('diMore').onclick = () => { const b = $('moreBox'); b.hidden = !b.hidden; $('diMore').innerHTML = ic(b.hidden ? 'down' : 'chev') + (b.hidden ? 'عرض المزيد' : 'عرض أقل'); };
 (function(){
   const raw = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k, v){ try { localStorage.setItem(k, v); } catch(e){} }, del(k){ try { localStorage.removeItem(k); } catch(e){} } };
   const g = document.createElement('div'); g.id = 'gate'; g.dir = 'rtl'; document.body.appendChild(g);
