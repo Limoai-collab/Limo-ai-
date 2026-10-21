@@ -2102,9 +2102,40 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   function myAcct(){ try { return (JSON.parse(localStorage.getItem('limoai_accts') || '[]')).find(a => a.id === ACC) || {}; } catch(e){ return {}; } }
   const TSK = PFX + 'cloud_ts';
   let pushTimer = 0, applying = false, pulled = false;
+  const WSK = PFX + 'cloud_wipe_seen'; let lockOn = false;
+  function lockScreen(on, title, msg, withRetry){
+    let e = document.getElementById('lockScr');
+    if (!on){ if (e){ e.remove(); } lockOn = false; return; }
+    if (e) e.remove(); lockOn = !!withRetry;
+    e = document.createElement('div'); e.id = 'lockScr'; e.dir = 'auto';
+    e.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#0d0b1a;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;font-family:inherit';
+    const h = document.createElement('div'); h.style.cssText = 'font-size:22px;font-weight:800'; h.textContent = title;
+    const p = document.createElement('div'); p.style.cssText = 'font-size:14.5px;line-height:1.9;opacity:.85;max-width:320px'; p.textContent = msg;
+    e.append(h, p);
+    const mk = (t, fn) => { const b = document.createElement('button'); b.textContent = t; b.style.cssText = 'padding:11px 22px;border-radius:14px;border:1px solid #ffffff44;background:#ffffff14;color:#fff;font:inherit;font-size:14px;min-width:160px'; b.onclick = fn; e.appendChild(b); };
+    if (withRetry){ mk('إعادة المحاولة', () => checkFlags()); mk('تسجيل الخروج', () => { const a = document.getElementById('accBtn'); if (a) a.click(); }); }
+    else mk('حسناً', () => location.reload());
+    document.body.appendChild(e);
+  }
+  function wipeLocal(){
+    applying = true;
+    try { Object.keys(localStorage).filter(k => PFX && k.indexOf(PFX) === 0 && k !== WSK).forEach(k => localStorage.removeItem(k)); } catch(e){}
+    lockScreen(true, '🧹 تم مسح بياناتك', 'مسح المسؤول بيانات حسابك (المحادثات والذاكرة والملف الشخصي) من هذا الجهاز. تقدر تبدأ من جديد.', false);
+  }
+  async function checkFlags(){
+    if (!ACC || GUEST) return;
+    try {
+      const {fs, db, user} = await fsdb(); if (!user) return;
+      const snap = await fs.getDoc(fs.doc(db, 'users', ACC)); if (!snap.exists()) return;
+      const d = snap.data();
+      if (d.wipe && Number(d.wipe) > Number(localStorage.getItem(WSK) || 0)){ localStorage.setItem(WSK, String(d.wipe)); wipeLocal(); return; }
+      if (d.blocked === true) lockScreen(true, '🚫 تم إيقاف حسابك', 'أوقف مطوّر التطبيق هذا الحساب. إذا تعتقد إن هذا خطأ تواصل مع المطوّر.', true);
+      else if (lockOn) lockScreen(false);
+    } catch(e){ console.warn('Limo flags error:', e && e.code || e); }
+  }
 
   async function doPush(isFirst){
-    if (applying) return;
+    if (applying || lockOn) return;
     try {
       const {fs, db, user} = await fsdb();
       if (!user) { console.warn('Limo cloud: لا توجد جلسة Firebase نشطة، تخطّي الرفع'); return; }
@@ -2134,6 +2165,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
       const snap = await fs.getDoc(fs.doc(db, 'users', ACC));
       if (!snap.exists()) { doPush(true); return; } // أول مرة من هالجهاز: ارفع الموجود محلياً
       const d = snap.data(), localTs = Number(localStorage.getItem(TSK) || 0);
+      if (d.blocked === true || (d.wipe && Number(d.wipe) > Number(localStorage.getItem(WSK) || 0))){ checkFlags(); return; }
       if (d.updatedAt && d.updatedAt > localTs) {
         applying = true;
         if (Array.isArray(d.chats)) store.set('limoai_chats', d.chats);
@@ -2147,6 +2179,8 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     } catch(e){ console.warn('Limo cloud pull error:', e && e.code || e); }
   }
   doPull();
+  setTimeout(checkFlags, 2500); setInterval(checkFlags, 60000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) checkFlags(); });
   window.addEventListener('beforeunload', () => { if (pushTimer) doPush(); });
 })();
 
