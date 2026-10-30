@@ -421,6 +421,7 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
     <button class="di" id="diLang"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>اللغة</button>
     <button class="di" id="diTheme"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 100 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 003-3A9 9 0 0012 3z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/></svg>المظهر</button>
     <button class="di" id="diBackup"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="5" rx="1.5"/><path d="M5 9v9a2 2 0 002 2h10a2 2 0 002-2V9M10 13h4"/></svg>نسخ احتياطي</button>
+    <button class="di" id="diAdv"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></svg>ليمو المتقدم</button>
     <button class="di" id="diClear"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>مسح كل المحادثات</button>
     <button class="di" id="diProf"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>تخصيص</button>
     <button class="di" id="diNotif"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4zM10 20a2 2 0 004 0"/></svg>الإشعارات</button>
@@ -452,6 +453,23 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
 </div></div>
   <div id="dProf" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص</b></div><div id="profBody"></div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
+  <div id="dAdv" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>ليمو المتقدم</b></div><div id="advBody" style="padding:0 4px 16px">
+  <label for="sty">أسلوب الكلام</label>
+  <select id="sty"><option value="">عادي</option><option value="tw">مختصر مثل التغريدة</option><option value="fr">صاحبك العفوي</option><option value="te">المعلم الصبور</option><option value="co">المدرب الصارم</option><option value="sa">الساخر 🗿</option><option value="wa">الداعم الدافئ</option><option value="ph">الفيلسوف</option><option value="st">الراوي</option><option value="po">الشاعر</option><option value="pr">التقني المحترف</option><option value="k10">اشرح كأني بعمر 10</option><option value="fo">رسمي</option><option value="bl">الصريح</option><option value="de">المجادل</option></select>
+  <label for="emo">كمية الإيموجي</label>
+  <select id="emo"><option value="m">قليل</option><option value="n">بدون</option><option value="l">كتير</option></select>
+  <label for="dia">اللهجة</label>
+  <select id="dia"><option value="">حسب كلامي</option><option value="kh">خليجي</option><option value="sh">شامي</option><option value="eg">مصري</option><option value="fu">فصحى</option></select>
+  <label for="len">طول الرد</label>
+  <select id="len"><option value="s">قصير</option><option value="m">متوسط</option><option value="l">مفصّل</option></select>
+  <label style="display:flex;gap:8px;align-items:center"><input id="a18" type="checkbox" style="width:auto"> أؤكد أن عمري 18 فأكثر (تفعيل وضع +18)</label>
+  <p class="hint">وضع +18: كلام أصرح وسخرية أقوى ومواضيع ناضجة بشكل معلوماتي. ما يفتح محتوى جنسي صريح أو ضار، وفلاتر Gemini وGroq تضل شغالة. التأكيد ذاتي وما في تحقق حقيقي من العمر.</p>
+  <button type="button" id="keytest" class="pk" style="width:100%;margin-top:8px">اختبر مفتاح Gemini</button>
+  <p class="hint" id="keyres"></p>
+  <button type="button" id="updbtn" class="pk" style="width:100%;margin-top:8px">تحديث التطبيق (النسخة <span id="verl"></span>)</button>
+  <label for="ci">تعليماتي لليمو (كيف تحب يرد عليك)</label>
+  <textarea id="ci" rows="3" maxlength="600" placeholder="مثال: ناديني بالاسم، لا تطوّل، اشرح بأمثلة" style="width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit"></textarea>
+  </div></div>
 </aside>
 <input type="file" id="stkIn" accept="image/*" hidden>
 <input type="file" id="vidIn" accept="video/*" hidden>
@@ -477,19 +495,6 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <input id="gpkey" type="password" autocomplete="off" placeholder="Giphy API key">
   <label for="tkey">مفتاح Tavily (للبحث بالنت) - اختياري</label>
   <input id="tkey" type="password" autocomplete="off" placeholder="tvly-…">
-  <label for="sty">أسلوب الكلام</label>
-  <select id="sty"><option value="">عادي</option><option value="tw">مختصر مثل التغريدة</option><option value="fr">صاحبك العفوي</option><option value="te">المعلم الصبور</option><option value="co">المدرب الصارم</option><option value="sa">الساخر 🗿</option><option value="wa">الداعم الدافئ</option><option value="ph">الفيلسوف</option><option value="st">الراوي</option><option value="po">الشاعر</option><option value="pr">التقني المحترف</option><option value="k10">اشرح كأني بعمر 10</option><option value="fo">رسمي</option><option value="bl">الصريح</option><option value="de">المجادل</option></select>
-  <label for="emo">كمية الإيموجي</label>
-  <select id="emo"><option value="m">قليل</option><option value="n">بدون</option><option value="l">كتير</option></select>
-  <label for="dia">اللهجة</label>
-  <select id="dia"><option value="">حسب كلامي</option><option value="kh">خليجي</option><option value="sh">شامي</option><option value="eg">مصري</option><option value="fu">فصحى</option></select>
-  <label for="len">طول الرد</label>
-  <select id="len"><option value="s">قصير</option><option value="m">متوسط</option><option value="l">مفصّل</option></select>
-  <label style="display:flex;gap:8px;align-items:center"><input id="a18" type="checkbox" style="width:auto"> أؤكد أن عمري 18 فأكثر (تفعيل وضع +18)</label>
-  <p class="hint">وضع +18: كلام أصرح وسخرية أقوى ومواضيع ناضجة بشكل معلوماتي. ما يفتح محتوى جنسي صريح أو ضار، وفلاتر Gemini وGroq تضل شغالة. التأكيد ذاتي وما في تحقق حقيقي من العمر.</p>
-  <button type="button" id="keytest" class="ghost" style="width:100%;margin-top:8px">اختبر مفتاح Gemini</button>
-  <p class="hint" id="keyres"></p>
-  <button type="button" id="updbtn" class="ghost" style="width:100%;margin-top:8px">تحديث التطبيق (النسخة <span id="verl"></span>)</button>
   <label for="imgsrc">مصدر رسم الصور</label>
   <select id="imgsrc"><option value="auto">تلقائي (يجرب المصادر بالترتيب)</option><option value="cf">Cloudflare FLUX</option><option value="tg">Together FLUX</option><option value="gem">Gemini (Nano Banana)</option><option value="pol">Pollinations FLUX</option></select>
   <label for="tgkey">مفتاح Together AI (رسم صور مجاني) - اختياري</label>
@@ -623,7 +628,7 @@ const chat = $('chat'), inp = $('inp'), sendBtn = $('send'), dlg = $('dlg');
 const GUEST = (() => { try { return sessionStorage.getItem('limoai_guest') === '1'; } catch(e){ return false; } })(), GMEM = {};
 const ACC = (() => { try { return localStorage.getItem('limoai_cur_acct') || ''; } catch(e){ return ''; } })(), PFX = ACC ? 'a_' + ACC + '_' : '';
 const APPLANG = (() => { try { return localStorage.getItem('limoai_applang') || 'gulf'; } catch(e){ return 'gulf'; } })();
-const GK = ['limoai_key2','limoai_model2','limoai_groq','limoai_tav','limoai_groqm','limoai_or','limoai_orm','limoai_giphy','limoai_tg','limoai_cfid','limoai_cf','limoai_imgsrc','limoai_sty','limoai_emo','limoai_dia','limoai_len','limoai_18'], PK = k => GK.includes(k) ? k : PFX + k;
+const GK = ['limoai_key2','limoai_model2','limoai_groq','limoai_tav','limoai_groqm','limoai_or','limoai_orm','limoai_giphy','limoai_tg','limoai_cfid','limoai_cf','limoai_imgsrc','limoai_sty','limoai_emo','limoai_dia','limoai_len','limoai_18','limoai_ci'], PK = k => GK.includes(k) ? k : PFX + k;
 try { if (localStorage.getItem('limoai_giphy') === null){ const o = localStorage.getItem(PFX + 'limoai_giphy'); if (o !== null) localStorage.setItem('limoai_giphy', o); } } catch(e){}
 const CLOUD_KEYS = ['limoai_chats', 'limoai_prof', 'limoai_stats'];
 const store = {
@@ -921,6 +926,7 @@ function buildPersona(){
   if (d && DIA[d]) a += '\n- استخدم ' + DIA[d].replace('الهجة', 'اللهجة') + '.';
   a += '\n- ' + ({s:'اجعل الرد قصيراً (جملة إلى ثلاث جمل) إلا إذا طلب الشرح.', m:'اجعل الرد متوسط الطول.', l:'قدّم رداً مفصلاً ومنظماً.'}[l]);
   a += '\n- ' + ({n:'لا تستخدم إيموجي.', m:'استخدم إيموجي واحداً أو اثنين فقط حسب المزاج، وفضّل العصرية مثل 🥀 🗿 💀 😭 🫡 😮‍💨 🫶 ✨.', l:'استخدم إيموجيات عصرية كثيرة مثل 🥀 🗿 💀 😭 🫡 😮‍💨 🫶 ✨ 🔥.'}[e]);
+  if (g('limoai_ci')) a += '\n- تعليمات المستخدم الخاصة: ' + g('limoai_ci').slice(0, 600);
   if (g('limoai_18') === '1') a += '\n- المستخدم أكد أن عمره 18 فأكثر: تكلم بصراحة وبدون وعظ، وسخرية أقوى وشتائم خفيفة مقبولة إن ناسبت، وناقش مواضيع ناضجة (علاقات، كحول، معلومات صحية) بشكل صريح ومعلوماتي. لا تكتب محتوى جنسياً صريحاً ولا شيئاً ضاراً.';
   return buildPersonaBase() + a;
 }
@@ -1284,7 +1290,7 @@ function renderGal(){
   gal.forEach(u => { const a = document.createElement('a'); a.target = '_blank'; a.rel = 'noopener'; const im = document.createElement('img'); im.loading = 'lazy'; im.alt = 'رسمة'; im.onerror = () => a.remove(); a.appendChild(im); g.appendChild(a); IMG.src(u).then(s => { if (!s){ a.remove(); return; } a.href = s; im.src = s; }); });
 }
 const drawer = $('drawer'), ov = $('ov');
-function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews','dTerms','dProf'].forEach(x => $(x).hidden = x !== id); }
+function showDV(id){ ['dMain','dImgs','dSet','dFeel','dRel','dData','dStyle','dTheme','dFav','dArc','dAch','dProv','dLang','dTools','dFont','dVoice','dPref','dNotif','dNews','dTerms','dProf','dAdv'].forEach(x => $(x).hidden = x !== id); }
 function openDrawer(){ renderChats(); showDV('dMain'); drawer.classList.add('open'); ov.hidden = false; }
 function closeDrawer(){ drawer.classList.remove('open'); ov.hidden = true; }
 $('menuOrb').onclick = openDrawer;
@@ -1623,7 +1629,12 @@ document.querySelectorAll('[data-back]').forEach(b => { b.onclick = () => showDV
 $('diMem').onclick = () => { closeDrawer(); renderMem(); $('memDlg').showModal(); };
 $('diRel').onclick = () => { renderRel(); showDV('dRel'); };
 $('diData').onclick = () => { renderData(); showDV('dData'); };
-$('diStyle').onclick = () => { renderStyle(); showDV('dStyle'); };
+$('diAdv').onclick = () => {
+    [['sty','limoai_sty',''],['emo','limoai_emo','m'],['dia','limoai_dia',''],['len','limoai_len','s'],['ci','limoai_ci','']].forEach(([i,k,d]) => { const e = $(i); e.value = store.get(k, d); e.onchange = e.oninput = () => store.set(k, e.value); });
+    $('a18').checked = store.get('limoai_18', '') === '1'; $('a18').onchange = () => store.set('limoai_18', $('a18').checked ? '1' : '');
+    $('verl').textContent = LIMO_V; $('keyres').textContent = ''; showDV('dAdv');
+  };
+  $('diStyle').onclick = () => { renderStyle(); showDV('dStyle'); };
 function renderProv(){
   const l = $('provList'); l.innerHTML = '';
   ['متوقف','خفيف','متوسط','شديد'].forEach((t, k) => { const b = document.createElement('button'); b.className = 'pk'; b.textContent = (prov === k ? '✓ ' : '') + t; b.onclick = () => { prov = k; store.set('limoai_prov', k); renderProv(); }; l.appendChild(b); });
@@ -1929,9 +1940,9 @@ sendBtn.onclick = send;
 inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !('ontouchstart' in window)){ e.preventDefault(); send(); } });
 inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 120) + 'px'; });
 $('newBtn').onclick = newChat;
-$('setBtn').onclick = () => { $('key').value = store.get('limoai_key2', ''); $('model').value = store.get('limoai_model2', ''); $('gkey').value = store.get('limoai_groq', ''); $('tkey').value = store.get('limoai_tav', ''); $('gmodel').value = store.get('limoai_groqm', ''); $('okey').value = store.get('limoai_or', ''); $('omodel').value = store.get('limoai_orm', ''); $('gpkey').value = store.get('limoai_giphy', ''); $('tgkey').value = store.get('limoai_tg', ''); $('cfid').value = store.get('limoai_cfid', ''); $('cfkey').value = store.get('limoai_cf', ''); $('imgsrc').value = store.get('limoai_imgsrc', 'auto'); $('sty').value = store.get('limoai_sty', ''); $('emo').value = store.get('limoai_emo', 'm'); $('dia').value = store.get('limoai_dia', ''); $('len').value = store.get('limoai_len', 's'); $('a18').checked = store.get('limoai_18', '') === '1'; $('verl').textContent = LIMO_V; $('keyres').textContent = ''; dlg.showModal(); };
+$('setBtn').onclick = () => { $('key').value = store.get('limoai_key2', ''); $('model').value = store.get('limoai_model2', ''); $('gkey').value = store.get('limoai_groq', ''); $('tkey').value = store.get('limoai_tav', ''); $('gmodel').value = store.get('limoai_groqm', ''); $('okey').value = store.get('limoai_or', ''); $('omodel').value = store.get('limoai_orm', ''); $('gpkey').value = store.get('limoai_giphy', ''); $('tgkey').value = store.get('limoai_tg', ''); $('cfid').value = store.get('limoai_cfid', ''); $('cfkey').value = store.get('limoai_cf', ''); $('imgsrc').value = store.get('limoai_imgsrc', 'auto'); dlg.showModal(); };
 $('closeSet').onclick = () => dlg.close();
-$('saveSet').onclick = () => { store.set('limoai_key2', $('key').value.trim()); store.set('limoai_model2', $('model').value.trim()); store.set('limoai_groq', $('gkey').value.trim()); store.set('limoai_tav', $('tkey').value.trim()); store.set('limoai_groqm', $('gmodel').value.trim()); store.set('limoai_or', $('okey').value.trim()); store.set('limoai_orm', $('omodel').value.trim()); store.set('limoai_giphy', $('gpkey').value.trim()); store.set('limoai_tg', $('tgkey').value.trim()); store.set('limoai_cfid', $('cfid').value.trim()); store.set('limoai_cf', $('cfkey').value.trim()); store.set('limoai_imgsrc', $('imgsrc').value || 'auto'); store.set('limoai_sty', $('sty').value); store.set('limoai_emo', $('emo').value); store.set('limoai_dia', $('dia').value); store.set('limoai_len', $('len').value); store.set('limoai_18', $('a18').checked ? '1' : ''); Object.keys(IMGDEAD).forEach(k => delete IMGDEAD[k]); dlg.close(); };
+$('saveSet').onclick = () => { store.set('limoai_key2', $('key').value.trim()); store.set('limoai_model2', $('model').value.trim()); store.set('limoai_groq', $('gkey').value.trim()); store.set('limoai_tav', $('tkey').value.trim()); store.set('limoai_groqm', $('gmodel').value.trim()); store.set('limoai_or', $('okey').value.trim()); store.set('limoai_orm', $('omodel').value.trim()); store.set('limoai_giphy', $('gpkey').value.trim()); store.set('limoai_tg', $('tgkey').value.trim()); store.set('limoai_cfid', $('cfid').value.trim()); store.set('limoai_cf', $('cfkey').value.trim()); store.set('limoai_imgsrc', $('imgsrc').value || 'auto'); Object.keys(IMGDEAD).forEach(k => delete IMGDEAD[k]); dlg.close(); };
 
 function renderMem(){
   const body = $('memBody'); body.innerHTML = '';
