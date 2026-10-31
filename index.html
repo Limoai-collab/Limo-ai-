@@ -45,7 +45,8 @@ dialog h3{margin-bottom:14px}
 label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
 select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px}
 .artw{display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--mute);padding:12px}
-.chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}.chips button,.tplg button,.xb{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer;transition:transform .15s,border-color .2s}.chips button:active,.tplg button:active{transform:scale(.96)}.chips button:hover,.tplg button:hover{border-color:var(--teal)}.tplg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 14px}.tplg button{border-radius:14px;text-align:center}.cpy{position:absolute;top:6px;left:6px;font-size:12px;padding:2px 9px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}#toBot{position:fixed;bottom:96px;left:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:18px;display:none;z-index:20;cursor:pointer}#offb{position:fixed;top:0;left:0;right:0;padding:6px;text-align:center;background:#b3261e;color:#fff;font-size:13px;z-index:99;display:none}.acts button{font-size:15px}input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;direction:ltr;text-align:left}
+.lsug{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}.lsug button,.tplg button,.xb{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer;transition:transform .15s,border-color .2s}.lsug button:active,.tplg button:active,.xb:active{transform:scale(.96)}.lsug button:hover,.tplg button:hover,.xb:hover{border-color:var(--teal)}.tplg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 14px}.tplg button{border-radius:14px;text-align:center}.cpy{position:absolute;top:6px;left:6px;font-size:12px;padding:2px 9px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}#toBot{position:fixed;bottom:96px;left:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:18px;display:none;z-index:20;cursor:pointer}#offb{position:fixed;top:0;left:0;right:0;padding:6px;text-align:center;background:#b3261e;color:#fff;font-size:13px;z-index:99;display:none}.acts button{font-size:15px}.hb{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;padding:0}.hb svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.xp{border:1.5px solid var(--teal)!important;color:var(--teal)}.xp svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;transition:transform .25s}.xp.on svg{transform:rotate(45deg)}#xmenu{position:fixed;left:12px;right:12px;bottom:86px;max-height:60vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:6px 14px 14px;z-index:60;opacity:0;transform:translateY(18px) scale(.95);pointer-events:none;transition:opacity .22s,transform .26s cubic-bezier(.2,.9,.3,1.15);box-shadow:0 14px 44px rgba(0,0,0,.5)}#xmenu.open{opacity:1;transform:none;pointer-events:auto}#xmenu h4{font-size:12px;color:var(--mute);margin:12px 0 7px;font-weight:600}#xmenu .row{display:flex;flex-wrap:wrap;gap:8px}#catv{position:fixed;inset:0;z-index:80;background:var(--bg);overflow:auto;padding:14px;display:none}#catv.open{display:block}#catv h3{margin:6px 0 14px}#catv .row{display:flex;flex-wrap:wrap;gap:10px}#catv .xb{font-size:15px;padding:10px 16px}#pbadge{position:fixed;top:74px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:3px 12px;font-size:12px;color:var(--mute);z-index:30;display:none}
+input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;direction:ltr;text-align:left}
 .hint{font-size:12px;color:var(--mute);margin-top:6px;line-height:1.6}
 .row{display:flex;gap:8px;margin-top:18px}
 .row .ib{flex:1;padding:11px}
@@ -362,6 +363,8 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <img class="logo" id="menuOrb" role="button" tabindex="0" aria-label="القائمة" alt="Limo ai">
   <div class="title"><b>Limo ai</b><br><small id="status">جاهز للسوالف</small></div>
   <button class="ntop" id="newTop" aria-label="دردشة جديدة"><i>＋</i> جديدة</button>
+  <button class="hb" id="tmpBtn" aria-label="محادثة مؤقتة"><svg viewBox="0 0 24 24"><path stroke-dasharray="3 3" d="M5 5h14a2 2 0 012 2v8a2 2 0 01-2 2h-7l-5 4v-4H5a2 2 0 01-2-2V7a2 2 0 012-2z"/></svg></button>
+  <button class="hb" id="catBtn" aria-label="الشخصيات"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17.5" cy="9.5" r="2.4"/><path d="M16.5 14.2c2.6.2 4.5 2.4 4.5 5"/></svg></button>
   
   <div class="qa" id="qa" hidden><button id="relBtn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.5A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg>تصالح</button><button id="mSurp"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1"/><circle cx="15" cy="15" r="1"/><circle cx="15" cy="9" r="1"/><circle cx="9" cy="15" r="1"/></svg>فاجئني</button><button id="mChal"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>تحدٍّ</button><button id="mReact"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h9v7a4.5 4.5 0 01-9 0zM11 12h9v3a4.5 4.5 0 01-9 0M7 9h0M10 9h0"/></svg>ردّ فعل</button></div>
   <button id="newBtn" hidden></button><button id="memBtn" hidden></button><button id="setBtn" hidden></button>
@@ -375,6 +378,7 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <div class="cbar">
     <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false"></button>
     <textarea id="inp" rows="1" placeholder="اكتب لـ Limo ai…" dir="auto"></textarea>
+    <button class="ib xp" id="xplus" aria-label="المزيد"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
     <button class="ib micb" id="mic" aria-label="رسالة صوتية"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button>
     <button class="gifbtn" id="stkBtn" aria-label="ستيكرز وGIF">GIF</button>
     <button id="send" aria-label="إرسال"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -454,7 +458,7 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <div id="dProf" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص</b></div><div id="profBody"></div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
   <div id="dAdv" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>ليمو المتقدم</b></div><div id="advBody" style="padding:0 4px 16px">
-  <label>قوالب سريعة (اضغط وكمّل الكتابة)</label><div class="tplg" id="tpl"></div>
+  <div class="tplg" id="tpl" hidden></div>
   <label for="mode">وضع ليمو</label><select id="mode"><option value="">عادي</option><option value="fun">مرح</option><option value="roast">Roast (سخرية لاذعة)</option></select>
   <label for="pers">شخصية</label><select id="pers"><option value="">ليمو العادي</option><option value="teacher">معلم</option><option value="coder">مبرمج</option><option value="writer">كاتب</option><option value="friend">صديق</option><option value="coach">مدرب</option></select>
   <label for="hum">شدة المزاح</label><select id="hum"><option value="1">متوسط</option><option value="0">جدي</option><option value="2">كتير</option></select>
@@ -1244,19 +1248,19 @@ let searchNext = false, deepNext = false, deepNow = false;
 const SEARCH_RE = /(?:^|\s)(?:[اأإآ]بحث|بحث|دور(?=\s|$)|دوّر|فتش|شوف لي|قوقل|جوجل|google|search)|[اأإآ]خبار|[اأإآ]خر\s*(?:ال)?(?:[اأإآ]خبار|[اأإآ]حداث|مستجدات)|شو صار|وش صار|شو الجديد|وش الجديد|شو اللي صار|ترند|تريند|(?:^|\s)ميم|نهفات|مستجدات|طقس|حالة الجو|جو اليوم|درجة الحرارة|سعر|[اأإآ]سعار|نتيجة (?:مباراة|ماتش)|مين فاز|مين رئيس|الدولار|الذهب|trending|meme|news|latest|weather|price|score|today/i;
 const serial = () => history.map(h => ({role:h.role, text:h.text, n:(h.imgs || []).length || h.n || 0, mood:h.mood, feel:h.feel, act:h.act, art:h.art, gif:h.gif, stk:h.stk, fn: h.files ? h.files.map(f => f.name) : h.fn, react: h.react ? {label:h.react.label, emoji:h.react.emoji, url:(h.react.url && h.react.url.indexOf('http') === 0) ? h.react.url : undefined} : undefined}));
 let chats = store.get('limoai_chats', []); if (!Array.isArray(chats)) chats = [];
-let curId = store.get('limoai_cur', '');
+let curId = store.get('limoai_cur', ''); let LTEMP = false, LPERS = null;
 function saveHist(){
-  if (!history.length) return;
+  if (!history.length || LTEMP) return;
   let c = chats.find(x => x.id === curId);
   if (!c){ c = {id:'c' + Date.now(), title:'', ts:0, h:[]}; curId = c.id; store.set('limoai_cur', curId); bumpStat('chatsCreated'); }
   c.h = serial(); c.ts = Date.now(); try { bumpDaily('interactions'); } catch(e){}
-  if (!c.title){ const f = history.find(h => h.role === 'user'); c.title = ((f && (f.text || (f.react && f.react.label) || (f.files && f.files[0] && f.files[0].name))) || 'محادثة').slice(0, 40); }
+  if (!c.title){ const f = history.find(h => h.role === 'user'); c.title = ((f && (f.text || (f.react && f.react.label) || (f.files && f.files[0] && f.files[0].name))) || 'محادثة').slice(0, 40); c.title = 'محادثة جديدة'; }
   chats = [c].concat(chats.filter(x => x !== c)).slice(0, 40);
   store.set('limoai_chats', chats);
 }
 function addGal(u){ const g = store.get('limoai_gal', []).filter(x => x !== u); g.unshift(u); store.set('limoai_gal', g.slice(0, 100)); }
 function newChat(){
-  if (busy) return; closeDrawer(); chat.classList.add('xout');
+  if (busy) return; LTEMP = false; LPERS = null; closeDrawer(); chat.classList.add('xout');
   setTimeout(() => { history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); chat.classList.remove('xout'); chat.classList.add('xin'); setTimeout(() => chat.classList.remove('xin'), 480); }, 190);
 }
 function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); render(); renderChats(); closeDrawer(); }
@@ -2601,7 +2605,7 @@ function limoExtra(){
   if (g('limoai_think') === '1') a += '\n- فكّر بخطوات قبل الجواب وكن دقيقاً.';
   if (g('limoai_mood') !== '0'){ const h = new Date().getHours(); a += '\n- الوقت الآن ' + (h < 5 ? 'قبل الفجر' : h < 12 ? 'صباحاً' : h < 18 ? 'نهاراً' : 'مساءً') + '، فليكن مزاجك مناسباً له.'; }
   if (g('limoai_chips') !== '0') a += '\n- في آخر كل رد (إلا الردود القصيرة جداً) أضف وسماً بهذا الشكل بالضبط: [اقتراحات: سؤال قصير 1 | سؤال قصير 2 | سؤال قصير 3] وهي أسئلة تابعة قد يسألها المستخدم، ولا تذكر الوسم في نص الرد.';
-  a += '\n- أحياناً اختم بسؤال قصير بدل الشرح الطويل.';
+  a += '\n- أحياناً اختم بسؤال قصير بدل الشرح الطويل.'; if (LPERS) a += '\n\n[دور إلزامي بأعلى أولوية]\n' + LPERS.p;
   return a;
 }
 (function(){
@@ -2611,7 +2615,6 @@ function limoExtra(){
   const tag = /\[\s*اقتراحات\s*:\s*([^\]]{3,400})\]/;
   function decorate(row){
     if (row.dataset.x || row.classList.contains('mt')) return; row.dataset.x = '1';
-    EX.forEach(([e, l, q]) => { const b = document.createElement('button'); b.textContent = e; b.title = l; b.setAttribute('aria-label', l); b.onclick = () => fire(q); row.appendChild(b); });
     let m = row.previousElementSibling; while (m && !m.classList.contains('bot')) m = m.previousElementSibling;
     if (!m) return;
     const rows = chatEl.querySelectorAll('.acts'), last = row === rows[rows.length - 1];
@@ -2620,13 +2623,13 @@ function limoExtra(){
     if (hit){
       const q = hit.nodeValue.match(tag)[1].split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
       hit.nodeValue = hit.nodeValue.replace(tag, '').trimEnd();
-      if (last && q.length && store.get('limoai_chips', '') !== '0'){ const c = document.createElement('div'); c.className = 'chips'; q.forEach(s => { const b = document.createElement('button'); b.textContent = s; b.onclick = () => { c.remove(); fire(s); }; c.appendChild(b); }); row.after(c); }
+      if (last && q.length && store.get('limoai_chips', '') !== '0'){ const c = document.createElement('div'); c.className = 'lsug'; q.forEach(s => { const b = document.createElement('button'); b.textContent = s; b.onclick = () => { c.remove(); fire(s); }; c.appendChild(b); }); row.after(c); }
     }
     m.querySelectorAll('pre').forEach(pr => { if (pr.dataset.c) return; pr.dataset.c = '1'; pr.style.position = 'relative'; const b = document.createElement('button'); b.className = 'cpy'; b.textContent = 'نسخ'; b.onclick = () => { const tx = pr.innerText.replace(/^نسخ\s*/, ''); if (navigator.clipboard) navigator.clipboard.writeText(tx); b.textContent = '✓'; setTimeout(() => b.textContent = 'نسخ', 1200); }; pr.appendChild(b); });
   }
   new MutationObserver(ms => { for (const x of ms) x.addedNodes.forEach(n => { if (n.nodeType !== 1) return; if (n.classList.contains('acts')) decorate(n); else if (n.querySelectorAll) n.querySelectorAll('.acts').forEach(decorate); }); }).observe(chatEl, {childList:true, subtree:true});
   chatEl.querySelectorAll('.acts').forEach(decorate);
-  document.querySelectorAll('.chips').forEach(c => c.remove());
+  
   const tb = document.createElement('button'); tb.id = 'toBot'; tb.textContent = '⬇'; tb.setAttribute('aria-label', 'آخر المحادثة'); tb.onclick = () => chatEl.scrollTo({top:chatEl.scrollHeight, behavior:'smooth'}); document.body.appendChild(tb);
   chatEl.addEventListener('scroll', () => { tb.style.display = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight > 300 ? 'block' : 'none'; });
   const ob = document.createElement('div'); ob.id = 'offb'; ob.textContent = '📡 ما في إنترنت حالياً'; document.body.appendChild(ob);
@@ -2654,8 +2657,6 @@ function limoExtra(){
   function msgDeco(m){
     if (m.dataset.t) return; m.dataset.t = '1';
     const bot = m.classList.contains('bot'), tx = () => txtOf(m);
-    if (!bot) bar(m, [['✏️', () => put(tx()), 'تعديل وإعادة إرسال'], ['↩️', () => put('ردّاً على: «' + tx().slice(0, 160) + '»\n'), 'ردّ على الرسالة']]);
-    else if (!m.nextElementSibling || !m.nextElementSibling.classList.contains('acts')) { /* acts row added by app */ }
   }
   function imgDeco(im){
     if (im.dataset.t) return; im.dataset.t = '1';
@@ -2685,6 +2686,33 @@ function limoExtra(){
     $('tgo').onclick = () => { const m = Math.max(1, +$('tmin').value || 1); $('tres').textContent = '⏱️ بيرن بعد ' + m + ' دقيقة (والتطبيق مفتوح)'; setTimeout(() => { $('tres').textContent = '⏰ خلص الوقت!'; if (navigator.vibrate) navigator.vibrate([300, 150, 300]); alert('⏰ خلص المؤقت!'); }, m * 60000); };
     $('srch').onkeydown = e => { if (e.key !== 'Enter') return; const v = $('srch').value.trim(), ms = [...chatEl.querySelectorAll('.m')].filter(m => v && m.innerText.includes(v)); if (!ms.length) return; si = (si + 1) % ms.length; closeDrawer(); ms[si].scrollIntoView({behavior:'smooth', block:'center'}); ms[si].style.outline = '2px solid var(--teal)'; setTimeout(() => ms[si] && (ms[si].style.outline = ''), 2500); };
   });
+})();
+
+(function(){
+  const PS = [["المساعد الشخصي", "مساعد شخصي منظم ومهذب: تقترح خطوات واضحة، تذكّر بالمهام، وتسأل عن أولوياتي."], ["الصديق المقرب", "أنت أقرب صديق لي: عفوي، تمزح، تسأل عن أحوالي، وتصارحني بلطف."], ["الأب", "أنت أب حنون وحازم: تنصح وتوجّه وتناديني يا ابني، وتحكي من تجربتك."], ["الأم", "أنت أم حنونة وخايفة علي: تسألني أكلت ونمت، تدعي لي، وتهتم بأدق التفاصيل."], ["محفز", "أنت محفز بطاقة عالية: جمل قوية ملهمة تدفعني للتنفيذ الآن."], ["مدرب رياضي", "أنت مدرب رياضي صارم ومشجع: خطط تمارين وتغذية آمنة، وترفض أي شيء خطر."], ["رسام", "أنت رسام ترى كل شيء ألواناً وتفاصيل: تصف المشاهد وتعطي أفكاراً فنية وتقنيات."], ["محترف ألعاب", "أنت محترف ألعاب فيديو: تتكلم بمصطلحاتهم وتحلل الاستراتيجيات بروح تنافسية."], ["مهوس قراءة", "أنت مهووس بالقراءة: تحب الكتب، تربط كل شيء بكتاب أو فكرة، وتوصي بقراءات."], ["راوي", "أنت راوٍ: تحكي كل شيء كحكاية مشوقة بأسلوب سردي."], ["ناقد", "أنت ناقد حاد الذكاء: تحلل وتقيّم بصراحة ثم تقترح تحسينات."], ["غاضب", "أنت شخص غاضب منفعل من كل شيء بطريقة كوميدية، دون إهانة حقيقية لي."], ["كاره", "أنت متشائم تكره كل شيء بسخرية وتشتكي من الدنيا، دون أذى حقيقي."], ["مجنون +18", "أنت مجنون فوضوي: تلخبط وتقفز بين الأفكار وتسب وتشتم بحرية بشكل كوميدي. ممنوع المحتوى الجنسي الصريح وأي أذى حقيقي."], ["معلم", "أنت معلم صبور: تشرح بخطوات وأمثلة وتسأل أسئلة تتأكد بها من فهمي."], ["صانع قصص", "أنت صانع قصص: تبتكر حبكات وشخصيات وتكمل القصة معي بالتناوب."], ["شخصية خيالية", "@"], ["كسول جدا", "أنت كسول جداً: تتثاءب وتتذمر وتختصر وتؤجل، لكنك تجاوب بأقل جهد."], ["حيوان", "@"], ["متحمس", "أنت متحمس لكل شيء بطاقة وعلامات تعجب وبهجة."], ["قائد عسكري", "أنت قائد عسكري حازم: أوامر واضحة وانضباط وتخاطبني كجندي، بدون عنف حقيقي."], ["الجار السيء", "أنت جار سيء فضولي: تتدخل في حياتي وتشتكي من الصوت وتعلّق على كل شيء."], ["الجدة", "أنت جدة حنون: حكايات قديمة وأمثال ودعوات وتصر أن أكل."], ["الجد", "أنت جد حكيم هادئ: تحكي عن الزمن القديم وتنصح بهدوء."], ["شرطي", "أنت شرطي رسمي: تحقق معي بأسئلة جادة ومضحكة وتلتزم بالقانون."], ["مدير", "أنت مدير عمل: اجتماعات وأهداف ومواعيد نهائية ونبرة إدارية."]], ACT = [['اختصر','اختصر ردك السابق بجملتين.'],['ببساطة','اشرح ردك السابق بكلام أبسط وبمثال.'],['أكثر','وسّع ردك السابق بتفاصيل أكثر.'],['ترجم','ترجم ردك السابق للإنجليزية.'],['صياغة','أعد صياغة ردك السابق بأسلوب مختلف.'],['ملخص','لخّص هذه المحادثة بنقاط قصيرة.']], TP = [['واجب','ساعدني أحل هذا الواجب خطوة بخطوة:\n'],['رسالة','اكتب لي رسالة عن: '],['لخّص','لخّص لي هذا النص بنقاط:\n'],['صحّح','صحّح لغوياً وإملائياً وحسّن الصياغة:\n'],['بحث عميق','ابحث بعمق في الإنترنت وأعطني تقريراً منظماً عن: '],['ناقشني','ناقشني بالعكس لاختبار فكرتي: '],['سفر','خطط لي رحلة إلى: '],['كود','اكتب كود لـ: ']];
+  const inp = $('inp'), xm = document.createElement('div'), cv = document.createElement('div'), bd = document.createElement('div');
+  xm.id = 'xmenu'; cv.id = 'catv'; bd.id = 'pbadge'; document.body.append(xm, cv, bd);
+  const put = s => { inp.value = s; inp.dispatchEvent(new Event('input', {bubbles:true})); inp.focus(); };
+  const pill = (host, l, f) => { const b = document.createElement('button'); b.className = 'xb'; b.textContent = l; b.onclick = f; host.appendChild(b); };
+  const sec = (h, title) => { const e = document.createElement('h4'); e.textContent = title; xm.appendChild(e); const r = document.createElement('div'); r.className = 'row'; xm.appendChild(r); return r; };
+  const close = () => { xm.classList.remove('open'); $('xplus').classList.remove('on'); };
+  let r = sec(0, 'على آخر رد'); ACT.forEach(([l, q]) => pill(r, l, () => { close(); inp.value = q; $('send').click(); }));
+  pill(r, 'عدّل رسالتي', () => { close(); const u = [...$('chat').querySelectorAll('.m:not(.bot)')].pop(); if (u) put(u.innerText.trim()); });
+  r = sec(0, 'قوالب'); TP.forEach(([l, q]) => pill(r, l, () => { close(); put(q); }));
+  r = sec(0, 'أدوات'); pill(r, 'كل الأدوات والإعدادات', () => { close(); openDrawer(); $('diAdv').click(); });
+  $('xplus').onclick = e => { e.stopPropagation(); const o = xm.classList.toggle('open'); $('xplus').classList.toggle('on', o); };
+  document.addEventListener('click', e => { if (!xm.contains(e.target) && e.target.id !== 'xplus' && !e.target.closest('#xplus')) close(); });
+  const cr = document.createElement('div'); cr.className = 'row';
+  cv.innerHTML = '<h3>اختر شخصية لليمو</h3>'; cv.appendChild(cr);
+  const bk = document.createElement('button'); bk.className = 'xb'; bk.textContent = 'رجوع'; bk.style.marginBottom = '12px'; bk.onclick = () => cv.classList.remove('open'); cv.insertBefore(bk, cv.firstChild);
+  const start = (n, p) => { cv.classList.remove('open'); newChat(); setTimeout(() => { LPERS = {n:n, p:'تقمّص هذا الدور حرفياً وبشكل كامل ولا تخرج منه ولا تذكر أنك ذكاء اصطناعي، وبلهجة المستخدم. الدور: ' + p + ' لا تكتب محتوى جنسياً صريحاً ولا ضاراً.'}; }, 300); };
+  PS.forEach(([n, p]) => pill(cr, n, () => {
+    if (n.indexOf('+18') > -1 && store.get('limoai_18', '') !== '1'){ alert('فعّل وضع +18 أولاً من الإعدادات ثم ليمو المتقدم'); return; }
+    if (p === '@'){ const w = prompt(n === 'حيوان' ? 'أي حيوان؟' : 'اسم الشخصية الخيالية؟'); if (!w) return; p = n === 'حيوان' ? 'أنت ' + w + ': تتصرف بطباعه وتعبّر بأصواته وتفهم الإنسان بطريقته.' : 'أنت الشخصية الخيالية «' + w + '»: بأسلوبها وطباعها وعالمها كما تعرفها.'; }
+    start(n, p); }));
+  $('catBtn').onclick = () => cv.classList.add('open');
+  $('tmpBtn').onclick = () => { newChat(); setTimeout(() => { LTEMP = true; }, 300); };
+  setInterval(() => { const a = []; if (LTEMP) a.push('🔒 محادثة مؤقتة: ما تنحفظ'); if (LPERS) a.push('🎭 ' + LPERS.n); bd.textContent = a.join(' • '); bd.style.display = a.length ? 'block' : 'none'; }, 600);
 })();
 </script>
 </body>
