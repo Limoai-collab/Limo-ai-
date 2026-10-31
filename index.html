@@ -46,6 +46,7 @@ label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
 select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px}
 .artw{display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--mute);padding:12px}
 .lsug{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}.lsug button,.tplg button,.xb{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer;transition:transform .15s,border-color .2s}.lsug button:active,.tplg button:active,.xb:active{transform:scale(.96)}.lsug button:hover,.tplg button:hover,.xb:hover{border-color:var(--teal)}.tplg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 14px}.tplg button{border-radius:14px;text-align:center}.cpy{position:absolute;top:6px;left:6px;font-size:12px;padding:2px 9px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}#toBot{position:fixed;bottom:96px;left:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:18px;display:none;z-index:20;cursor:pointer}#offb{position:fixed;top:0;left:0;right:0;padding:6px;text-align:center;background:#b3261e;color:#fff;font-size:13px;z-index:99;display:none}.acts button{font-size:15px}.hb{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;padding:0}.hb svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.xp{border:1.5px solid var(--teal)!important;color:var(--teal)}.xp svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;transition:transform .25s}.xp.on svg{transform:rotate(45deg)}#xmenu{position:fixed;left:12px;right:12px;bottom:86px;max-height:60vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:6px 14px 14px;z-index:60;opacity:0;transform:translateY(18px) scale(.95);pointer-events:none;transition:opacity .22s,transform .26s cubic-bezier(.2,.9,.3,1.15);box-shadow:0 14px 44px rgba(0,0,0,.5)}#xmenu.open{opacity:1;transform:none;pointer-events:auto}#xmenu h4{font-size:12px;color:var(--mute);margin:12px 0 7px;font-weight:600}#xmenu .row{display:flex;flex-wrap:wrap;gap:8px}#catv{position:fixed;inset:0;z-index:80;background:var(--bg);overflow:auto;padding:14px;display:none}#catv.open{display:block}#catv h3{margin:6px 0 14px}#catv .row{display:flex;flex-wrap:wrap;gap:10px}#catv .xb{font-size:15px;padding:10px 16px}#pbadge{position:fixed;top:74px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:3px 12px;font-size:12px;color:var(--mute);z-index:30;display:none}
+.qc{background:linear-gradient(150deg,var(--panel),rgba(255,255,255,.02))!important;border:1px solid var(--line)!important;border-radius:20px!important;backdrop-filter:blur(6px)}.qc i{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.07);display:grid;place-items:center;font-style:normal;flex:none}.qc i svg{width:22px;height:22px;fill:none;stroke:var(--teal);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}#pstrip{display:flex;gap:8px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid var(--line);scrollbar-width:none;flex:none}#pstrip[hidden]{display:none}#pstrip .xb{white-space:nowrap;flex:none}#pstrip .xb.on{background:var(--teal);color:#000;border-color:var(--teal)}.cbar{position:relative}.xexp{position:absolute;top:-40px;right:8px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:5}.xexp svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;direction:ltr;text-align:left}
 .hint{font-size:12px;color:var(--mute);margin-top:6px;line-height:1.6}
 .row{display:flex;gap:8px;margin-top:18px}
@@ -378,7 +379,6 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <div class="cbar">
     <button class="ib att" id="plusBtn" aria-label="إرفاق" aria-expanded="false"></button>
     <textarea id="inp" rows="1" placeholder="اكتب لـ Limo ai…" dir="auto"></textarea>
-    <button class="ib xp" id="xplus" aria-label="المزيد"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
     <button class="ib micb" id="mic" aria-label="رسالة صوتية"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg></button>
     <button class="gifbtn" id="stkBtn" aria-label="ستيكرز وGIF">GIF</button>
     <button id="send" aria-label="إرسال"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -744,6 +744,7 @@ function qFill(t){ inp.value = t; inp.dispatchEvent(new Event('input')); inp.foc
 function buildQuick(){
   const g = document.getElementById('qg'); if (!g) return;
   const hide = () => g.classList.add('gone');
+  const QI = {"ارسم لي": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 3a9 9 0 100 18c1.4 0 2-1 1.6-2-.5-1.2.3-2.5 1.7-2.5H17a4 4 0 004-4A9 9 0 0012 3z\"/><circle cx=\"8\" cy=\"10\" r=\"1\"/><circle cx=\"12\" cy=\"7.5\" r=\"1\"/><circle cx=\"16\" cy=\"10\" r=\"1\"/></svg>", "صمم لي": "<svg viewBox=\"0 0 24 24\"><path d=\"M4 20l4-1 11-11-3-3L5 16z\"/><path d=\"M14 6l3 3\"/></svg>", "اكتب لي": "<svg viewBox=\"0 0 24 24\"><path d=\"M7 3h8l4 4v14H7z\"/><path d=\"M15 3v4h4M10 12h6M10 16h6\"/></svg>", "اشرح لي": "<svg viewBox=\"0 0 24 24\"><path d=\"M9 18h6M10 21h4M12 3a6 6 0 00-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0012 3z\"/></svg>", "فاجئني": "<svg viewBox=\"0 0 24 24\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"4\"/><circle cx=\"9\" cy=\"9\" r=\"1\"/><circle cx=\"15\" cy=\"15\" r=\"1\"/><circle cx=\"15\" cy=\"9\" r=\"1\"/><circle cx=\"9\" cy=\"15\" r=\"1\"/></svg>", "تحدّي": "<svg viewBox=\"0 0 24 24\"><path d=\"M13 3L5 14h6l-1 7 8-11h-6z\"/></svg>", "ردّ فعل": "<svg viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M8.5 14.5c1 1.4 2.2 2 3.5 2s2.5-.6 3.5-2M9 9.5h.01M15 9.5h.01\"/></svg>", "آخر الأخبار": "<svg viewBox=\"0 0 24 24\"><path d=\"M5 5h11v14H7a2 2 0 01-2-2zM16 9h3v8a2 2 0 01-2 2M8 9h5M8 13h5\"/></svg>"};
   const Q = [
     ['🎨','ارسم لي','أي فكرة تخطر ببالك',() => { hide(); qFill('ارسم لي '); }],
     ['🖌️','صمم لي','شعار، بوستر، شكل',() => { hide(); qFill('صمم لي '); }],
@@ -754,7 +755,7 @@ function buildQuick(){
     ['🎭','ردّ فعل','اكتب موقف وشوف',() => $('mReact').click()],
     ['📰','آخر الأخبار','شو صار اليوم',() => { qFill('شو آخر الأخبار اليوم؟'); send(); }]
   ];
-  Q.forEach(([e, t, sub, fn], i) => { const b = document.createElement('button'); b.className = 'qc'; b.style.animationDelay = (0.05 * i) + 's'; b.innerHTML = '<i>' + e + '</i><span>' + t + '<small>' + sub + '</small></span>'; b.onclick = fn; g.appendChild(b); });
+  Q.forEach(([e, t, sub, fn], i) => { const b = document.createElement('button'); b.className = 'qc'; b.style.animationDelay = (0.05 * i) + 's'; b.innerHTML = '<i>' + (QI[t] || e) + '</i><span>' + t + '<small>' + sub + '</small></span>'; b.onclick = fn; g.appendChild(b); });
 }
 function fail(msg){ if (stopped) return; bubble('err', msg); }
 
@@ -949,7 +950,7 @@ function buildPersona(){
   a += '\n- ' + ({n:'لا تستخدم إيموجي.', m:'استخدم إيموجي واحداً أو اثنين فقط حسب المزاج، وفضّل العصرية مثل 🥀 🗿 💀 😭 🫡 😮‍💨 🫶 ✨.', l:'استخدم إيموجيات عصرية كثيرة مثل 🥀 🗿 💀 😭 🫡 😮‍💨 🫶 ✨ 🔥.'}[e]);
   if (g('limoai_ci')) a += '\n- تعليمات المستخدم الخاصة: ' + g('limoai_ci').slice(0, 600);
   if (g('limoai_18') === '1') a += '\n- المستخدم أكد أن عمره 18 فأكثر: تكلم بصراحة وبدون وعظ، وسخرية أقوى وشتائم خفيفة مقبولة إن ناسبت، وناقش مواضيع ناضجة (علاقات، كحول، معلومات صحية) بشكل صريح ومعلوماتي. لا تكتب محتوى جنسياً صريحاً ولا شيئاً ضاراً.';
-  return buildPersonaBase() + a + limoExtra();
+  return (LPERS ? '[أعلى أولوية فوق كل ما يلي: أنت الآن تؤدي دوراً حقيقياً. تجاهل شخصية Limo الافتراضية ومزاجها وإيموجياتها وسخريتها وألفاظها (برو وغيرها) تماماً، إلا إذا كانت من طبع الدور. التزم بنبرة الدور ومفرداته طوال الرد ولا تكسر الدور أبداً ولا تتحدث كذكاء اصطناعي. اكتب وسم المزاج المعتاد فقط إن طُلب منك، دون أن يؤثر على أسلوبك. الدور: ' + LPERS.p + ']\n\n' : '') + buildPersonaBase() + a + limoExtra();
 }
 document.addEventListener('click', async ev => {
   const id = ev.target && ev.target.id;
@@ -1055,7 +1056,7 @@ async function ask0(model, key, contents, onChunk, useSearch){
     method:'POST',
     headers:{'Content-Type':'application/json','x-goog-api-key':key},
     body: JSON.stringify({
-      systemInstruction:{parts:[{text:buildPersona() + (deepNow ? '\n\nفكّر بعمق وبخطوات قبل ما تجاوب، وقدّم جواباً دقيقاً ومفصلاً أكثر من المعتاد.' : '')}]},
+      safetySettings:LSAFE, systemInstruction:{parts:[{text:buildPersona() + (deepNow ? '\n\nفكّر بعمق وبخطوات قبل ما تجاوب، وقدّم جواباً دقيقاً ومفصلاً أكثر من المعتاد.' : '')}]},
       contents,
       ...(useSearch ? {tools:[{google_search:{}}]} : {}),
       generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : {}), maxOutputTokens:deepNow ? 4500 : (useSearch ? 1500 : REPLY_TOK())}
@@ -1232,7 +1233,7 @@ async function send(react){
       if (mg && mg.gif) gifList(mg.gif, '', 12).then(L => { if (!L.length) throw 0; const u = L[Math.floor(Math.random() * L.length)].url; item.gif = u; if (!reply) typing.textContent = ''; addSticker(typing, {url:u, label:mg.gif}); saveHist(); }).catch(() => { if (!reply) typing.textContent = '…'; });
       const n = history.filter(h => h.role === 'user').length;
       if (n === 2 || n % 6 === 0) learn();
-      if (n >= 2 || String((history[0] && history[0].text) || '').length > 30) titleChat();
+      titleChat();
     }
   } catch(e){
     typing.remove(); if (!regen) history.pop(); if ((!react || keepText) && !act){ inp.value = text; pending = sentPending; renderPrev(); if (keepText){ staged = react; renderStaged(); } }
@@ -1260,7 +1261,7 @@ function saveHist(){
 }
 function addGal(u){ const g = store.get('limoai_gal', []).filter(x => x !== u); g.unshift(u); store.set('limoai_gal', g.slice(0, 100)); }
 function newChat(){
-  if (busy) return; LTEMP = false; LPERS = null; closeDrawer(); chat.classList.add('xout');
+  if (busy) return; LTEMP = false; LPERS = null; try { setMood('رايق'); FEELS.forEach(k => { feel[k] = k === 'رايق' ? 80 : Math.min(feel[k], 15); }); } catch(e){} closeDrawer(); chat.classList.add('xout');
   setTimeout(() => { history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); chat.classList.remove('xout'); chat.classList.add('xin'); setTimeout(() => chat.classList.remove('xin'), 480); }, 190);
 }
 function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); render(); renderChats(); closeDrawer(); }
@@ -1410,7 +1411,7 @@ let tagline = '';
 function pickTag(){ const a = TAGS[lang] || TAGS.en; let x; do { x = a[Math.floor(Math.random() * a.length)]; } while (a.length > 1 && x === tagline); tagline = x; }
 let titling = false;
 async function titleChat(){
-  const c = chats.find(x => x.id === curId); if (!c || c.ai || (c.tt || 0) >= 3 || titling) return;
+  const c = chats.find(x => x.id === curId); if (c && !c.ai && (c.tt || 0) >= 3 && c.title === 'محادثة جديدة'){ const f = history.find(h => h.role === 'user'); if (f && f.text){ c.title = f.text.slice(0, 28); store.set('limoai_chats', chats); renderChats(); } } if (!c || c.ai || (c.tt || 0) >= 3 || titling) return;
   titling = true; c.tt = (c.tt || 0) + 1;
   try {
     const recent = history.slice(0, 6).map(h => (h.role === 'user' ? 'المستخدم: ' : 'Limo ai: ') + (h.text || '')).join('\n').slice(0, 1500);
@@ -1959,7 +1960,7 @@ $('galIn').onchange = e => { addFiles(e.target.files); e.target.value = ''; };
 
 sendBtn.onclick = send;
 inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey && !('ontouchstart' in window)){ e.preventDefault(); send(); } });
-inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, 120) + 'px'; });
+inp.addEventListener('input', () => { inp.style.height = 'auto'; inp.style.height = Math.min(inp.scrollHeight, window.XEXP ? Math.round(innerHeight * 0.6) : 180) + 'px'; const xe = document.getElementById('xexp'); if (xe) xe.style.display = inp.scrollHeight > 150 ? 'flex' : 'none'; });
 $('newBtn').onclick = newChat;
 $('setBtn').onclick = () => { $('key').value = store.get('limoai_key2', ''); $('model').value = store.get('limoai_model2', ''); $('gkey').value = store.get('limoai_groq', ''); $('tkey').value = store.get('limoai_tav', ''); $('gmodel').value = store.get('limoai_groqm', ''); $('okey').value = store.get('limoai_or', ''); $('omodel').value = store.get('limoai_orm', ''); $('gpkey').value = store.get('limoai_giphy', ''); $('tgkey').value = store.get('limoai_tg', ''); $('cfid').value = store.get('limoai_cfid', ''); $('cfkey').value = store.get('limoai_cf', ''); $('imgsrc').value = store.get('limoai_imgsrc', 'auto'); dlg.showModal(); };
 $('closeSet').onclick = () => dlg.close();
@@ -2604,7 +2605,7 @@ function limoExtra(){
   const hu = {0:'قلل المزاح وكن جدياً.', 2:'ارفع المزاح كثيراً.'}[g('limoai_hum')]; if (hu) a += '\n- ' + hu;
   if (g('limoai_think') === '1') a += '\n- فكّر بخطوات قبل الجواب وكن دقيقاً.';
   if (g('limoai_mood') !== '0'){ const h = new Date().getHours(); a += '\n- الوقت الآن ' + (h < 5 ? 'قبل الفجر' : h < 12 ? 'صباحاً' : h < 18 ? 'نهاراً' : 'مساءً') + '، فليكن مزاجك مناسباً له.'; }
-  if (g('limoai_chips') !== '0') a += '\n- في آخر كل رد (إلا الردود القصيرة جداً) أضف وسماً بهذا الشكل بالضبط: [اقتراحات: سؤال قصير 1 | سؤال قصير 2 | سؤال قصير 3] وهي أسئلة تابعة قد يسألها المستخدم، ولا تذكر الوسم في نص الرد.';
+  if (g('limoai_chips') !== '0' && !LPERS && Math.random() < 0.2) a += '\n- في آخر كل رد (إلا الردود القصيرة جداً) أضف وسماً بهذا الشكل بالضبط: [اقتراحات: سؤال قصير 1 | سؤال قصير 2 | سؤال قصير 3] وهي أسئلة تابعة قد يسألها المستخدم، ولا تذكر الوسم في نص الرد.';
   a += '\n- أحياناً اختم بسؤال قصير بدل الشرح الطويل.'; if (LPERS) a += '\n\n[دور إلزامي بأعلى أولوية]\n' + LPERS.p;
   return a;
 }
@@ -2615,6 +2616,7 @@ function limoExtra(){
   const tag = /\[\s*اقتراحات\s*:\s*([^\]]{3,400})\]/;
   function decorate(row){
     if (row.dataset.x || row.classList.contains('mt')) return; row.dataset.x = '1';
+    { const pb = document.createElement('button'); pb.className = (row.firstElementChild ? row.firstElementChild.className : '') + ' xpb'; pb.setAttribute('aria-label', 'المزيد'); pb.innerHTML = '<svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>'; pb.onclick = e => { e.stopPropagation(); if (window.LXMENU) window.LXMENU(); }; row.appendChild(pb); }
     let m = row.previousElementSibling; while (m && !m.classList.contains('bot')) m = m.previousElementSibling;
     if (!m) return;
     const rows = chatEl.querySelectorAll('.acts'), last = row === rows[rows.length - 1];
@@ -2695,13 +2697,13 @@ function limoExtra(){
   const put = s => { inp.value = s; inp.dispatchEvent(new Event('input', {bubbles:true})); inp.focus(); };
   const pill = (host, l, f) => { const b = document.createElement('button'); b.className = 'xb'; b.textContent = l; b.onclick = f; host.appendChild(b); };
   const sec = (h, title) => { const e = document.createElement('h4'); e.textContent = title; xm.appendChild(e); const r = document.createElement('div'); r.className = 'row'; xm.appendChild(r); return r; };
-  const close = () => { xm.classList.remove('open'); $('xplus').classList.remove('on'); };
+  const close = () => xm.classList.remove('open');
   let r = sec(0, 'على آخر رد'); ACT.forEach(([l, q]) => pill(r, l, () => { close(); inp.value = q; $('send').click(); }));
   pill(r, 'عدّل رسالتي', () => { close(); const u = [...$('chat').querySelectorAll('.m:not(.bot)')].pop(); if (u) put(u.innerText.trim()); });
   r = sec(0, 'قوالب'); TP.forEach(([l, q]) => pill(r, l, () => { close(); put(q); }));
   r = sec(0, 'أدوات'); pill(r, 'كل الأدوات والإعدادات', () => { close(); openDrawer(); $('diAdv').click(); });
-  $('xplus').onclick = e => { e.stopPropagation(); const o = xm.classList.toggle('open'); $('xplus').classList.toggle('on', o); };
-  document.addEventListener('click', e => { if (!xm.contains(e.target) && e.target.id !== 'xplus' && !e.target.closest('#xplus')) close(); });
+  window.LXMENU = () => xm.classList.toggle('open');
+  document.addEventListener('click', e => { if (!xm.contains(e.target) && !e.target.closest('.xpb')) close(); });
   const cr = document.createElement('div'); cr.className = 'row';
   cv.innerHTML = '<h3>اختر شخصية لليمو</h3>'; cv.appendChild(cr);
   const bk = document.createElement('button'); bk.className = 'xb'; bk.textContent = 'رجوع'; bk.style.marginBottom = '12px'; bk.onclick = () => cv.classList.remove('open'); cv.insertBefore(bk, cv.firstChild);
@@ -2710,10 +2712,20 @@ function limoExtra(){
     if (n.indexOf('+18') > -1 && store.get('limoai_18', '') !== '1'){ alert('فعّل وضع +18 أولاً من الإعدادات ثم ليمو المتقدم'); return; }
     if (p === '@'){ const w = prompt(n === 'حيوان' ? 'أي حيوان؟' : 'اسم الشخصية الخيالية؟'); if (!w) return; p = n === 'حيوان' ? 'أنت ' + w + ': تتصرف بطباعه وتعبّر بأصواته وتفهم الإنسان بطريقته.' : 'أنت الشخصية الخيالية «' + w + '»: بأسلوبها وطباعها وعالمها كما تعرفها.'; }
     start(n, p); }));
-  $('catBtn').onclick = () => cv.classList.add('open');
+  const st = document.createElement('div'); st.id = 'pstrip'; st.hidden = true; document.querySelector('header').after(st);
+  const syncP = () => st.querySelectorAll('button').forEach(b => b.classList.toggle('on', !!LPERS && LPERS.n === b.textContent));
+  PS.forEach(([n, p0]) => { const b = document.createElement('button'); b.className = 'xb'; b.textContent = n; b.onclick = () => {
+    if (LPERS && LPERS.n === n){ LPERS = null; syncP(); return; }
+    if (n.indexOf('+18') > -1 && store.get('limoai_18', '') !== '1'){ alert('فعّل وضع +18 أولاً من الإعدادات ثم ليمو المتقدم'); return; }
+    let p = p0; if (p === '@'){ const w = prompt(n === 'حيوان' ? 'أي حيوان؟' : 'اسم الشخصية الخيالية؟'); if (!w) return; p = n === 'حيوان' ? 'أنت ' + w + ': تتصرف بطباعه وتعبّر بأصواته وتفهم الإنسان بطريقته.' : 'أنت الشخصية الخيالية «' + w + '»: بأسلوبها وطباعها وعالمها كما تعرفها.'; }
+    LPERS = {n:n, p:p}; syncP(); }; st.appendChild(b); });
+  $('catBtn').onclick = () => { st.hidden = !st.hidden; };
   $('tmpBtn').onclick = () => { newChat(); setTimeout(() => { LTEMP = true; }, 300); };
-  setInterval(() => { const a = []; if (LTEMP) a.push('🔒 محادثة مؤقتة: ما تنحفظ'); if (LPERS) a.push('🎭 ' + LPERS.n); bd.textContent = a.join(' • '); bd.style.display = a.length ? 'block' : 'none'; }, 600);
+  setInterval(() => { const a = []; if (LTEMP) a.push('🔒 محادثة مؤقتة: ما تنحفظ'); if (LPERS) a.push('🎭 ' + LPERS.n); bd.textContent = a.join(' • '); bd.style.display = a.length ? 'block' : 'none'; syncP(); const xe = $('xexp'); if (xe){ xe.style.display = inp.value && inp.scrollHeight > 150 ? 'flex' : 'none'; if (!inp.value) window.XEXP = false; } }, 600);
 })();
+
+const LSAFE = ['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT'].map(c => ({category:c, threshold:'BLOCK_NONE'}));
+(function(){ const xb = document.createElement('button'); xb.id = 'xexp'; xb.className = 'xexp'; xb.setAttribute('aria-label', 'توسيع'); xb.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>'; xb.onclick = () => { window.XEXP = !window.XEXP; const i = $('inp'); i.style.height = 'auto'; i.dispatchEvent(new Event('input')); }; document.querySelector('.cbar').appendChild(xb); })();
 </script>
 </body>
 </html>
