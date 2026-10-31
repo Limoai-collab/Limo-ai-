@@ -45,7 +45,7 @@ dialog h3{margin-bottom:14px}
 label{display:block;font-size:13px;color:var(--mute);margin:12px 0 4px}
 select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px}
 .artw{display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--mute);padding:12px}
-input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;direction:ltr;text-align:left}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}.chips button,.tplg button,.xb{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer;transition:transform .15s,border-color .2s}.chips button:active,.tplg button:active{transform:scale(.96)}.chips button:hover,.tplg button:hover{border-color:var(--teal)}.tplg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 14px}.tplg button{border-radius:14px;text-align:center}.cpy{position:absolute;top:6px;left:6px;font-size:12px;padding:2px 9px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}#toBot{position:fixed;bottom:96px;left:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:18px;display:none;z-index:20;cursor:pointer}#offb{position:fixed;top:0;left:0;right:0;padding:6px;text-align:center;background:#b3261e;color:#fff;font-size:13px;z-index:99;display:none}.acts button{font-size:15px}input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;direction:ltr;text-align:left}
 .hint{font-size:12px;color:var(--mute);margin-top:6px;line-height:1.6}
 .row{display:flex;gap:8px;margin-top:18px}
 .row .ib{flex:1;padding:11px}
@@ -454,6 +454,23 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <div id="dProf" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص</b></div><div id="profBody"></div></div>
   <div id="dPref" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>تخصيص الردود</b></div><div id="prefBody"></div></div>
   <div id="dAdv" hidden><div class="dh"><button class="di back" data-back="dSet"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>ليمو المتقدم</b></div><div id="advBody" style="padding:0 4px 16px">
+  <label>قوالب سريعة (اضغط وكمّل الكتابة)</label><div class="tplg" id="tpl"></div>
+  <label for="mode">وضع ليمو</label><select id="mode"><option value="">عادي</option><option value="fun">مرح</option><option value="roast">Roast (سخرية لاذعة)</option></select>
+  <label for="pers">شخصية</label><select id="pers"><option value="">ليمو العادي</option><option value="teacher">معلم</option><option value="coder">مبرمج</option><option value="writer">كاتب</option><option value="friend">صديق</option><option value="coach">مدرب</option></select>
+  <label for="hum">شدة المزاح</label><select id="hum"><option value="1">متوسط</option><option value="0">جدي</option><option value="2">كتير</option></select>
+  <label style="display:flex;gap:8px;align-items:center"><input id="think" type="checkbox" style="width:auto"> تفكير أعمق بكل رد</label>
+  <label style="display:flex;gap:8px;align-items:center"><input id="moodc" type="checkbox" style="width:auto"> مزاج حسب وقت اليوم</label>
+  <label style="display:flex;gap:8px;align-items:center"><input id="chipc" type="checkbox" style="width:auto"> أزرار اقتراحات بعد الرد</label>
+  <p class="hint" id="usage"></p>
+  <label for="notes">ملاحظاتي</label><textarea id="notes" rows="3" placeholder="اكتب ملاحظاتك هنا، تنحفظ بجوالك" style="width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit"></textarea>
+  <button type="button" id="pwd" class="pk" style="width:100%;margin-top:8px">ولّد كلمة سر قوية</button><p class="hint" id="pwdr"></p>
+  <label for="srch">ابحث بهالمحادثة</label><input id="srch" type="text" placeholder="كلمة… (Enter للتالي)" style="direction:rtl;text-align:right">
+  <div style="display:flex;gap:8px;margin-top:8px"><button type="button" id="expb" class="pk" style="flex:1">تصدير المحادثة</button><button type="button" id="shrb" class="pk" style="flex:1">مشاركة المحادثة</button></div>
+  <label>⏱️ مؤقت (بالدقائق)</label><div style="display:flex;gap:8px"><input id="tmin" type="number" min="1" value="5" style="direction:ltr"><button type="button" id="tgo" class="pk">ابدأ</button></div><p class="hint" id="tres"></p>
+  <label>📋 مهامي</label><div style="display:flex;gap:8px"><input id="tkin" type="text" placeholder="مهمة جديدة" style="direction:rtl;text-align:right"><button type="button" id="tkadd" class="pk">+</button></div><div id="tklist"></div>
+  <button type="button" id="morn" class="pk" style="width:100%;margin-top:10px">☀️ ملخص صباحي</button>
+  <label for="pin">🔒 رمز قفل التطبيق (فارغ = بدون قفل)</label><input id="pin" type="password" inputmode="numeric" maxlength="8" placeholder="رمز من 4 أرقام أو أكثر">
+  <p class="hint">القفل يحمي من الفضول فقط، مو تشفير حقيقي.</p>
   <label for="sty">أسلوب الكلام</label>
   <select id="sty"><option value="">عادي</option><option value="tw">مختصر مثل التغريدة</option><option value="fr">صاحبك العفوي</option><option value="te">المعلم الصبور</option><option value="co">المدرب الصارم</option><option value="sa">الساخر 🗿</option><option value="wa">الداعم الدافئ</option><option value="ph">الفيلسوف</option><option value="st">الراوي</option><option value="po">الشاعر</option><option value="pr">التقني المحترف</option><option value="k10">اشرح كأني بعمر 10</option><option value="fo">رسمي</option><option value="bl">الصريح</option><option value="de">المجادل</option></select>
   <label for="emo">كمية الإيموجي</label>
@@ -628,7 +645,7 @@ const chat = $('chat'), inp = $('inp'), sendBtn = $('send'), dlg = $('dlg');
 const GUEST = (() => { try { return sessionStorage.getItem('limoai_guest') === '1'; } catch(e){ return false; } })(), GMEM = {};
 const ACC = (() => { try { return localStorage.getItem('limoai_cur_acct') || ''; } catch(e){ return ''; } })(), PFX = ACC ? 'a_' + ACC + '_' : '';
 const APPLANG = (() => { try { return localStorage.getItem('limoai_applang') || 'gulf'; } catch(e){ return 'gulf'; } })();
-const GK = ['limoai_key2','limoai_model2','limoai_groq','limoai_tav','limoai_groqm','limoai_or','limoai_orm','limoai_giphy','limoai_tg','limoai_cfid','limoai_cf','limoai_imgsrc','limoai_sty','limoai_emo','limoai_dia','limoai_len','limoai_18','limoai_ci'], PK = k => GK.includes(k) ? k : PFX + k;
+const GK = ['limoai_key2','limoai_model2','limoai_groq','limoai_tav','limoai_groqm','limoai_or','limoai_orm','limoai_giphy','limoai_tg','limoai_cfid','limoai_cf','limoai_imgsrc','limoai_sty','limoai_emo','limoai_dia','limoai_len','limoai_18','limoai_ci','limoai_mode','limoai_pers','limoai_hum','limoai_think','limoai_mood','limoai_chips','limoai_notes','limoai_draft','limoai_use','limoai_tasks','limoai_pin'], PK = k => GK.includes(k) ? k : PFX + k;
 try { if (localStorage.getItem('limoai_giphy') === null){ const o = localStorage.getItem(PFX + 'limoai_giphy'); if (o !== null) localStorage.setItem('limoai_giphy', o); } } catch(e){}
 const CLOUD_KEYS = ['limoai_chats', 'limoai_prof', 'limoai_stats'];
 const store = {
@@ -928,7 +945,7 @@ function buildPersona(){
   a += '\n- ' + ({n:'لا تستخدم إيموجي.', m:'استخدم إيموجي واحداً أو اثنين فقط حسب المزاج، وفضّل العصرية مثل 🥀 🗿 💀 😭 🫡 😮‍💨 🫶 ✨.', l:'استخدم إيموجيات عصرية كثيرة مثل 🥀 🗿 💀 😭 🫡 😮‍💨 🫶 ✨ 🔥.'}[e]);
   if (g('limoai_ci')) a += '\n- تعليمات المستخدم الخاصة: ' + g('limoai_ci').slice(0, 600);
   if (g('limoai_18') === '1') a += '\n- المستخدم أكد أن عمره 18 فأكثر: تكلم بصراحة وبدون وعظ، وسخرية أقوى وشتائم خفيفة مقبولة إن ناسبت، وناقش مواضيع ناضجة (علاقات، كحول، معلومات صحية) بشكل صريح ومعلوماتي. لا تكتب محتوى جنسياً صريحاً ولا شيئاً ضاراً.';
-  return buildPersonaBase() + a;
+  return buildPersonaBase() + a + limoExtra();
 }
 document.addEventListener('click', async ev => {
   const id = ev.target && ev.target.id;
@@ -2575,6 +2592,100 @@ async function autoRun(){
   try { localStorage.setItem('limoai_auto_' + L, JSON.stringify(c)); } catch(e){}
   if (n && lang === L) trNode(document.body);
 }
+
+function limoExtra(){
+  const g = k => store.get(k, ''); let a = '';
+  const md = {fun:'كن مرحاً وخفيف الظل أكثر.', roast:'مازح المستخدم بسخرية لاذعة لطيفة (Roast) بدون إهانة حقيقية.'}[g('limoai_mode')]; if (md) a += '\n- ' + md;
+  const pe = {teacher:'تصرف كمعلم متمكن.', coder:'تصرف كمبرمج خبير.', writer:'تصرف ككاتب مبدع.', friend:'تصرف كصديق مقرّب.', coach:'تصرف كمدرب تحفيزي.'}[g('limoai_pers')]; if (pe) a += '\n- ' + pe;
+  const hu = {0:'قلل المزاح وكن جدياً.', 2:'ارفع المزاح كثيراً.'}[g('limoai_hum')]; if (hu) a += '\n- ' + hu;
+  if (g('limoai_think') === '1') a += '\n- فكّر بخطوات قبل الجواب وكن دقيقاً.';
+  if (g('limoai_mood') !== '0'){ const h = new Date().getHours(); a += '\n- الوقت الآن ' + (h < 5 ? 'قبل الفجر' : h < 12 ? 'صباحاً' : h < 18 ? 'نهاراً' : 'مساءً') + '، فليكن مزاجك مناسباً له.'; }
+  if (g('limoai_chips') !== '0') a += '\n- في آخر كل رد (إلا الردود القصيرة جداً) أضف وسماً بهذا الشكل بالضبط: [اقتراحات: سؤال قصير 1 | سؤال قصير 2 | سؤال قصير 3] وهي أسئلة تابعة قد يسألها المستخدم، ولا تذكر الوسم في نص الرد.';
+  a += '\n- أحياناً اختم بسؤال قصير بدل الشرح الطويل.';
+  return a;
+}
+(function(){
+  const chatEl = $('chat'), inp = $('inp');
+  const EX = [['✂️','اختصر','اختصر ردك السابق بجملتين.'], ['💡','ببساطة','اشرح ردك السابق بكلام أبسط وبمثال.'], ['➕','أكثر','وسّع ردك السابق بتفاصيل أكثر.'], ['🌍','ترجم','ترجم ردك السابق للإنجليزية.'], ['🎭','صياغة','أعد صياغة ردك السابق بأسلوب مختلف.'], ['🧾','ملخص','لخّص هذه المحادثة بنقاط قصيرة.']];
+  const fire = q => { inp.value = q; inp.dispatchEvent(new Event('input', {bubbles:true})); $('send').click(); };
+  const tag = /\[\s*اقتراحات\s*:\s*([^\]]{3,400})\]/;
+  function decorate(row){
+    if (row.dataset.x || row.classList.contains('mt')) return; row.dataset.x = '1';
+    EX.forEach(([e, l, q]) => { const b = document.createElement('button'); b.textContent = e; b.title = l; b.setAttribute('aria-label', l); b.onclick = () => fire(q); row.appendChild(b); });
+    let m = row.previousElementSibling; while (m && !m.classList.contains('bot')) m = m.previousElementSibling;
+    if (!m) return;
+    const rows = chatEl.querySelectorAll('.acts'), last = row === rows[rows.length - 1];
+    const w = document.createTreeWalker(m, NodeFilter.SHOW_TEXT); let n, hit = null;
+    while ((n = w.nextNode())) if (tag.test(n.nodeValue)){ hit = n; break; }
+    if (hit){
+      const q = hit.nodeValue.match(tag)[1].split('|').map(s => s.trim()).filter(Boolean).slice(0, 3);
+      hit.nodeValue = hit.nodeValue.replace(tag, '').trimEnd();
+      if (last && q.length && store.get('limoai_chips', '') !== '0'){ const c = document.createElement('div'); c.className = 'chips'; q.forEach(s => { const b = document.createElement('button'); b.textContent = s; b.onclick = () => { c.remove(); fire(s); }; c.appendChild(b); }); row.after(c); }
+    }
+    m.querySelectorAll('pre').forEach(pr => { if (pr.dataset.c) return; pr.dataset.c = '1'; pr.style.position = 'relative'; const b = document.createElement('button'); b.className = 'cpy'; b.textContent = 'نسخ'; b.onclick = () => { const tx = pr.innerText.replace(/^نسخ\s*/, ''); if (navigator.clipboard) navigator.clipboard.writeText(tx); b.textContent = '✓'; setTimeout(() => b.textContent = 'نسخ', 1200); }; pr.appendChild(b); });
+  }
+  new MutationObserver(ms => { for (const x of ms) x.addedNodes.forEach(n => { if (n.nodeType !== 1) return; if (n.classList.contains('acts')) decorate(n); else if (n.querySelectorAll) n.querySelectorAll('.acts').forEach(decorate); }); }).observe(chatEl, {childList:true, subtree:true});
+  chatEl.querySelectorAll('.acts').forEach(decorate);
+  document.querySelectorAll('.chips').forEach(c => c.remove());
+  const tb = document.createElement('button'); tb.id = 'toBot'; tb.textContent = '⬇'; tb.setAttribute('aria-label', 'آخر المحادثة'); tb.onclick = () => chatEl.scrollTo({top:chatEl.scrollHeight, behavior:'smooth'}); document.body.appendChild(tb);
+  chatEl.addEventListener('scroll', () => { tb.style.display = chatEl.scrollHeight - chatEl.scrollTop - chatEl.clientHeight > 300 ? 'block' : 'none'; });
+  const ob = document.createElement('div'); ob.id = 'offb'; ob.textContent = '📡 ما في إنترنت حالياً'; document.body.appendChild(ob);
+  const net = () => ob.style.display = navigator.onLine ? 'none' : 'block'; addEventListener('online', net); addEventListener('offline', net); net();
+  const dr = store.get('limoai_draft', ''); if (dr && !inp.value) inp.value = dr;
+  inp.addEventListener('input', () => store.set('limoai_draft', inp.value));
+  $('send').addEventListener('click', () => { const d = new Date().toISOString().slice(0, 10); let u = {}; try { u = JSON.parse(store.get('limoai_use', '{}')) || {}; } catch(e){} u[d] = (u[d] || 0) + 1; store.set('limoai_use', JSON.stringify(u)); setTimeout(() => { if (!inp.value) store.set('limoai_draft', ''); }, 400); });
+  const TPL = [['📚 واجب','ساعدني أحل هذا الواجب خطوة بخطوة:\n'], ['✉️ رسالة','اكتب لي رسالة عن: '], ['🧒 ببساطة','اشرح لي ببساطة: '], ['📝 لخّص','لخّص لي هذا النص بنقاط:\n'], ['✅ صحّح','صحّح لغوياً وإملائياً وحسّن الصياغة:\n'], ['📄 سيرة ذاتية','ساعدني أكتب سيرة ذاتية. معلوماتي: '], ['🎤 مقابلة','اعمل لي مقابلة عمل تجريبية لوظيفة: '], ['🌐 لغة','كن مدرس لغة، تكلم معي بها وصحح أخطائي. اللغة: '], ['✈️ سفر','خطط لي رحلة إلى: '], ['🍽️ وجبات','اقترح خطة وجبات أسبوعية بميزانية: '], ['💰 ميزانية','ساعدني أرتب ميزانية شهرية. دخلي ومصاريفي: '], ['⚖️ قرار','ساعدني آخذ قراراً: اعرض مزايا وعيوب كل خيار ثم رأيك. الخيارات: '], ['🥊 ناقشني','ناقشني بالعكس لاختبار فكرتي: '], ['🎭 لعب أدوار','لنلعب لعب أدوار للتدريب على: '], ['🧠 اختبرني','اختبرني بأسئلة اختيار من متعدد في: '], ['🗂️ بطاقات','حوّل هذه المحادثة إلى بطاقات مراجعة (سؤال وجواب).'], ['📅 خطة','رتب لي خطة يوم أو أسبوع بالمهام: '], ['🎲 لعبة','لنلعب لعبة تخمين: فكّر بشيء وأنا أسأل.'], ['🔁 حوّل','حوّل أو احسب: '], ['💻 كود','اكتب كود لـ: '], ['🔎 بحث عميق','ابحث بعمق في الإنترنت وأعطني تقريراً منظماً عن: '], ['🛡️ تحقق','تحقق من صحة هذه المعلومة وابحث عنها: '], ['🔗 صفحة','لخّص واشرح هذه الصفحة: ']];
+  $('diAdv').addEventListener('click', () => {
+    const tp = $('tpl'); tp.textContent = '';
+    TPL.forEach(([l, q]) => { const b = document.createElement('button'); b.textContent = l; b.onclick = () => { closeDrawer(); inp.value = q; inp.dispatchEvent(new Event('input', {bubbles:true})); inp.focus(); }; tp.appendChild(b); });
+    [['mode','limoai_mode',''], ['pers','limoai_pers',''], ['hum','limoai_hum','1'], ['notes','limoai_notes','']].forEach(([i, k, d]) => { const e = $(i); e.value = store.get(k, d); e.onchange = e.oninput = () => store.set(k, e.value); });
+    [['think','limoai_think','1','0',false], ['moodc','limoai_mood','1','0',true], ['chipc','limoai_chips','1','0',true]].forEach(([i, k, on, off, def]) => { const e = $(i), v = store.get(k, ''); e.checked = v ? v === on : def; e.onchange = () => store.set(k, e.checked ? on : off); });
+    let u = {}; try { u = JSON.parse(store.get('limoai_use', '{}')) || {}; } catch(e){}
+    $('usage').textContent = '📊 رسائلك اليوم: ' + (u[new Date().toISOString().slice(0, 10)] || 0);
+    $('pwd').onclick = () => { const cs = 'abcdefghijkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789!@#$%&*', a = crypto.getRandomValues(new Uint32Array(16)); const pw = Array.from(a, x => cs[x % cs.length]).join(''); $('pwdr').textContent = pw; if (navigator.clipboard) navigator.clipboard.writeText(pw); };
+  });
+})();
+
+(function(){
+  const chatEl = $('chat'), inp = $('inp'), q = s => document.querySelector(s);
+  const put = s => { inp.value = s; inp.dispatchEvent(new Event('input', {bubbles:true})); inp.focus(); };
+  const bar = (host, defs) => { const d = document.createElement('div'); d.className = 'acts mt'; defs.forEach(([l, f, tt]) => { const b = document.createElement('button'); b.textContent = l; b.title = tt; b.setAttribute('aria-label', tt); b.onclick = f; d.appendChild(b); }); host.after(d); };
+  const txtOf = m => m.cloneNode(true).innerText.replace(/\s*(نسخ|⬇)\s*$/gm, '').trim();
+  function msgDeco(m){
+    if (m.dataset.t) return; m.dataset.t = '1';
+    const bot = m.classList.contains('bot'), tx = () => txtOf(m);
+    if (!bot) bar(m, [['✏️', () => put(tx()), 'تعديل وإعادة إرسال'], ['↩️', () => put('ردّاً على: «' + tx().slice(0, 160) + '»\n'), 'ردّ على الرسالة']]);
+    else if (!m.nextElementSibling || !m.nextElementSibling.classList.contains('acts')) { /* acts row added by app */ }
+  }
+  function imgDeco(im){
+    if (im.dataset.t) return; im.dataset.t = '1';
+    bar(im, [['⬇', () => { const a = document.createElement('a'); a.href = im.src; a.download = 'limo.png'; a.target = '_blank'; a.rel = 'noopener'; a.click(); }, 'حفظ الصورة'], ['🔁', () => { inp.value = 'ارسم نفس الفكرة مرة ثانية بتفاصيل وجودة أحسن'; $('send').click(); }, 'أعد الرسم']]);
+  }
+  function codeDl(pre){
+    if (pre.dataset.d) return; pre.dataset.d = '1';
+    const b = document.createElement('button'); b.className = 'cpy'; b.style.left = '56px'; b.textContent = '⬇';
+    b.onclick = () => { const tx = pre.innerText.replace(/\s*(نسخ|⬇)\s*$/gm, ''), ext = /^\s*</.test(tx) ? 'html' : /^\s*(def |import |print)/.test(tx) ? 'py' : 'txt'; const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([tx], {type:'text/plain'})); a.download = 'limo-code.' + ext; a.click(); };
+    pre.style.position = 'relative'; pre.appendChild(b);
+  }
+  const scan = r => { (r.matches && r.matches('.m') ? [r] : []).concat([...r.querySelectorAll('.m')]).forEach(msgDeco); (r.matches && r.matches('img.art') ? [r] : []).concat([...r.querySelectorAll('img.art')]).forEach(imgDeco); (r.matches && r.matches('pre') ? [r] : []).concat([...r.querySelectorAll('pre')]).forEach(codeDl); };
+  new MutationObserver(ms => ms.forEach(x => x.addedNodes.forEach(n => { if (n.nodeType === 1) scan(n); }))).observe(chatEl, {childList:true, subtree:true});
+  scan(chatEl);
+  const all = () => [...chatEl.querySelectorAll('.m')].map(m => (m.classList.contains('bot') ? 'ليمو: ' : 'أنا: ') + txtOf(m)).join('\n\n');
+  let si = -1;
+  const lockOn = () => { const pin = store.get('limoai_pin', ''); if (!pin) return; const o = document.createElement('div'); o.style.cssText = 'position:fixed;inset:0;z-index:999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px'; o.innerHTML = '<div style="font-size:42px">🔒</div><input type="password" inputmode="numeric" placeholder="الرمز" style="width:180px;text-align:center">'; document.body.appendChild(o); const i = o.querySelector('input'); i.oninput = () => { if (i.value === pin) o.remove(); }; };
+  lockOn();
+  function tasks(){ let a = []; try { a = JSON.parse(store.get('limoai_tasks', '[]')) || []; } catch(e){} return a; }
+  function drawTasks(){ const a = tasks(), box = $('tklist'); box.textContent = ''; a.forEach((x, i) => { const r = document.createElement('div'); r.style.cssText = 'display:flex;gap:8px;align-items:center;margin:6px 0'; const c = document.createElement('input'); c.type = 'checkbox'; c.style.width = 'auto'; c.checked = !!x.d; const s = document.createElement('span'); s.textContent = x.t; s.style.cssText = 'flex:1;' + (x.d ? 'text-decoration:line-through;opacity:.6' : ''); const d = document.createElement('button'); d.className = 'xb'; d.textContent = '✕'; c.onchange = () => { a[i].d = c.checked; store.set('limoai_tasks', JSON.stringify(a)); drawTasks(); }; d.onclick = () => { a.splice(i, 1); store.set('limoai_tasks', JSON.stringify(a)); drawTasks(); }; r.append(c, s, d); box.appendChild(r); }); }
+  $('diAdv').addEventListener('click', () => {
+    drawTasks(); $('pin').value = store.get('limoai_pin', ''); $('pin').oninput = () => store.set('limoai_pin', $('pin').value.length >= 4 ? $('pin').value : '');
+    $('tkadd').onclick = () => { const v = $('tkin').value.trim(); if (!v) return; const a = tasks(); a.push({t:v, d:0}); store.set('limoai_tasks', JSON.stringify(a)); $('tkin').value = ''; drawTasks(); };
+    $('expb').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([all()], {type:'text/plain;charset=utf-8'})); a.download = 'limo-chat.txt'; a.click(); };
+    $('shrb').onclick = () => { const s = all(); if (navigator.share) navigator.share({text:s}).catch(() => {}); else if (navigator.clipboard) navigator.clipboard.writeText(s); };
+    $('morn').onclick = () => { closeDrawer(); put('اعطني ملخصاً صباحياً قصيراً: تحية، وأهم 3 أشياء أركز عليها اليوم، وجملة تحفيزية. مهامي: ' + tasks().filter(x => !x.d).map(x => x.t).join('، ')); };
+    $('tgo').onclick = () => { const m = Math.max(1, +$('tmin').value || 1); $('tres').textContent = '⏱️ بيرن بعد ' + m + ' دقيقة (والتطبيق مفتوح)'; setTimeout(() => { $('tres').textContent = '⏰ خلص الوقت!'; if (navigator.vibrate) navigator.vibrate([300, 150, 300]); alert('⏰ خلص المؤقت!'); }, m * 60000); };
+    $('srch').onkeydown = e => { if (e.key !== 'Enter') return; const v = $('srch').value.trim(), ms = [...chatEl.querySelectorAll('.m')].filter(m => v && m.innerText.includes(v)); if (!ms.length) return; si = (si + 1) % ms.length; closeDrawer(); ms[si].scrollIntoView({behavior:'smooth', block:'center'}); ms[si].style.outline = '2px solid var(--teal)'; setTimeout(() => ms[si] && (ms[si].style.outline = ''), 2500); };
+  });
+})();
 </script>
 </body>
 </html>
