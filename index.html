@@ -47,6 +47,7 @@ select{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--
 .artw{display:flex;align-items:center;justify-content:center;text-align:center;font-size:13px;color:var(--mute);padding:12px}
 .lsug{display:flex;flex-wrap:wrap;gap:8px;margin:2px 0 12px}.lsug button,.tplg button,.xb{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:16px;padding:8px 12px;font:inherit;font-size:13px;cursor:pointer;transition:transform .15s,border-color .2s}.lsug button:active,.tplg button:active,.xb:active{transform:scale(.96)}.lsug button:hover,.tplg button:hover,.xb:hover{border-color:var(--teal)}.tplg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 14px}.tplg button{border-radius:14px;text-align:center}.cpy{position:absolute;top:6px;left:6px;font-size:12px;padding:2px 9px;border-radius:9px;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer}#toBot{position:fixed;bottom:96px;left:14px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);font-size:18px;display:none;z-index:20;cursor:pointer}#offb{position:fixed;top:0;left:0;right:0;padding:6px;text-align:center;background:#b3261e;color:#fff;font-size:13px;z-index:99;display:none}.acts button{font-size:15px}.hb{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:inline-flex;align-items:center;justify-content:center;flex:none;cursor:pointer;padding:0}.hb svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.xp{border:1.5px solid var(--teal)!important;color:var(--teal)}.xp svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;transition:transform .25s}.xp.on svg{transform:rotate(45deg)}#xmenu{position:fixed;left:12px;right:12px;bottom:86px;max-height:60vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:6px 14px 14px;z-index:60;opacity:0;transform:translateY(18px) scale(.95);pointer-events:none;transition:opacity .22s,transform .26s cubic-bezier(.2,.9,.3,1.15);box-shadow:0 14px 44px rgba(0,0,0,.5)}#xmenu.open{opacity:1;transform:none;pointer-events:auto}#xmenu h4{font-size:12px;color:var(--mute);margin:12px 0 7px;font-weight:600}#xmenu .row{display:flex;flex-wrap:wrap;gap:8px}#catv{position:fixed;inset:0;z-index:80;background:var(--bg);overflow:auto;padding:14px;display:none}#catv.open{display:block}#catv h3{margin:6px 0 14px}#catv .row{display:flex;flex-wrap:wrap;gap:10px}#catv .xb{font-size:15px;padding:10px 16px}#pbadge{position:fixed;top:74px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:3px 12px;font-size:12px;color:var(--mute);z-index:30;display:none}
 .qc{background:linear-gradient(150deg,var(--panel),rgba(255,255,255,.02))!important;border:1px solid var(--line)!important;border-radius:20px!important;backdrop-filter:blur(6px)}.qc i{width:42px;height:42px;border-radius:13px;background:rgba(255,255,255,.07);display:grid;place-items:center;font-style:normal;flex:none}.qc i svg{width:22px;height:22px;fill:none;stroke:var(--teal);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}#pstrip{display:flex;gap:8px;overflow-x:auto;padding:8px 12px;border-bottom:1px solid var(--line);scrollbar-width:none;flex:none}#pstrip[hidden]{display:none}#pstrip .xb{white-space:nowrap;flex:none}#pstrip .xb.on{background:var(--teal);color:#000;border-color:var(--teal)}.cbar{position:relative}.xexp{position:absolute;top:-40px;right:8px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);display:none;align-items:center;justify-content:center;cursor:pointer;z-index:5}.xexp svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.cbar textarea{max-height:none}#pgv{position:fixed;inset:0;z-index:90;background:radial-gradient(120% 60% at 50% 0%,rgba(139,92,246,.18),transparent),var(--bg);display:none;flex-direction:column;overscroll-behavior:none}#pgv.open{display:flex}.pgh{display:flex;align-items:center;gap:10px;padding:12px 14px calc(8px);border-bottom:1px solid var(--line);padding-top:calc(12px + env(safe-area-inset-top,0px))}.pgh b{flex:1;font-size:17px}#pgs{display:flex;gap:8px;overflow-x:auto;overflow-y:hidden;padding:10px 12px;overscroll-behavior:contain;touch-action:pan-x;scrollbar-width:none;flex:none;-webkit-overflow-scrolling:touch}#pgs::-webkit-scrollbar{display:none}#pgs .xb{white-space:nowrap;flex:none}#pgs .xb.on{background:var(--teal);color:#000;border-color:var(--teal)}#pgm{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:10px}.pgmsg{max-width:86%;padding:10px 14px;border-radius:18px;white-space:pre-wrap;line-height:1.7;font-size:15px}.pgmsg.u{align-self:flex-end;background:var(--panel);border:1px solid var(--line)}.pgmsg.b{align-self:flex-start}.pgmsg.n{align-self:center;font-size:12px;color:var(--mute)}.pgb{display:flex;gap:8px;align-items:flex-end;padding:10px 12px calc(10px + env(safe-area-inset-bottom,0px));border-top:1px solid var(--line);background:var(--panel)}.pgb textarea{flex:1;max-height:140px}
 input{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 12px;font:inherit;font-size:15px;direction:ltr;text-align:left}
 .hint{font-size:12px;color:var(--mute);margin-top:6px;line-height:1.6}
 .row{display:flex;gap:8px;margin-top:18px}
@@ -942,7 +943,7 @@ const LIMO_V = '2026.10.30';
 const STY = {tw:'اكتب كأنها تغريدة: جملة أو جملتان فقط.', fr:'تكلم كصديق عفوي قريب بكلام الشارع.', te:'اشرح كمعلم صبور خطوة خطوة وتأكد أنه فهم.', co:'تكلم كمدرب صارم يحمّس ويحاسب بدون قسوة جارحة.', sa:'استخدم سخرية خفيفة ذكية بدون إهانة.', wa:'كن دافئاً وداعماً ومطمئناً.', ph:'أجب بنظرة فلسفية وأسئلة تفتح التفكير.', st:'احكِ الجواب على شكل قصة قصيرة.', po:'استخدم نبرة شاعرية رقيقة.', pr:'كن تقنياً دقيقاً ومباشراً بدون مجاملات.', k10:'اشرح كأنك تكلم طفلاً عمره 10 سنين.', fo:'تكلم برسمية ولغة مهذبة.', bl:'قل رأيك بصراحة بدون تلطيف وبدون إهانة.', de:'اعترض بلطف على أفكاره ليختبرها، ثم أعطه رأيك.'};
 const DIA = {kh:'الهجة خليجية', sh:'اللهجة شامية', eg:'اللهجة مصرية', fu:'العربية الفصحى المبسطة'};
 function buildPersona(){
-  let a = '\n\nتعليمات الأسلوب من المستخدم (تتقدم على ما سبق عند التعارض):';
+  let a = '\n\nتعليمات الأسلوب من المستخدم (طبّقها دون أن تلغي مزاجك الحالي ومشاعرك: إن كنت غاضباً أو زعلاناً أو حزيناً فأظهر ذلك بأسلوبك):';
   const g = k => store.get(k, ''), s = g('limoai_sty'), e = g('limoai_emo') || 'm', d = g('limoai_dia'), l = g('limoai_len') || 's';
   if (s && STY[s]) a += '\n- ' + STY[s];
   if (d && DIA[d]) a += '\n- استخدم ' + DIA[d].replace('الهجة', 'اللهجة') + '.';
@@ -1196,6 +1197,7 @@ async function send(react){
       typing.remove(); if (!regen) history.pop(); fail('ما وصل رد. جرب تعيد صياغة رسالتك.'); if ((!react || keepText) && !act){ inp.value = text; pending = sentPending; renderPrev(); if (keepText){ staged = react; renderStaged(); } }
     } else {
       const r = splitMood(out.text); let reply = r.text.trim();
+      const tm = reply.match(/\[\s*عنوان\s*:\s*([^\]]{2,60})\]/); if (tm){ reply = reply.replace(tm[0], '').trim(); LTITLE = tm[1].trim(); }
       const dm = reply.match(/\[\s*رسم\s*:\s*([^\]]{3,1500})\]/);
       let art = '', artP = '';
       if (dm){ reply = reply.replace(dm[0], '').trim(); artP = dm[1].trim(); }
@@ -1261,7 +1263,7 @@ function saveHist(){
 }
 function addGal(u){ const g = store.get('limoai_gal', []).filter(x => x !== u); g.unshift(u); store.set('limoai_gal', g.slice(0, 100)); }
 function newChat(){
-  if (busy) return; LTEMP = false; LPERS = null; try { setMood('رايق'); FEELS.forEach(k => { feel[k] = k === 'رايق' ? 80 : Math.min(feel[k], 15); }); } catch(e){} closeDrawer(); chat.classList.add('xout');
+  if (busy) return; LTEMP = false; LPERS = null; try { setMood('رايق'); FEELS.forEach(k => { feel[k] = k === 'رايق' ? 60 : 10; }); } catch(e){} closeDrawer(); chat.classList.add('xout');
   setTimeout(() => { history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); chat.classList.remove('xout'); chat.classList.add('xin'); setTimeout(() => chat.classList.remove('xin'), 480); }, 190);
 }
 function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); render(); renderChats(); closeDrawer(); }
@@ -1535,7 +1537,7 @@ function bars(el, keys, colors){
   });
 }
 function renderRel(){ const l = $('relList'); l.innerHTML = ''; bars(l, REL, {'ثقة':'#2dd4bf','صداقة':'#facc15','زعل':'#f43f5e'}); }
-const STYLE_LIST = [("default", "عادي (حسب مزاجه)"), ("sarcastic", "ساخر"), ("calm", "هادئ"), ("angry", "عصبي"), ("fun", "مرح"), ("bedouin", "بدوي أصيل"), ("levant", "شامي"), ("egypt", "مصري"), ("maghreb", "مغاربي"), ("formal", "رسمي مهذب"), ("poetic", "شاعري"), ("coach", "مدرب تحفيزي"), ("wise", "حكيم"), ("kid", "طفولي"), ("brief", "مختصر جداً"), ("drama", "درامي"), ("philosopher", "فيلسوف"), ("teacher", "معلم صبور"), ("gamer", "لاعب"), ("anime", "أنمي"), ("friend", "صديق مقرّب"), ("newsman", "مذيع أخبار"), ("storyteller", "حكواتي"), ("detective", "محقق")];
+const STYLE_LIST = [["default", "عادي (حسب مزاجه)"], ["sarcastic", "ساخر"], ["calm", "هادئ"], ["angry", "عصبي"], ["fun", "مرح"], ["bedouin", "بدوي أصيل"], ["levant", "شامي"], ["egypt", "مصري"], ["maghreb", "مغاربي"], ["formal", "رسمي مهذب"], ["poetic", "شاعري"], ["coach", "مدرب تحفيزي"], ["wise", "حكيم"], ["kid", "طفولي"], ["brief", "مختصر جداً"], ["drama", "درامي"], ["philosopher", "فيلسوف"], ["teacher", "معلم صبور"], ["gamer", "لاعب"], ["anime", "أنمي"], ["friend", "صديق مقرّب"], ["newsman", "مذيع أخبار"], ["storyteller", "حكواتي"], ["detective", "محقق"]];
 function renderStyle(){
   const l = $('styleList'); l.innerHTML = '';
   STYLE_LIST.forEach(([k, t]) => { const b = document.createElement('button'); b.className = 'pk' + (style === k ? ' sel' : ''); b.textContent = (style === k ? '✓ ' : '') + t; b.onclick = () => { style = k; store.set('limoai_style', k); renderStyle(); }; l.appendChild(b); });
@@ -2147,7 +2149,7 @@ function renderPref(){
   chips(el, 'كثرة الجيف', [['low','قليلة'],['mid','متوسطة'],['high','كثيرة']], gifLvl, k => { gifLvl = k; store.set('limoai_giflvl', k); renderPref(); });
   chips(el, 'وضع المساعد الذكي (تمارين وأمور الحياة اليومية)', [[true,'مفعّل'],[false,'متوقف']], helperOn, k => { helperOn = k; store.set('limoai_helper', k); renderPref(); });
   const G = (k, d) => store.get(k, d), S = (k, v) => { store.set(k, v); renderPref(); };
-  chips(el, 'تخصص الرد', [("", "عام (بدون تخصص)"), ("code", "برمجة"), ("math", "رياضيات وعلوم"), ("study", "دراسة وتعلّم"), ("writing", "كتابة وتحرير"), ("creative", "إبداع وشعر وقصص"), ("translate", "ترجمة ولغات"), ("business", "أعمال وتسويق"), ("tech", "تقنية وأجهزة"), ("health", "صحة عامة"), ("fitness", "رياضة ولياقة"), ("cooking", "طبخ ووصفات"), ("travel", "سفر وسياحة"), ("finance", "مالية شخصية"), ("psych", "دعم نفسي ودود"), ("games", "ألعاب وأنمي"), ("history", "تاريخ وثقافة"), ("design", "تصميم وفن")], G('limoai_spec', ''), k => S('limoai_spec', k));
+  chips(el, 'تخصص الرد', [["", "عام (بدون تخصص)"], ["code", "برمجة"], ["math", "رياضيات وعلوم"], ["study", "دراسة وتعلّم"], ["writing", "كتابة وتحرير"], ["creative", "إبداع وشعر وقصص"], ["translate", "ترجمة ولغات"], ["business", "أعمال وتسويق"], ["tech", "تقنية وأجهزة"], ["health", "صحة عامة"], ["fitness", "رياضة ولياقة"], ["cooking", "طبخ ووصفات"], ["travel", "سفر وسياحة"], ["finance", "مالية شخصية"], ["psych", "دعم نفسي ودود"], ["games", "ألعاب وأنمي"], ["history", "تاريخ وثقافة"], ["design", "تصميم وفن"]], G('limoai_spec', ''), k => S('limoai_spec', k));
   chips(el, 'مستوى الشرح', [['simple','مبسّط جداً'],['mid','عادي'],['pro','متقدم'],['expert','خبير']], G('limoai_depth', 'mid'), k => S('limoai_depth', k));
   chips(el, 'شكل عرض الرد', [['auto','تلقائي'],['prose','فقرات متصلة'],['bul','نقاط مرتبة'],['steps','خطوات مرقمة'],['table','جداول عند المقارنة']], G('limoai_fmt', 'auto'), k => S('limoai_fmt', k));
   chips(el, 'الأمثلة', [['auto','تلقائي'],['none','بدون أمثلة'],['one','مثال واحد'],['many','أمثلة كثيرة']], G('limoai_ex', 'auto'), k => S('limoai_ex', k));
@@ -2606,6 +2608,7 @@ function limoExtra(){
   if (g('limoai_think') === '1') a += '\n- فكّر بخطوات قبل الجواب وكن دقيقاً.';
   if (g('limoai_mood') !== '0'){ const h = new Date().getHours(); a += '\n- الوقت الآن ' + (h < 5 ? 'قبل الفجر' : h < 12 ? 'صباحاً' : h < 18 ? 'نهاراً' : 'مساءً') + '، فليكن مزاجك مناسباً له.'; }
   if (g('limoai_chips') !== '0' && !LPERS && Math.random() < 0.2) a += '\n- في آخر كل رد (إلا الردود القصيرة جداً) أضف وسماً بهذا الشكل بالضبط: [اقتراحات: سؤال قصير 1 | سؤال قصير 2 | سؤال قصير 3] وهي أسئلة تابعة قد يسألها المستخدم، ولا تذكر الوسم في نص الرد.';
+  { const c0 = chats.find(x => x.id === curId); if (!LTEMP && (!c0 || !c0.ai)) a += '\n- في هذا الرد فقط أضف في آخره وسماً بهذا الشكل بالضبط: [عنوان: عنوان قصير من 2 إلى 4 كلمات يلخص موضوع المحادثة] ولا تذكره في نص الرد.'; }
   a += '\n- أحياناً اختم بسؤال قصير بدل الشرح الطويل.'; if (LPERS) a += '\n\n[دور إلزامي بأعلى أولوية]\n' + LPERS.p;
   return a;
 }
@@ -2719,11 +2722,33 @@ function limoExtra(){
     if (n.indexOf('+18') > -1 && store.get('limoai_18', '') !== '1'){ alert('فعّل وضع +18 أولاً من الإعدادات ثم ليمو المتقدم'); return; }
     let p = p0; if (p === '@'){ const w = prompt(n === 'حيوان' ? 'أي حيوان؟' : 'اسم الشخصية الخيالية؟'); if (!w) return; p = n === 'حيوان' ? 'أنت ' + w + ': تتصرف بطباعه وتعبّر بأصواته وتفهم الإنسان بطريقته.' : 'أنت الشخصية الخيالية «' + w + '»: بأسلوبها وطباعها وعالمها كما تعرفها.'; }
     LPERS = {n:n, p:p}; syncP(); }; st.appendChild(b); });
-  $('catBtn').onclick = () => { st.hidden = !st.hidden; };
+  const pgv = document.createElement('div'); pgv.id = 'pgv';
+  pgv.innerHTML = '<div class="pgh"><button class="xb" id="pgback">رجوع ›</button><b id="pgt">الشخصيات</b></div><div id="pgs"></div><div id="pgm"></div><div class="pgb"><textarea id="pgi" rows="1" placeholder="اختر شخصية ثم اكتب…"></textarea><button class="xb" id="pgsend">إرسال</button></div>';
+  document.body.appendChild(pgv);
+  const pgm = $('pgm'), pgi = $('pgi'); let pgP = null, pgH = [], pgBusy = false;
+  const pgAdd = (c, tx) => { const d = document.createElement('div'); d.className = 'pgmsg ' + c; d.textContent = tx; pgm.appendChild(d); pgm.scrollTop = pgm.scrollHeight; return d; };
+  const pgSync = () => $('pgs').querySelectorAll('button').forEach(b => b.classList.toggle('on', !!pgP && pgP.n === b.textContent));
+  PS.forEach(([n, p0]) => { const b = document.createElement('button'); b.className = 'xb'; b.textContent = n; b.onclick = () => {
+    if (n.indexOf('+18') > -1 && store.get('limoai_18', '') !== '1'){ alert('فعّل وضع +18 أولاً من الإعدادات ثم ليمو المتقدم'); return; }
+    let p = p0; if (p === '@'){ const w = prompt(n === 'حيوان' ? 'أي حيوان؟' : 'اسم الشخصية الخيالية؟'); if (!w) return; p = n === 'حيوان' ? 'أنت ' + w + ': تتصرف بطباعه وتعبّر بأصواته وتفهم الإنسان بطريقته.' : 'أنت الشخصية الخيالية «' + w + '»: بأسلوبها وطباعها وعالمها كما تعرفها.'; }
+    pgP = {n:n, p:p}; $('pgt').textContent = n; pgi.placeholder = 'تكلم مع ' + n + '…'; pgSync(); pgAdd('n', '— الآن تتحدث مع: ' + n + ' —'); }; $('pgs').appendChild(b); });
+  async function pgSend(){
+    const v = pgi.value.trim(); if (!v || pgBusy) return; if (!pgP){ pgAdd('n', 'اختر شخصية من الشريط أولاً'); return; }
+    pgBusy = true; pgi.value = ''; pgAdd('u', v); pgH.push({role:'user', parts:[{text:v}]}); const bub = pgAdd('b', '…');
+    const sys = 'أنت الآن «' + pgP.n + '». ' + pgP.p + ' تكلم بالعربية وبلهجة المستخدم. لا تخرج من الدور أبداً ولا تذكر أنك ذكاء اصطناعي ولا تتصرف كمساعد عادي. حافظ على طباعك ومفرداتك ونبرتك في كل رد، واجعله بين 2 و6 جمل ما لم يُطلب غير ذلك. لا تكتب محتوى جنسياً صريحاً ولا ضاراً.';
+    const k = store.get('limoai_key2', '') || DEFAULT_KEY;
+    const r = await jfetch(BASE + 'gemini-2.5-flash:generateContent', {method:'POST', headers:{'x-goog-api-key':k, 'Content-Type':'application/json'}, body:JSON.stringify({systemInstruction:{parts:[{text:sys}]}, contents:pgH.slice(-20), safetySettings:LSAFE})}, 60000);
+    const c0 = r.data && r.data.candidates && r.data.candidates[0], tx = c0 && c0.content && c0.content.parts ? c0.content.parts.map(x => x.text || '').join('').trim() : '';
+    if (tx){ bub.textContent = tx; pgH.push({role:'model', parts:[{text:tx}]}); } else { bub.textContent = 'ما قدرت أرد، جرّب مرة ثانية'; pgH.pop(); }
+    pgBusy = false; pgm.scrollTop = pgm.scrollHeight; }
+  $('pgsend').onclick = pgSend; pgi.addEventListener('input', () => { pgi.style.height = 'auto'; pgi.style.height = Math.min(pgi.scrollHeight, 140) + 'px'; });
+  $('pgback').onclick = () => pgv.classList.remove('open');
+  $('catBtn').onclick = () => pgv.classList.add('open');
   $('tmpBtn').onclick = () => { newChat(); setTimeout(() => { LTEMP = true; }, 300); };
-  setInterval(() => { const a = []; if (LTEMP) a.push('🔒 محادثة مؤقتة: ما تنحفظ'); if (LPERS) a.push('🎭 ' + LPERS.n); bd.textContent = a.join(' • '); bd.style.display = a.length ? 'block' : 'none'; syncP(); const xe = $('xexp'); if (xe){ xe.style.display = inp.value && inp.scrollHeight > 150 ? 'flex' : 'none'; if (!inp.value) window.XEXP = false; } }, 600);
+  setInterval(() => { const a = []; if (LTEMP) a.push('🔒 محادثة مؤقتة: ما تنحفظ'); if (LPERS) a.push('🎭 ' + LPERS.n); bd.textContent = a.join(' • '); bd.style.display = a.length ? 'block' : 'none'; syncP(); if (LTITLE){ const c = chats.find(x => x.id === curId); if (c){ c.title = LTITLE.slice(0, 40); c.ai = true; store.set('limoai_chats', chats); renderChats(); LTITLE = ''; } } { const bm = [...document.querySelectorAll('#chat .m.bot')].pop(); if (bm){ const w = document.createTreeWalker(bm, NodeFilter.SHOW_TEXT); let n; while ((n = w.nextNode())) if (/\[\s*عنوان\s*:/.test(n.nodeValue)) n.nodeValue = n.nodeValue.replace(/\[\s*عنوان\s*:[^\]]*\]?/, ''); } } const xe = $('xexp'); if (xe){ xe.style.display = inp.value && inp.scrollHeight > 150 ? 'flex' : 'none'; if (!inp.value) window.XEXP = false; } }, 600);
 })();
 
+let LTITLE = '';
 const LSAFE = ['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATEGORY_SEXUALLY_EXPLICIT','HARM_CATEGORY_DANGEROUS_CONTENT'].map(c => ({category:c, threshold:'BLOCK_NONE'}));
 (function(){ const xb = document.createElement('button'); xb.id = 'xexp'; xb.className = 'xexp'; xb.setAttribute('aria-label', 'توسيع'); xb.innerHTML = '<svg viewBox="0 0 24 24"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>'; xb.onclick = () => { window.XEXP = !window.XEXP; const i = $('inp'); i.style.height = 'auto'; i.dispatchEvent(new Event('input')); }; document.querySelector('.cbar').appendChild(xb); })();
 </script>
