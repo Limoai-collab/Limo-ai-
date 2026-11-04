@@ -2303,7 +2303,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     try { sessionStorage.setItem('limoai_gstate', state); sessionStorage.setItem('limoai_gnonce', nonce); }
     catch(e){ er.textContent = 'المتصفح يمنع حفظ بيانات مؤقتة (sessionStorage). جرّب فتح الرابط بتطبيق Chrome مباشرة.'; return; }
     const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
-      client_id: GCID, redirect_uri: location.origin + '/', response_type: 'id_token',
+      client_id: GCID, redirect_uri: location.origin + location.pathname.replace(/[^\/]*$/, ''), response_type: 'id_token',
       scope: 'openid email profile', state: state, nonce: nonce, prompt: 'select_account'
     }).toString();
     try { (window.top !== window ? window.top : window).location.href = url; } catch(e){ location.href = url; }
