@@ -2300,7 +2300,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     const er = $('gErr'); er.textContent = '';
     if (!web()){ er.textContent = 'تسجيل Google يشتغل فقط من رابط التطبيق على الإنترنت (https) وليس من الملف المحلي.'; return; }
     const state = rnd(), nonce = rnd();
-    try { sessionStorage.setItem('limoai_gstate', state); sessionStorage.setItem('limoai_gnonce', nonce); }
+    try { sessionStorage.setItem('limoai_gstate', state); sessionStorage.setItem('limoai_gnonce', nonce); try { localStorage.setItem('limoai_gstate', state); localStorage.setItem('limoai_gnonce', nonce); } catch(e2){} }
     catch(e){ er.textContent = 'المتصفح يمنع حفظ بيانات مؤقتة (sessionStorage). جرّب فتح الرابط بتطبيق Chrome مباشرة.'; return; }
     const url = 'https://accounts.google.com/o/oauth2/v2/auth?' + new URLSearchParams({
       client_id: GCID, redirect_uri: location.origin + location.pathname.replace(/[^\/]*$/, ''), response_type: 'id_token',
@@ -2315,7 +2315,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     const er = $('gErr'), p = new URLSearchParams(h.replace(/^#/, ''));
     try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
     let st = null, nn = null;
-    try { st = sessionStorage.getItem('limoai_gstate'); nn = sessionStorage.getItem('limoai_gnonce'); sessionStorage.removeItem('limoai_gstate'); sessionStorage.removeItem('limoai_gnonce'); } catch(e){}
+    try { st = sessionStorage.getItem('limoai_gstate') || localStorage.getItem('limoai_gstate'); nn = sessionStorage.getItem('limoai_gnonce') || localStorage.getItem('limoai_gnonce'); sessionStorage.removeItem('limoai_gstate'); sessionStorage.removeItem('limoai_gnonce'); localStorage.removeItem('limoai_gstate'); localStorage.removeItem('limoai_gnonce'); } catch(e){}
     if (p.get('error')){ er.textContent = 'رفضت Google الطلب: ' + (p.get('error_description') || p.get('error')); return; }
     if (!st || p.get('state') !== st){ er.textContent = 'تعذر التحقق من جلسة الدخول (state). جرّب مرة ثانية، ومن تطبيق Chrome نفسه.'; return; }
     const idt = p.get('id_token');
@@ -2337,6 +2337,16 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     if (web()) fb().catch(() => {});
     $('gGuest').onclick = () => { try { sessionStorage.setItem('limoai_guest', '1'); } catch(e){} location.reload(); };
     if (web()) googleHash();
+    try { const A = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
+      const onUrl = function(url){ try { const e0 = $('gErr'); if (e0) e0.textContent = 'وصل رابط الدخول من المتصفح...';
+        const u = new URL(url);
+        if (/(^|[#&])(id_token|error)=/.test(u.hash)) { history.replaceState(null, '', location.pathname + location.search + u.hash); googleHash(); }
+        else if (e0) e0.textContent = 'وصل رابط بدون بيانات دخول، جرّب مرة ثانية.';
+      } catch(x){} };
+      if (A && A.addListener && !window.__limoAppUrl) { window.__limoAppUrl = 1;
+        A.addListener('appUrlOpen', function(e){ onUrl(e.url); });
+        if (A.getLaunchUrl) A.getLaunchUrl().then(function(r){ if (r && r.url) onUrl(r.url); }).catch(function(){});
+      } } catch(x){}
   }
   const me = accts().find(a => a.id === ACC), box = $('acc');
   if (GUEST) box.innerHTML = '<span class="av" style="background:var(--line);color:var(--text)">👤</span><div class="an">ضيف<small>ما يحفظ شي</small></div><button class="ib" id="accBtn">تسجيل دخول</button>';
