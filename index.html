@@ -2309,8 +2309,8 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     try { (window.top !== window ? window.top : window).location.href = url; } catch(e){ location.href = url; }
   }
   // الرجوع من Google: النتيجة تجي بالرابط بعد #
-  async function googleHash(){
-    const h = location.hash || '';
+  async function googleHash(hh){
+    const h = hh || location.hash || '';
     if (!/(^|[#&])(id_token|error)=/.test(h)) return;
     const er = $('gErr'), p = new URLSearchParams(h.replace(/^#/, ''));
     try { history.replaceState(null, '', location.pathname + location.search); } catch(e){}
@@ -2338,11 +2338,16 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
     $('gGuest').onclick = () => { try { sessionStorage.setItem('limoai_guest', '1'); } catch(e){} location.reload(); };
     if (web()) googleHash();
     try { const A = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App;
-      const onUrl = function(url){ try { const e0 = $('gErr'); if (e0) e0.textContent = 'وصل رابط الدخول من المتصفح...';
-        const u = new URL(url);
-        if (/(^|[#&])(id_token|error)=/.test(u.hash)) { history.replaceState(null, '', location.pathname + location.search + u.hash); googleHash(); }
-        else if (e0) e0.textContent = 'وصل رابط بدون بيانات دخول، جرّب مرة ثانية.';
-      } catch(x){} };
+      const onUrl = function(url){ const e0 = $('gErr');
+        try { url = String(url || ''); const now = Date.now();
+          if (window.__limoLastUrl === url && now - (window.__limoLastAt || 0) < 8000) return;
+          window.__limoLastUrl = url; window.__limoLastAt = now;
+          const u = new URL(url);
+          if (e0) e0.textContent = 'وصل رابط الدخول (' + url.length + ')...';
+          if (/(^|[#&])(id_token|error)=/.test(u.hash)) {
+            googleHash(u.hash).catch(function(x){ if (e0) e0.textContent = 'خطأ بالدخول: ' + (x && x.message || x); });
+          } else if (e0) e0.textContent = 'وصل رابط بدون بيانات دخول (hash=' + u.hash.length + ').';
+        } catch(x){ if (e0) e0.textContent = 'خطأ بقراءة الرابط: ' + (x && x.message || x); } };
       if (A && A.addListener && !window.__limoAppUrl) { window.__limoAppUrl = 1;
         A.addListener('appUrlOpen', function(e){ onUrl(e.url); });
         if (A.getLaunchUrl) A.getLaunchUrl().then(function(r){ if (r && r.url) onUrl(r.url); }).catch(function(){});
