@@ -2169,7 +2169,7 @@ $('diPref').onclick = () => { renderPref(); showDV('dPref'); };
 $('diFont').onclick = () => { $('fsR').value = fsz; $('fsPrev').style.fontSize = ''; showDV('dFont'); };
 $('fsR').oninput = e => { fsz = Number(e.target.value); applyFs(); store.set('limoai_fs', fsz); };
 $('fsReset').onclick = () => { fsz = 1; $('fsR').value = 1; applyFs(); store.set('limoai_fs', 1); };
-$('diKeys').onclick = () => { closeDrawer(); $('setBtn').click(); };
+$('diKeys').onclick = () => { closeDrawer(); if (window.limoKeys) window.limoKeys(); else $('setBtn').click(); };
 $('diClear').onclick = () => { if (busy || !confirm('تمسح كل المحادثات؟ ما يمكن التراجع.')) return; chats = []; store.set('limoai_chats', chats); history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); closeDrawer(); };
 $('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بياناتي لملف', 'استيراد من ملف'], a => {
   if (a.includes('تصدير')){ const o = {}; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (k.startsWith('limoai_') || (PFX && k.startsWith(PFX))) o[k] = localStorage.getItem(k); } dl('limo-backup.json', 'application/json', JSON.stringify(o)); }
@@ -2234,7 +2234,7 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
       + KOPT.map(o => '<div class="ksrow"><label for="ks_' + o[0] + '"><span>' + o[1] + '</span><a href="' + KURL[o[0]] + '" target="_blank" rel="noopener">احصل على المفتاح</a></label><input id="ks_' + o[0] + '" type="password" placeholder="' + o[4] + '" autocomplete="off" autocapitalize="off" spellcheck="false"><p class="hint ksst" id="ks_' + o[0] + '_s">' + o[3] + '</p></div>').join('')
       + '</details><p class="hint kserr" id="ksE" role="status"></p><button class="gb w" id="ksGo">حفظ وابدأ</button><button class="gb" id="ksLater">لاحقاً</button></div>';
     const kk = $('ksK'), setS = (id, msg, cls) => { const e = $(id); e.textContent = msg || ''; e.className = 'hint ksst' + (cls ? ' ' + cls : ''); };
-    KOPT.forEach(o => { const v = store.get(o[2], ''); if (v) $('ks_' + o[0]).value = v; });
+    KOPT.forEach(o => { const v = store.get(o[2], ''); if (v) $('ks_' + o[0]).value = v; }); try { const gk = store.get('limoai_key2', ''); if (gk) kk.value = gk; } catch(e){}
     $('ksOpen').onclick = () => { window.open(KURL.gem, '_blank', 'noopener'); };
     $('ksP').onclick = async () => { try { const t = (await navigator.clipboard.readText()).trim(); if (t){ kk.value = t; setS('ksK_s', ''); $('ksE').textContent = ''; } } catch(e){ $('ksE').textContent = 'تعذرت القراءة من الحافظة. الصق المفتاح يدوياً في الخانة.'; $('ksE').className = 'hint kserr bad'; } };
     kk.addEventListener('keydown', e => { if (e.key === 'Enter') $('ksGo').click(); });
@@ -2582,7 +2582,7 @@ $('diTerms').onclick = () => showDV('dTerms');
 
 /* ---- personalization ---- */
 (function(){
-  $('diKeys').hidden = true; if (location.hash === '#keys') $('diKeys').hidden = false;
+  $('diKeys').hidden = false;
   function render(){
     const el = $('profBody'); el.innerHTML = ''; const pr = store.get('limoai_prof', {}) || {};
     const t = document.createElement('div'); t.className = 'ptitle'; t.textContent = 'ماذا تريد أن يعرف Limo عنك؟'; el.appendChild(t);
