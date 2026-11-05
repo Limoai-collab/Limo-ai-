@@ -1054,7 +1054,7 @@ async function ask(model, key, contents, onChunk, useSearch){
   }
   return r;
 }
-async function ask0(model, key, contents, onChunk, useSearch){
+async function ask0(model, key, contents, onChunk, useSearch, _nt){
   const res = await fetch(BASE + encodeURIComponent(model) + ':streamGenerateContent?alt=sse', {
     method:'POST',
     headers:{'Content-Type':'application/json','x-goog-api-key':key},
@@ -1062,12 +1062,13 @@ async function ask0(model, key, contents, onChunk, useSearch){
       safetySettings:LSAFE, systemInstruction:{parts:[{text:buildPersona() + (deepNow ? '\n\nفكّر بعمق وبخطوات قبل ما تجاوب، وقدّم جواباً دقيقاً ومفصلاً أكثر من المعتاد.' : '')}]},
       contents,
       ...(useSearch ? {tools:[{google_search:{}}]} : {}),
-      generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : {}), maxOutputTokens:deepNow ? 4500 : (useSearch ? 1500 : REPLY_TOK())}
+      generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : ((_nt || /pro/i.test(model)) ? {} : {thinkingConfig:{thinkingBudget:0}})), maxOutputTokens:deepNow ? 4500 : (useSearch ? 1500 : REPLY_TOK())}
     })
   });
   if (!res.ok){
     let d = {}; try { d = await res.json(); } catch(e){}
     if (Array.isArray(d)) d = d[0] || {};
+    if (res.status === 400 && !_nt && /thinking/i.test(JSON.stringify(d))) return ask0(model, key, contents, onChunk, useSearch, true);
     return {status:res.status, data:d};
   }
   const reader = res.body.getReader(), dec = new TextDecoder();
@@ -1135,7 +1136,7 @@ async function send(react){
   let useSearch = SEARCH_RE.test(text), searchFailed = false, searchErr = '';
   deepNow = deepNext; deepNext = false; renderPrev(); if (useSearch) $('status').textContent = 'يبحث بالنت…'; if (deepNow) $('status').textContent = 'يفكر بعمق…';
   const alt = model.includes('lite') ? 'gemini-flash-latest' : 'gemini-flash-lite-latest';
-  const plan = [[model,0],[alt,1200],[model,2500]];
+  const plan = [[model,0],[alt,400],['gemini-2.5-flash-lite',700]];
   const hasAtt = h => (h.imgs && h.imgs.length) || (h.files && h.files.length);
   const recent = history.slice(-20), imgOk = new Set();
   for (let i = recent.length - 1, keep = 2; i >= 0 && keep > 0; i--) if (hasAtt(recent[i])){ imgOk.add(i); keep--; }
@@ -1176,10 +1177,10 @@ async function send(react){
         }
         if (!g || g.status !== 200 || !g.text) out = await ask(m, key, contents, cb, false);
       }
-      if (out.status === 200 || ![429,500,503].includes(out.status)) break;
+      if ((out.status === 200 && splitMood(out.text || '').text.trim()) || (out.status !== 200 && ![429,500,503].includes(out.status))) break;
     }
     if (out.status === 400 && ytParts.length){ ytParts.forEach(yp => { const k = lastP.indexOf(yp); if (k >= 0) lastP.splice(k, 1); }); out = await ask(model, key, contents, () => {}, false); }
-    if (out.status !== 200 && [429,500,503].includes(out.status) && !imgs.length && !hasPdf){
+    if (((out.status !== 200 && [429,500,503].includes(out.status)) || (out.status === 200 && !splitMood(out.text || '').text.trim())) && !imgs.length && !hasPdf){
       const msgs = mkMsgs();
       const fbs = [[GROQ, store.get('limoai_groq', '') || DEFAULT_GROQ, store.get('limoai_groqm', '') || 'llama-3.3-70b-versatile'], [ORB, store.get('limoai_or', '') || DEFAULT_OR, store.get('limoai_orm', '') || 'meta-llama/llama-3.3-70b-instruct:free']];
       for (const [b, k, mm] of fbs){ if (!k) continue; const r2 = await askOAI(b, k, mm, msgs); if (r2.status === 200){ out = r2; break; } }
