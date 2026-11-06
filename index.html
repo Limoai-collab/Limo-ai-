@@ -1068,7 +1068,7 @@ async function ask0(model, key, contents, onChunk, useSearch, _nt){
   if (!res.ok){
     let d = {}; try { d = await res.json(); } catch(e){}
     if (Array.isArray(d)) d = d[0] || {};
-    if (res.status === 400 && !_nt && /thinking/i.test(JSON.stringify(d))) return ask0(model, key, contents, onChunk, useSearch, true);
+    if (res.status === 400 && !_nt && !deepNow) return ask0(model, key, contents, onChunk, useSearch, true);
     return {status:res.status, data:d};
   }
   const reader = res.body.getReader(), dec = new TextDecoder();
