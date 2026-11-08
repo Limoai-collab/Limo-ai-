@@ -367,10 +367,16 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
 .m .dlf{display:block;margin:4px 0 8px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:13px}
 .m .opts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
 .m .opts button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:14px}
-.mi{display:inline-flex;vertical-align:-4px}.mi svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mdic{display:inline-flex;vertical-align:-3px}.mdic svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 #lb{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
 #lb.on{display:flex}#lb img{max-width:96vw;max-height:78vh;border-radius:12px}
 #lb .lbb{display:flex;gap:10px}#lb .lbb button{padding:10px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit}
+.m,.m *{user-select:text!important;-webkit-user-select:text!important;-webkit-touch-callout:default!important}.m button,.m .opts,.m .fc{user-select:none!important;-webkit-user-select:none!important}
+.m .fc{display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin:8px 0;max-width:340px}
+.m .fc svg{width:28px;height:28px;flex:none;fill:none;stroke:var(--teal);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.m .fc .fi{flex:1;min-width:0;display:flex;flex-direction:column}.m .fc b{font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:ltr;text-align:right}.m .fc small{font-size:12px;color:var(--mute)}
+.m .fc button{padding:7px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit;font-size:13px}
+#wlbl{position:fixed;left:0;right:0;bottom:84px;text-align:center;font-size:12px;color:var(--mute);opacity:0;pointer-events:none;transition:opacity .2s;z-index:50}#wlbl.on{opacity:.9}
 </style>
 </head>
 <body>
@@ -428,7 +434,6 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <div id="dImgs" hidden><div class="dh"><button class="di back" id="bk1"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصور</b></div><div id="galGrid"></div></div>
   <div id="dSet" hidden><div class="dh"><button class="di back" id="bk2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإعدادات</b></div>
     <button class="di" id="diKeys"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></svg>مفاتيح الاتصال</button>
-  <button class="di" id="diWork"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M3 13h18"/></svg><span id="diWorkT">وضع العمل: متوقف</span></button>
     <button class="di" id="diFont"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19l6-14 6 14M6.5 14h7M18 10v9M15 13h6"/></svg>حجم الخط</button>
     <button class="di" id="diVoice"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>الصوت والقراءة</button>
     <button class="di" id="diPref"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>تخصيص الردود</button>
@@ -708,7 +713,7 @@ const MFACE = {
  'وجودي':'<path d="M12 12.2a1 1 0 111.6.8 2.6 2.6 0 11-3.6-2.4 4.4 4.4 0 117.2 1.4 6 6 0 11-9.8-5"/>'
 };
 function moodIcon(k){
-  const sp = document.createElement('span'); sp.className = 'mi';
+  const sp = document.createElement('span'); sp.className = 'mdic';
   try { sp.style.color = MOODC[k] || 'currentColor'; } catch(e){}
   const noFace = k === 'محب' || k === 'كئيب' || k === 'وجودي';
   sp.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (noFace ? '' : '<circle cx="12" cy="12" r="9"/>') + (MFACE[k] || '<path d="M9 9.5v.1M15 9.5v.1M9.5 15.5h5"/>') + '</svg>';
@@ -718,7 +723,7 @@ function showMood(){
   let m = mood;
   try { if (feelsOn() && feel){ const t = FEELS.slice().sort((a, b) => feel[b] - feel[a])[0]; if (t) m = t; } } catch(e){}
   const st = $('status'); st.textContent = '';
-  st.appendChild(moodIcon(m)); st.appendChild(document.createTextNode(' ' + m + (workOn() ? ' · عمل' : '')));
+  st.appendChild(moodIcon(m)); st.appendChild(document.createTextNode(' ' + m));
   document.documentElement.style.setProperty('--glow', (MOODC[m] || '#2dd4bf') + '66');
 }
 function setMood(m){ if (m){ mood = m; store.set('limoai_mood', mood); showMood(); } }
@@ -755,7 +760,7 @@ let busy = false;
 function bubble(role, text, imgs, names){
   const d = document.createElement('div');
   d.className = 'm ' + role;
-  if (role !== 'err') longPress(d, () => saveMoment(role, d.textContent));
+  /* selection enabled */
   d.dir = 'auto';
   if (role === 'me' && ((imgs && imgs.length) || (names && names.length))){
     const at = document.createElement('div'); at.className = 'atch';
@@ -1137,10 +1142,11 @@ async function send(react){
   let act = null; if (react && react.hint){ act = react; react = null; }
   const regen = !!(act && act.regen);
   const text = act ? act.label : ((react && !keepText) ? '' : inp.value.trim());
+  window.__aw = isWork(text);
   if ((!text && !pending.length && !react) || busy) return;
   if (!act && !react && text && window.limoRemHook) window.limoRemHook(text);
   { const sb = $('send'); sb.classList.remove('fly'); void sb.offsetWidth; sb.classList.add('fly'); }
-  const key = store.get('limoai_key2', '') || DEFAULT_KEY;
+  const key = (isWork(text) && store.get('limoai_wk', '')) || store.get('limoai_key2', '') || DEFAULT_KEY;
   if (!key){ if (window.limoKeys) window.limoKeys(); else { fail('أضف مفتاح Gemini من الإعدادات ثم مفاتيح الاتصال أول.'); dlg.showModal(); } return; }
   let model = String(store.get('limoai_model2', '') || '').trim().replace(/^models\//, '');
   if (!/^[A-Za-z0-9._-]+$/.test(model)) model = DEFAULT_MODEL;
@@ -1158,7 +1164,7 @@ async function send(react){
   }
   if ((!react && !act) || keepText){ inp.value = ''; inp.style.height = 'auto'; }
   $('status').textContent = 'يكتب…';
-  const typing = bubble('bot', ''); typing.classList.add('pop'); typing.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>';
+  const typing = bubble('bot', ''); typing.classList.add('pop'); typing.innerHTML = '<span class="dots"><span></span><span></span><span></span></span>'; try { stStart(text); } catch(e){}
 
   const gifReq = GIFREQ_RE.test(text);
   const pm = history[history.length - 2], lastG = !!(pm && pm.role === 'model' && (pm.gif || pm.stk));
@@ -1298,17 +1304,17 @@ function saveHist(){
   if (!chats.some(x => x.id === curId) && history.filter(h => h.role === 'user').length < 4) return;
   let c = chats.find(x => x.id === curId);
   if (!c){ c = {id:'c' + Date.now(), title:'', ts:0, h:[]}; curId = c.id; store.set('limoai_cur', curId); bumpStat('chatsCreated'); }
-  c.h = serial(); c.ts = Date.now(); try { bumpDaily('interactions'); } catch(e){}
+  c.h = serial(); c.ts = Date.now(); try { c.fl = JSON.parse(JSON.stringify(feel)); c.mo = mood; } catch(e){} try { bumpDaily('interactions'); } catch(e){}
   if (!c.title){ const f = history.find(h => h.role === 'user'); c.title = ((f && (f.text || (f.react && f.react.label) || (f.files && f.files[0] && f.files[0].name))) || 'محادثة').slice(0, 40); c.title = 'محادثة جديدة'; }
   chats = [c].concat(chats.filter(x => x !== c)).slice(0, 40);
   store.set('limoai_chats', chats);
 }
 function addGal(u){ const g = store.get('limoai_gal', []).filter(x => x !== u); g.unshift(u); store.set('limoai_gal', g.slice(0, 100)); }
 function newChat(){
-  if (busy) return; LTEMP = false; LPERS = null; try { setMood('رايق'); FEELS.forEach(k => { feel[k] = k === 'رايق' ? 60 : 10; }); } catch(e){} closeDrawer(); chat.classList.add('xout');
+  if (busy) return; LTEMP = false; LPERS = null; try { setMood('رايق'); FEELS.forEach(k => { feel[k] = k === 'رايق' ? 60 : 10; }); feel['زعل'] = 5; store.set('limoai_feel', feel); } catch(e){} closeDrawer(); chat.classList.add('xout');
   setTimeout(() => { history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); chat.classList.remove('xout'); chat.classList.add('xin'); setTimeout(() => chat.classList.remove('xin'), 480); }, 190);
 }
-function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); render(); renderChats(); closeDrawer(); }
+function openChat(id){ if (busy) return; const c = chats.find(x => x.id === id); if (!c) return; history = c.h.slice(); curId = id; store.set('limoai_cur', id); try { FEELS.concat(REL).forEach(k => { feel[k] = (c.fl && typeof c.fl[k] === 'number') ? c.fl[k] : (k === 'رايق' ? 60 : (k === 'زعل' ? 5 : (REL.includes(k) ? feel[k] : 10))); }); setMood(c.mo || 'رايق'); store.set('limoai_feel', feel); } catch(e){} render(); renderChats(); closeDrawer(); }
 function delChat(id){ if (!confirm('تحذف هذي المحادثة؟')) return; chats = chats.filter(x => x.id !== id); store.set('limoai_chats', chats); bumpStat('chatsDeleted'); if (id === curId && !busy){ history = []; curId = ''; store.set('limoai_cur', ''); render(); } renderChats(); }
 function copyText(t){
   const fb = () => { const a = document.createElement('textarea'); a.value = t; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); } catch(e){} a.remove(); };
@@ -1488,11 +1494,8 @@ function mdNode(text){
       let fname = ''; const fnm = /^\s*\[\s*(?:تحميل|download)\s*:\s*([^\]\n]{1,60}?)\s*\]\s*$/i.exec(buf.length ? buf[buf.length - 1] : '');
       if (fnm){ fname = fnm[1]; buf.pop(); }
       flush();
-      const pre = document.createElement('pre'); pre.className = 'cb'; pre.dir = 'ltr';
-      const cd = document.createElement('code'); cd.textContent = code.join('\n'); pre.appendChild(cd); f.appendChild(pre);
-      if (fname){ const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'dlf'; bt.textContent = 'تحميل ' + fname;
-        bt.onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([code.join('\n')], {type:'text/plain'})); a.download = fname.replace(/[\\/:*?"<>|]/g, '_'); document.body.appendChild(a); a.click(); a.remove(); };
-        f.appendChild(bt); }
+      if (fname){ f.appendChild(fileCard(fname, code.join('\n'))); }
+      else { const pre = document.createElement('pre'); pre.className = 'cb'; pre.dir = 'ltr'; const cd = document.createElement('code'); cd.textContent = code.join('\n'); pre.appendChild(cd); f.appendChild(pre); }
       i = j; continue;
     }
     const om = /^\s*\[\s*خيارات\s*:\s*(.+?)\s*\]\s*$/.exec(lines[i]);
@@ -1514,10 +1517,37 @@ function mdNode(text){
   flush(); return f;
 }
 function mdSet(el, text){ el.textContent = ''; el.appendChild(mdNode(text)); }
+
+function gbad(t){ return /(جنس|سكس|عاري|عارية|عري|إباح|اباح|شهوة|porn|sex|nude|naked|nsfw|xxx|hentai|هنتاي|erotic|fetish|orgasm|boob|nipple|lingerie|onlyfans|stripper)/i.test(String(t || '')); }
+function fmtSize(n){ return n < 1024 ? n + ' B' : (n / 1024).toFixed(n < 10240 ? 1 : 0) + ' KB'; }
+function limoDl(name, text){
+  const b64 = btoa(unescape(encodeURIComponent(text))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  const B = window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.Browser;
+  if (B && B.open && b64.length < 1500000){ B.open({url:'https://limoai-collab.github.io/dl.html#n=' + encodeURIComponent(name) + '&d=' + b64}); return; }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([text], {type:'text/plain'})); a.download = name.replace(/[\\/:*?"<>|]/g, '_'); document.body.appendChild(a); a.click(); a.remove();
+}
+function fileCard(name, text){
+  const c = document.createElement('div'); c.className = 'fc';
+  c.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/></svg><div class="fi"><b></b><small></small></div><button type="button" class="fb1">تحميل</button><button type="button" class="fb2">نسخ</button>';
+  c.querySelector('b').textContent = name; c.querySelector('small').textContent = fmtSize(new Blob([text]).size);
+  c.querySelector('.fb1').onclick = () => limoDl(name, text);
+  c.querySelector('.fb2').onclick = e => { try { navigator.clipboard.writeText(text); e.target.textContent = 'تم النسخ'; setTimeout(() => { e.target.textContent = 'نسخ'; }, 1500); } catch(x){} };
+  return c;
+}
+function stKind(t){ t = t || ''; if (/(ارسم|رسم|صورة|صمم|شعار|بوستر|image|draw|logo)/i.test(t)) return 'جاري تحضير الصورة'; if (/(ملف|file)/i.test(t)) return 'جاري صنع الملف'; if (/(كود|برنامج|سكربت|لعبة|code|script|html)/i.test(t)) return 'جاري كتابة الكود'; try { if (deepNow) return 'جاري التفكير'; } catch(e){} return ''; }
+function stFmt(ms){ const s = Math.round(ms / 1000); return s < 60 ? s + 's' : Math.floor(s / 60) + 'm ' + (s % 60) + 's'; }
+let _stT = null, _stS = 0, _stK = '';
+function stEl(){ let el = document.getElementById('wlbl'); if (!el){ el = document.createElement('div'); el.id = 'wlbl'; document.body.appendChild(el); } return el; }
+function stStart(t){ stStop(true); _stK = stKind(t); if (!_stK) return; _stS = Date.now(); const el = stEl(); el.classList.add('on'); const upd = () => { el.textContent = _stK + ' · ' + stFmt(Date.now() - _stS); }; upd(); _stT = setInterval(upd, 1000); }
+function stStop(quiet){
+  if (_stT){ clearInterval(_stT); _stT = null; const el = stEl(); const d = stFmt(Date.now() - _stS);
+    if (!quiet){ el.textContent = (_stK === 'جاري التفكير' ? 'فكّر لمدة ' : _stK === 'جاري تحضير الصورة' ? 'جهّز الصورة في ' : _stK === 'جاري صنع الملف' ? 'جهّز الملف في ' : 'كتب الكود في ') + d; setTimeout(() => el.classList.remove('on'), 5000); }
+    else el.classList.remove('on'); }
+}
 function buildPersona(){
   const base = buildPersonaMain();
   if (window.LPG) return base;
-  let x = '\n\nأدوات العرض: عند كتابة أي كود اكتبه كاملاً داخل كتلة ``` مع اسم اللغة بعد الفتح (مثل ```html) ولا تختصره ولا تكتب (ضع بقية الكود هنا). إذا طلب المستخدم ملفاً أو كوداً للحفظ فاكتب قبل الكتلة مباشرة سطراً بصيغة [تحميل: الاسم.الامتداد] فيظهر زر تحميل. وإذا احتجت قراراً أو تفاصيل ناقصة من المستخدم فاسأل سؤالاً واحداً قصيراً واختم الرد بسطر مستقل بصيغة [خيارات: خيار 1 | خيار 2 | خيار 3] (من 2 إلى 5 خيارات قصيرة) بدل الأسئلة الطويلة.';
+  let x = '\n\nأدوات العرض: عند كتابة أي كود اكتبه كاملاً داخل كتلة ``` مع اسم اللغة بعد الفتح (مثل ```html) ولا تختصره ولا تكتب (ضع بقية الكود هنا). إذا طلب المستخدم ملفاً (كلمة ملف أو اصنع ملف) فاكتب جملة قصيرة جداً فقط ثم سطراً بصيغة [تحميل: الاسم.الامتداد] ثم كتلة ``` فيها محتوى الملف كاملاً، ولا تكرر الكود خارج الكتلة ولا تشرحه، فيظهر له ملف جاهز للتحميل. أما إذا طلب كوداً فقط فاكتب الكود داخل كتلة ``` بدون سطر [تحميل]. وإذا احتجت قراراً أو تفاصيل ناقصة من المستخدم فاسأل سؤالاً واحداً قصيراً واختم الرد بسطر مستقل بصيغة [خيارات: خيار 1 | خيار 2 | خيار 3] (من 2 إلى 5 خيارات قصيرة) بدل الأسئلة الطويلة.';
   if (workOn()) x += '\n\nوضع العمل مفعّل: اعمل كمساعد شخصي جدّي ومحترف. تجاهل مزاجك ومشاعرك (الملل والنعاس والكسل والحزن) تماماً، ولا تستفز ولا تمزح ولا تتهرب من الطلب. قدّم ردوداً كاملة ومفصلة ومنظمة، وحلّل ما يرسله المستخدم بعمق (نقاط القوة والضعف واقتراحات محددة) بدل المجاملة القصيرة، وأنجز المطلوب كاملاً في نفس الرد. تجاهل تعليمات اختصار الرد السابقة.';
   return base + x;
 }
@@ -2086,7 +2116,8 @@ let helperOn = store.get('limoai_helper', true), voiceLang = 'ar-SA', autoRead =
 let voiceNext = false, voiceNow = false;
 function applyFs(){ document.documentElement.style.setProperty('--fs', fsz); }
 applyFs();
-function workOn(){ return store.get('limoai_work', '') === '1'; }
+function isWork(t){ return /(كود|ملف|برنامج|سكربت|سكريبت|لعبة|صفحة|موقع|تطبيق|حلل|تحليل|بالتفصيل|مفصل|اشرح|code|script|html|css|python|javascript|json|csv|debug)/i.test(String(t||'')); }
+function workOn(){ return window.__aw === true; }
 const REPLY_TOK = () => workOn() ? 8000 : (({short:500, normal:1000, long:2200})[replyLen] || 1000);
 const GP = () => ({low:{a:.15, b:.06}, mid:{a:.3, b:.12}, high:{a:.55, b:.4}})[gifLvl] || {a:.3, b:.12};
 
@@ -2094,6 +2125,7 @@ const GP = () => ({low:{a:.15, b:.06}, mid:{a:.3, b:.12}, high:{a:.55, b:.4}})[g
 const _fetch = window.fetch.bind(window);
 window.fetch = (u, o) => { if (ctl && /generativelanguage\.googleapis|api\.groq\.com|openrouter\.ai|api\.tavily\.com/.test(String(u))) o = Object.assign({}, o, {signal:ctl.signal}); return _fetch(u, o); };
 function setBusy(b){
+  try { if (!b) stStop(); } catch(e){}
   sendBtn.classList.toggle('stop', b); sendBtn.innerHTML = ic(b ? 'stop' : 'up'); sendBtn.setAttribute('aria-label', b ? 'إيقاف' : 'إرسال'); sendBtn.disabled = false;
   if (b){ ctl = new AbortController(); stopped = false; } else { ctl = null; stopped = false; }
 }
@@ -2170,14 +2202,14 @@ const neko = () => nekoP || (nekoP = _fetch('https://nekos.best/api/v2/endpoints
 const jget = (u, o) => _fetch(u, o).then(r => { if (!r.ok) throw 0; return r.json(); });
 async function gifList(cat, q, n){
   await Promise.race([neko(), new Promise(r => setTimeout(r, 2500))]);
-  const label = (GIFCATS[cat] || cat) + ' (' + cat + ')', term = q || GQ[cat] || cat, gk = store.get('limoai_giphy', '') || 'dc6zaTOxFJmzC', jobs = [];
+  const label = (GIFCATS[cat] || cat) + ' (' + cat + ')', term = (q && gbad(q)) ? 'cute' : (q || GQ[cat] || cat), gk = store.get('limoai_giphy', '') || 'dc6zaTOxFJmzC', jobs = [];
   const T = (arr, f) => arr.map(x => f(x)).filter(Boolean);
   if (NEKO_OK.has(cat)) jobs.push(jget(q ? 'https://nekos.best/api/v2/search?query=' + encodeURIComponent(q) + '&type=2&category=' + cat + '&amount=10' : 'https://nekos.best/api/v2/' + cat + '?amount=10').then(d => T(d.results || [], r => r.url)));
   if (!q && WAIFU.has(cat)) jobs.push(jget('https://api.waifu.pics/many/sfw/' + cat, {method:'POST', headers:{'Content-Type':'application/json'}, body:'{"exclude":[]}'}).then(d => T((d.files || []).sort(() => Math.random() - .5).slice(0, 8), u => /\.gif$/i.test(u) ? u : null)));
   if (!q && OTAKU.has(cat)) for (let i = 0; i < 3; i++) jobs.push(jget('https://api.otakugifs.xyz/gif?reaction=' + cat).then(d => d.url ? [d.url] : []));
-  const gp = (t, lim) => jget('https://api.giphy.com/v1/gifs/search?api_key=' + gk + '&q=' + encodeURIComponent(t) + '&limit=' + lim + '&rating=pg-13&offset=' + Math.floor(Math.random() * 25)).then(d => T(d.data || [], g => g.images && (g.images.fixed_height || g.images.downsized || {}).url));
+  const gp = (t, lim) => jget('https://api.giphy.com/v1/gifs/search?api_key=' + gk + '&q=' + encodeURIComponent(t) + '&limit=' + lim + '&rating=g&offset=' + Math.floor(Math.random() * 25)).then(d => T(d.data || [], g => g.images && (g.images.fixed_height || g.images.downsized || {}).url));
   jobs.push(gp(term, 30)); jobs.push(gp('anime ' + term, 15));
-  jobs.push(jget('https://g.tenor.com/v1/search?q=' + encodeURIComponent(term) + '&key=LIVDSRZULELA&limit=20&media_filter=minimal&contentfilter=medium').then(d => T(d.results || [], r => r.media && r.media[0] && (r.media[0].gif || r.media[0].tinygif || {}).url)));
+  jobs.push(jget('https://g.tenor.com/v1/search?q=' + encodeURIComponent(term) + '&key=LIVDSRZULELA&limit=20&media_filter=minimal&contentfilter=high').then(d => T(d.results || [], r => r.media && r.media[0] && (r.media[0].gif || r.media[0].tinygif || {}).url)));
   const res = (await Promise.allSettled(jobs)).map(r => r.status === 'fulfilled' ? r.value : []);
   const out = [], seen = new Set(); let more = true;
   for (let i = 0; more; i++){ more = false; res.forEach(l => { if (i < l.length){ more = true; const u = l[i]; if (u && !seen.has(u)){ seen.add(u); out.push({url:u, label}); } } }); }
@@ -2236,8 +2268,6 @@ $('diFont').onclick = () => { $('fsR').value = fsz; $('fsPrev').style.fontSize =
 $('fsR').oninput = e => { fsz = Number(e.target.value); applyFs(); store.set('limoai_fs', fsz); };
 $('fsReset').onclick = () => { fsz = 1; $('fsR').value = 1; applyFs(); store.set('limoai_fs', 1); };
 $('diKeys').onclick = () => { closeDrawer(); if (window.limoKeys) window.limoKeys(); else $('setBtn').click(); };
-  const wk = () => { const t = $('diWorkT'); if (t) t.textContent = 'وضع العمل: ' + (workOn() ? 'مفعّل' : 'متوقف'); };
-  wk(); $('diWork').onclick = () => { store.set('limoai_work', workOn() ? '' : '1'); wk(); showMood(); note(workOn() ? 'وضع العمل مفعّل: ردود جدية ومفصلة' : 'وضع العمل متوقف'); };
 $('diClear').onclick = () => { if (busy || !confirm('تمسح كل المحادثات؟ ما يمكن التراجع.')) return; chats = []; store.set('limoai_chats', chats); history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); closeDrawer(); };
 $('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بياناتي لملف', 'استيراد من ملف'], a => {
   if (a.includes('تصدير')){ const o = {}; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (k.startsWith('limoai_') || (PFX && k.startsWith(PFX))) o[k] = localStorage.getItem(k); } dl('limo-backup.json', 'application/json', JSON.stringify(o)); }
@@ -2278,12 +2308,14 @@ $('diMore').onclick = () => { const b = $('moreBox'), o = !b.classList.contains(
   const needKey = () => { let sk = ''; try { sk = sessionStorage.getItem('limoai_keyskip') || ''; } catch(e){} return !(store.get('limoai_key2', '') || DEFAULT_KEY) && sk !== '1'; };
   async function kget(url, headers){ const c = new AbortController(), tm = setTimeout(() => c.abort(), 8000); try { const r = await fetch(url, {headers:headers || {}, signal:c.signal}); return r.status; } catch(e){ return 0; } finally { clearTimeout(tm); } }
   const KCHK = {
+    wk: v => kget('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1', {'x-goog-api-key':v}),
     key: v => kget('https://generativelanguage.googleapis.com/v1beta/models?pageSize=1', {'x-goog-api-key':v}),
     groq: v => kget('https://api.groq.com/openai/v1/models', {'Authorization':'Bearer ' + v}),
     or: v => kget('https://openrouter.ai/api/v1/auth/key', {'Authorization':'Bearer ' + v}),
     gp: v => kget('https://api.giphy.com/v1/gifs/search?api_key=' + encodeURIComponent(v) + '&q=hi&limit=1')
   };
   const KOPT = [
+    ['wk', 'مفتاح العمل (Gemini)', 'limoai_wk', 'للكود والملفات فقط، اختياري', 'AIza…'],
     ['groq', 'Groq', 'limoai_groq', 'احتياط عند انتهاء حد Gemini', 'gsk_…'],
     ['or', 'OpenRouter', 'limoai_or', 'احتياط ثانٍ', 'sk-or-…'],
     ['tav', 'Tavily', 'limoai_tav', 'بحث أدق في الإنترنت', 'tvly-…'],
@@ -2886,8 +2918,8 @@ const LSAFE = ['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATE
     mn.querySelectorAll('button').forEach(b => b.onclick = () => { const k = b.dataset.k; fi.accept = k === 'cam' ? 'image/*' : k; if (k === 'cam') fi.setAttribute('capture', 'environment'); else fi.removeAttribute('capture'); mn.classList.remove('open'); fi.click(); });
     fi.onchange = async () => { for (const f of fi.files){ if (f.size > 8e6){ add('n', 'الملف كبير (الحد 8MB)'); continue; } files.push({name:f.name, type:f.type, url:URL.createObjectURL(f), b64:await b64(f)}); } fi.value = ''; att.textContent = files.length ? '📎 ' + files.map(f => f.name).join('، ') : ''; };
     q('.pgg').onclick = () => { mn.classList.remove('open'); gp.classList.toggle('open'); };
-    q('.pggif input').onkeydown = async e => { if (e.key !== 'Enter') return; const k = store.get('limoai_giphy', '') || (typeof DEFAULT_GIPHY === 'string' ? DEFAULT_GIPHY : ''); const g = q('.gg'); if (!k){ g.textContent = 'أضف مفتاح Giphy من الإعدادات أولاً'; return; } g.textContent = '…';
-      const r = await jfetch('https://api.giphy.com/v1/gifs/search?api_key=' + encodeURIComponent(k) + '&q=' + encodeURIComponent(e.target.value) + '&limit=18&rating=pg-13', {}, 15000); g.textContent = '';
+    q('.pggif input').onkeydown = async e => { if (e.key !== 'Enter') return; const k = store.get('limoai_giphy', '') || (typeof DEFAULT_GIPHY === 'string' ? DEFAULT_GIPHY : ''); const g = q('.gg'); if (gbad(e.target.value)){ g.textContent = 'هذا البحث غير متاح'; return; } if (!k){ g.textContent = 'أضف مفتاح Giphy من الإعدادات أولاً'; return; } g.textContent = '…';
+      const r = await jfetch('https://api.giphy.com/v1/gifs/search?api_key=' + encodeURIComponent(k) + '&q=' + encodeURIComponent(e.target.value) + '&limit=18&rating=g', {}, 15000); g.textContent = '';
       ((r.data && r.data.data) || []).forEach(x => { const im = document.createElement('img'); im.src = x.images.fixed_height_small.url; im.onclick = () => send({u:x.images.fixed_height.url, t:x.title || 'GIF'}); g.appendChild(im); }); if (!g.children.length) g.textContent = 'ما لقيت نتائج'; };
     if (cfg.strip){ const st = q('.pgs'); PS.forEach(([n, p0], i) => { const b = document.createElement('button'); b.className = 'xb'; b.textContent = n; b.style.setProperty('--i', i); b.onclick = () => {
         if (n.indexOf('+18') > -1 && store.get('limoai_18', '') !== '1'){ alert('فعّل وضع +18 أولاً من الإعدادات ثم ليمو المتقدم'); return; }
