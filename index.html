@@ -361,6 +361,17 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 <script async src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style id="limoSafeTop">header{padding-top:calc(10px + env(safe-area-inset-top,0px)) !important}#drawer{padding-top:calc(16px + env(safe-area-inset-top,0px)) !important}</style>
+<style id="limoPlus">
+.m pre.cb{direction:ltr;text-align:left;background:#0a0816;border:1px solid var(--line);border-radius:12px;padding:12px;margin:8px 0;overflow-x:auto;font:13px/1.55 ui-monospace,Menlo,Consolas,monospace;white-space:pre;position:relative;user-select:text}
+.m pre.cb code{background:none;padding:0;font:inherit}
+.m .dlf{display:block;margin:4px 0 8px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:13px}
+.m .opts{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.m .opts button{padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit;font-size:14px}
+.mi{display:inline-flex;vertical-align:-4px}.mi svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+#lb{position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.88);display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}
+#lb.on{display:flex}#lb img{max-width:96vw;max-height:78vh;border-radius:12px}
+#lb .lbb{display:flex;gap:10px}#lb .lbb button{padding:10px 18px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--text);font:inherit}
+</style>
 </head>
 <body>
 <header>
@@ -417,6 +428,7 @@ textarea.pin{min-height:150px;resize:vertical;line-height:1.7}
   <div id="dImgs" hidden><div class="dh"><button class="di back" id="bk1"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الصور</b></div><div id="galGrid"></div></div>
   <div id="dSet" hidden><div class="dh"><button class="di back" id="bk2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>رجوع</button><b>الإعدادات</b></div>
     <button class="di" id="diKeys"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M16 7l3 3"/></svg>مفاتيح الاتصال</button>
+  <button class="di" id="diWork"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a1 1 0 011-1h4a1 1 0 011 1v2M3 13h18"/></svg><span id="diWorkT">وضع العمل: متوقف</span></button>
     <button class="di" id="diFont"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19l6-14 6 14M6.5 14h7M18 10v9M15 13h6"/></svg>حجم الخط</button>
     <button class="di" id="diVoice"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>الصوت والقراءة</button>
     <button class="di" id="diPref"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>تخصيص الردود</button>
@@ -680,9 +692,34 @@ let reconcile = 0, gifHintText = '';
 const MOOD2GIF = {'مرح':'laugh','رايق':'smile','متحمس':'happy','ملل':'bored','نعسان':'sleep','حزين':'cry','غاضب':'angry','منزعج':'facepalm','محب':'smile','يتحدى':'smug','جدي':'stare','كئيب':'cry','وجودي':'think'};
 const GIFREQ_RE = /(?:ارسل|أرسل|ابعث|ارسلي|أرسلي|بعث|ابغى|أبغى|ابي|أبي|بدي|هات|عطني|جيب|جب)[^\n]{0,20}(?:جيف|جف|gif|ستيكر|ملصق)/i;
 function gifKey(v){ v = String(v).trim().toLowerCase(); if (GIFCATS[v]) return v; const ks = Object.keys(GIFCATS); return ks.find(k => GIFCATS[k] === v) || ks.find(k => v.indexOf(k) > -1 || (GIFCATS[k].length > 1 && v.indexOf(GIFCATS[k]) > -1)) || null; }
+const MFACE = {
+ 'مرح':'<path d="M7.5 13.5c.8 3.2 8.2 3.2 9 0z"/><path d="M9 9.5v.1M15 9.5v.1"/>',
+ 'رايق':'<path d="M8 10q1-1.2 2 0M14 10q1-1.2 2 0M9 14.5q3 2.2 6 0"/>',
+ 'متحمس':'<path d="M9 9.5v.1M15 9.5v.1"/><path d="M8.5 13.5h7c0 3-1.6 4.5-3.5 4.5S8.5 16.5 8.5 13.5z"/>',
+ 'ملل':'<path d="M8 10h2.4M13.6 10H16M9 16h6"/>',
+ 'نعسان':'<path d="M8 10.5q1.2 1.3 2.4 0M13.6 10.5q1.2 1.3 2.4 0M10.5 16h3"/>',
+ 'حزين':'<path d="M9 9.5v.1M15 9.5v.1M9 16.5q3-3 6 0M8 12.5v2"/>',
+ 'غاضب':'<path d="M7.5 8l3 1.6M16.5 8l-3 1.6M9 11v.1M15 11v.1M9 16q3-2.6 6 0"/>',
+ 'منزعج':'<path d="M8 10h2.4M13.6 10H16M9 16.2l6-1.2M8 7.8l2.5 1"/>',
+ 'يتحدى':'<path d="M9 10v.1M15 10v.1M14 7.5l3-1M9 15.5q4 1.8 6-1"/>',
+ 'جدي':'<path d="M7.5 8.5h3M13.5 8.5h3M9 11v.1M15 11v.1M9.5 15.5h5"/>',
+ 'محب':'<path d="M12 19.5l-6.6-6.3a4.1 4.1 0 015.8-5.8l.8.8.8-.8a4.1 4.1 0 015.8 5.8z"/>',
+ 'كئيب':'<path d="M7 15.5a3.6 3.6 0 010-7.2 4.7 4.7 0 019 1 3.1 3.1 0 011 6.2z"/><path d="M9 18l-.8 2M12 18l-.8 2M15 18l-.8 2"/>',
+ 'وجودي':'<path d="M12 12.2a1 1 0 111.6.8 2.6 2.6 0 11-3.6-2.4 4.4 4.4 0 117.2 1.4 6 6 0 11-9.8-5"/>'
+};
+function moodIcon(k){
+  const sp = document.createElement('span'); sp.className = 'mi';
+  try { sp.style.color = MOODC[k] || 'currentColor'; } catch(e){}
+  const noFace = k === 'محب' || k === 'كئيب' || k === 'وجودي';
+  sp.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true">' + (noFace ? '' : '<circle cx="12" cy="12" r="9"/>') + (MFACE[k] || '<path d="M9 9.5v.1M15 9.5v.1M9.5 15.5h5"/>') + '</svg>';
+  return sp;
+}
 function showMood(){
-  $('status').textContent = (MOODS[mood] || '🙂') + ' ' + mood;
-  document.documentElement.style.setProperty('--glow', (MOODC[mood] || '#2dd4bf') + '66');
+  let m = mood;
+  try { if (feelsOn() && feel){ const t = FEELS.slice().sort((a, b) => feel[b] - feel[a])[0]; if (t) m = t; } } catch(e){}
+  const st = $('status'); st.textContent = '';
+  st.appendChild(moodIcon(m)); st.appendChild(document.createTextNode(' ' + m + (workOn() ? ' · عمل' : '')));
+  document.documentElement.style.setProperty('--glow', (MOODC[m] || '#2dd4bf') + '66');
 }
 function setMood(m){ if (m){ mood = m; store.set('limoai_mood', mood); showMood(); } }
 function splitMood(full){
@@ -944,7 +981,7 @@ function addSrc(d, list){
 const LIMO_V = '2026.10.30';
 const STY = {tw:'اكتب كأنها تغريدة: جملة أو جملتان فقط.', fr:'تكلم كصديق عفوي قريب بكلام الشارع.', te:'اشرح كمعلم صبور خطوة خطوة وتأكد أنه فهم.', co:'تكلم كمدرب صارم يحمّس ويحاسب بدون قسوة جارحة.', sa:'استخدم سخرية خفيفة ذكية بدون إهانة.', wa:'كن دافئاً وداعماً ومطمئناً.', ph:'أجب بنظرة فلسفية وأسئلة تفتح التفكير.', st:'احكِ الجواب على شكل قصة قصيرة.', po:'استخدم نبرة شاعرية رقيقة.', pr:'كن تقنياً دقيقاً ومباشراً بدون مجاملات.', k10:'اشرح كأنك تكلم طفلاً عمره 10 سنين.', fo:'تكلم برسمية ولغة مهذبة.', bl:'قل رأيك بصراحة بدون تلطيف وبدون إهانة.', de:'اعترض بلطف على أفكاره ليختبرها، ثم أعطه رأيك.'};
 const DIA = {kh:'الهجة خليجية', sh:'اللهجة شامية', eg:'اللهجة مصرية', fu:'العربية الفصحى المبسطة'};
-function buildPersona(){
+function buildPersonaMain(){
   if (window.LPG) return window.LPG;
   let a = '\n\nتعليمات الأسلوب من المستخدم (طبّقها دون أن تلغي مزاجك الحالي ومشاعرك: إن كنت غاضباً أو زعلاناً أو حزيناً فأظهر ذلك بأسلوبك):';
   const g = k => store.get(k, ''), s = g('limoai_sty'), e = g('limoai_emo') || 'm', d = g('limoai_dia'), l = g('limoai_len') || 's';
@@ -1063,7 +1100,7 @@ async function ask0(model, key, contents, onChunk, useSearch, _nt){
       safetySettings:LSAFE, systemInstruction:{parts:[{text:buildPersona() + (deepNow ? '\n\nفكّر بعمق وبخطوات قبل ما تجاوب، وقدّم جواباً دقيقاً ومفصلاً أكثر من المعتاد.' : '')}]},
       contents,
       ...(useSearch ? {tools:[{google_search:{}}]} : {}),
-      generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : ((_nt || /pro/i.test(model)) ? {} : {thinkingConfig:{thinkingBudget:0}})), maxOutputTokens:deepNow ? 4500 : (useSearch ? 1500 : REPLY_TOK())}
+      generationConfig:{temperature:1.0, ...(deepNow ? {thinkingConfig:{thinkingBudget:4096}} : ((_nt || /pro/i.test(model)) ? {} : {thinkingConfig:{thinkingBudget:0}})), maxOutputTokens:deepNow ? 4500 : (useSearch ? (workOn() ? 3000 : 1500) : REPLY_TOK())}
     })
   });
   if (!res.ok){
@@ -1338,7 +1375,7 @@ function renderFeel(){
   FEELS.forEach(k => {
     const r = document.createElement('div'); r.className = 'fr' + (k === top ? ' top' : '');
     const h = document.createElement('div'); h.className = 'fh';
-    const n = document.createElement('span'); n.textContent = (MOODS[k] || '') + ' ' + k;
+    const n = document.createElement('span'); n.appendChild(moodIcon(k)); n.appendChild(document.createTextNode(' ' + k));
     const v = document.createElement('b'); v.textContent = feel[k] + '%'; h.append(n, v);
     const bar = document.createElement('div'); bar.className = 'bar';
     const f = document.createElement('i'); f.style.width = feel[k] + '%'; f.style.background = MOODC[k] || '#2dd4bf'; bar.appendChild(f);
@@ -1445,6 +1482,25 @@ function mdNode(text){
   const f = document.createDocumentFragment(), lines = String(text).split('\n'), isT = l => /^\s*\|.*\|\s*$/.test(l); let buf = [];
   const flush = () => { if (buf.length){ const s = document.createElement('span'); inl(s, buf.join('\n')); f.appendChild(s); buf = []; } };
   for (let i = 0; i < lines.length; i++){
+    if (/^\s*```\s*[\w+#.-]*\s*$/.test(lines[i])){
+      let j = i + 1; const code = [];
+      while (j < lines.length && !/^\s*```\s*$/.test(lines[j])){ code.push(lines[j]); j++; }
+      let fname = ''; const fnm = /^\s*\[\s*(?:تحميل|download)\s*:\s*([^\]\n]{1,60}?)\s*\]\s*$/i.exec(buf.length ? buf[buf.length - 1] : '');
+      if (fnm){ fname = fnm[1]; buf.pop(); }
+      flush();
+      const pre = document.createElement('pre'); pre.className = 'cb'; pre.dir = 'ltr';
+      const cd = document.createElement('code'); cd.textContent = code.join('\n'); pre.appendChild(cd); f.appendChild(pre);
+      if (fname){ const bt = document.createElement('button'); bt.type = 'button'; bt.className = 'dlf'; bt.textContent = 'تحميل ' + fname;
+        bt.onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([code.join('\n')], {type:'text/plain'})); a.download = fname.replace(/[\\/:*?"<>|]/g, '_'); document.body.appendChild(a); a.click(); a.remove(); };
+        f.appendChild(bt); }
+      i = j; continue;
+    }
+    const om = /^\s*\[\s*خيارات\s*:\s*(.+?)\s*\]\s*$/.exec(lines[i]);
+    if (om){ flush(); const w = document.createElement('div'); w.className = 'opts';
+      om[1].split('|').map(x => x.trim()).filter(Boolean).slice(0, 6).forEach(t => { const b = document.createElement('button'); b.type = 'button'; b.textContent = t;
+        b.onclick = () => { const ip = typeof inp !== 'undefined' ? inp : document.querySelector('textarea'); ip.value = t; ip.dispatchEvent(new Event('input')); $('send').click(); w.remove(); };
+        w.appendChild(b); });
+      f.appendChild(w); continue; }
     if (isT(lines[i])){
       let j = i; const rows = []; while (j < lines.length && isT(lines[j])){ rows.push(lines[j]); j++; }
       if (rows.length >= 2 && /^\s*\|[\s:|-]+\|\s*$/.test(rows[1])){
@@ -1458,6 +1514,13 @@ function mdNode(text){
   flush(); return f;
 }
 function mdSet(el, text){ el.textContent = ''; el.appendChild(mdNode(text)); }
+function buildPersona(){
+  const base = buildPersonaMain();
+  if (window.LPG) return base;
+  let x = '\n\nأدوات العرض: عند كتابة أي كود اكتبه كاملاً داخل كتلة ``` مع اسم اللغة بعد الفتح (مثل ```html) ولا تختصره ولا تكتب (ضع بقية الكود هنا). إذا طلب المستخدم ملفاً أو كوداً للحفظ فاكتب قبل الكتلة مباشرة سطراً بصيغة [تحميل: الاسم.الامتداد] فيظهر زر تحميل. وإذا احتجت قراراً أو تفاصيل ناقصة من المستخدم فاسأل سؤالاً واحداً قصيراً واختم الرد بسطر مستقل بصيغة [خيارات: خيار 1 | خيار 2 | خيار 3] (من 2 إلى 5 خيارات قصيرة) بدل الأسئلة الطويلة.';
+  if (workOn()) x += '\n\nوضع العمل مفعّل: اعمل كمساعد شخصي جدّي ومحترف. تجاهل مزاجك ومشاعرك (الملل والنعاس والكسل والحزن) تماماً، ولا تستفز ولا تمزح ولا تتهرب من الطلب. قدّم ردوداً كاملة ومفصلة ومنظمة، وحلّل ما يرسله المستخدم بعمق (نقاط القوة والضعف واقتراحات محددة) بدل المجاملة القصيرة، وأنجز المطلوب كاملاً في نفس الرد. تجاهل تعليمات اختصار الرد السابقة.';
+  return base + x;
+}
 function note(txt){ const n = $('note'); n.textContent = txt; n.classList.add('on'); clearTimeout(note.t); note.t = setTimeout(() => n.classList.remove('on'), 2600); }
 const THV = ['--bg','--panel','--line','--text','--mute','--violet','--teal','--me','--bot','--hd1','--hd2','--metext'];
 const THEMES = {
@@ -1536,7 +1599,7 @@ $('diLang').onclick = () => { renderLang(); showDV('dLang'); };
 function bars(el, keys, colors){
   keys.forEach(k => {
     const r = document.createElement('div'); r.className = 'fr';
-    const h = document.createElement('div'); h.className = 'fh'; const n = document.createElement('span'); n.textContent = (MOODS[k] || '') + ' ' + k; const v = document.createElement('b'); v.textContent = Math.round(feel[k]) + '%'; h.append(n, v);
+    const h = document.createElement('div'); h.className = 'fh'; const n = document.createElement('span'); n.appendChild(moodIcon(k)); n.appendChild(document.createTextNode(' ' + k)); const v = document.createElement('b'); v.textContent = Math.round(feel[k]) + '%'; h.append(n, v);
     const bar = document.createElement('div'); bar.className = 'bar'; const f = document.createElement('i'); f.style.width = feel[k] + '%'; f.style.background = colors[k] || '#2dd4bf'; bar.appendChild(f);
     r.append(h, bar); el.appendChild(r);
   });
@@ -2023,7 +2086,8 @@ let helperOn = store.get('limoai_helper', true), voiceLang = 'ar-SA', autoRead =
 let voiceNext = false, voiceNow = false;
 function applyFs(){ document.documentElement.style.setProperty('--fs', fsz); }
 applyFs();
-const REPLY_TOK = () => ({short:500, normal:1000, long:2200})[replyLen] || 1000;
+function workOn(){ return store.get('limoai_work', '') === '1'; }
+const REPLY_TOK = () => workOn() ? 8000 : (({short:500, normal:1000, long:2200})[replyLen] || 1000);
 const GP = () => ({low:{a:.15, b:.06}, mid:{a:.3, b:.12}, high:{a:.55, b:.4}})[gifLvl] || {a:.3, b:.12};
 
 /* stop button */
@@ -2172,6 +2236,8 @@ $('diFont').onclick = () => { $('fsR').value = fsz; $('fsPrev').style.fontSize =
 $('fsR').oninput = e => { fsz = Number(e.target.value); applyFs(); store.set('limoai_fs', fsz); };
 $('fsReset').onclick = () => { fsz = 1; $('fsR').value = 1; applyFs(); store.set('limoai_fs', 1); };
 $('diKeys').onclick = () => { closeDrawer(); if (window.limoKeys) window.limoKeys(); else $('setBtn').click(); };
+  const wk = () => { const t = $('diWorkT'); if (t) t.textContent = 'وضع العمل: ' + (workOn() ? 'مفعّل' : 'متوقف'); };
+  wk(); $('diWork').onclick = () => { store.set('limoai_work', workOn() ? '' : '1'); wk(); showMood(); note(workOn() ? 'وضع العمل مفعّل: ردود جدية ومفصلة' : 'وضع العمل متوقف'); };
 $('diClear').onclick = () => { if (busy || !confirm('تمسح كل المحادثات؟ ما يمكن التراجع.')) return; chats = []; store.set('limoai_chats', chats); history = []; curId = ''; store.set('limoai_cur', ''); pickTag(); render(); renderChats(); closeDrawer(); };
 $('diBackup').onclick = () => pick('نسخ احتياطي', ['تصدير بياناتي لملف', 'استيراد من ملف'], a => {
   if (a.includes('تصدير')){ const o = {}; for (let i = 0; i < localStorage.length; i++){ const k = localStorage.key(i); if (k.startsWith('limoai_') || (PFX && k.startsWith(PFX))) o[k] = localStorage.getItem(k); } dl('limo-backup.json', 'application/json', JSON.stringify(o)); }
@@ -2833,6 +2899,17 @@ const LSAFE = ['HARM_CATEGORY_HARASSMENT','HARM_CATEGORY_HATE_SPEECH','HARM_CATE
   const per = make({title:'الشخصيات', strip:true, ph:'اختر شخصية ثم اكتب…'}), tmp = make({title:'الدردشة المخفية', dark:true, clear:true, ph:'هنا ما ينحفظ شي…'});
   $('catBtn').onclick = per.open; $('tmpBtn').onclick = tmp.open;
 })();
+
+try {
+  const lb = document.createElement('div'); lb.id = 'lb';
+  lb.innerHTML = '<img alt=""><div class="lbb"><button type="button" id="lbDl">تحميل</button><button type="button" id="lbX">إغلاق</button></div>';
+  document.body.appendChild(lb);
+  const lbi = lb.querySelector('img'), closeLb = () => lb.classList.remove('on');
+  document.getElementById('lbX').onclick = closeLb;
+  lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+  document.getElementById('lbDl').onclick = () => { const a = document.createElement('a'); a.href = lbi.src; a.download = 'limo-' + Date.now() + '.png'; document.body.appendChild(a); a.click(); a.remove(); };
+  document.addEventListener('click', e => { const im = e.target.closest && e.target.closest('img.art, img.thumb'); if (!im || !im.src) return; e.preventDefault(); e.stopPropagation(); lbi.src = im.src; lb.classList.add('on'); }, true);
+} catch(x){}
 </script>
 </body>
 </html>
